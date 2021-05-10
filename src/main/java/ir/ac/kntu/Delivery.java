@@ -11,6 +11,7 @@ public class Delivery {
 
     private WeeklySchedule[] schedule;
 
+
     public Delivery(String fullName, DeliveryVehicle vehicleType,
                     SalaryType salaryType, double salary,
                     WeeklySchedule[] schedule) {
