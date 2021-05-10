@@ -95,6 +95,11 @@ public class Comment {
         this.message = message;
     }
 
+    public double getAverageRate(){
+        return (restaurantRate.getRate() * 3 + foodRate.getRate() * 2 +
+                deliveryRate.getRate())/6;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
