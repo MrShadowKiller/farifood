@@ -10,7 +10,7 @@ public class Food {
 
     private int timeForCooking;
 
-    private ArrayList<FoodRate> foodrates;
+    private ArrayList<UserRate> foodrates;
 
     public Food(String name, int timeForCooking) {
         this.name = name;
@@ -42,21 +42,21 @@ public class Food {
         this.timeForCooking = timeForCooking;
     }
 
-    public ArrayList<FoodRate> getFoodrates() {
+    public ArrayList<UserRate> getFoodrates() {
         return foodrates;
     }
 
-    public void setFoodrates(ArrayList<FoodRate> foodrates) {
+    public void setFoodrates(ArrayList<UserRate> foodrates) {
         this.foodrates = foodrates;
     }
 
-    public void addFoodRate(FoodRate foodrate) {
+    public void addFoodRate(UserRate foodrate) {
         foodrates.add(foodrate);
     }
 
     public double averageRate() {
         double average = 0;
-        for (FoodRate f : foodrates) {
+        for (UserRate f : foodrates) {
             average += f.getRate();
         }
         return average / foodrates.size();
@@ -64,8 +64,12 @@ public class Food {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Food food = (Food) o;
         return name.equals(food.name);
     }

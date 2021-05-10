@@ -7,7 +7,7 @@ public class Delivery {
 
     private SalaryType salaryType;
 
-    private double Salary;
+    private double salary;
 
     private WeeklySchedule[] schedule;
 
@@ -19,7 +19,7 @@ public class Delivery {
         this.fullName = fullName;
         this.vehicleType = vehicleType;
         this.salaryType = salaryType;
-        Salary = salary;
+        this.salary = salary;
         this.schedule = schedule;
     }
 
@@ -48,11 +48,11 @@ public class Delivery {
     }
 
     public double getSalary() {
-        return Salary;
+        return salary;
     }
 
     public void setSalary(double salary) {
-        Salary = salary;
+        this.salary = salary;
     }
 
     public WeeklySchedule[] getSchedule() {
