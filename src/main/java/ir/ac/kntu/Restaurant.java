@@ -124,6 +124,46 @@ public class Restaurant {
         return false;
     }
 
+    public void sortFoodMenuUpRating(){
+        for (int i=0;i<= foods.size();i++){
+            for (int j=i+1;j <= foods.size();j++){
+                if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()){
+                    Collections.swap(foods,i,j);
+                }
+            }
+        }
+    }
+
+    public void sortFoodMenuDownRating(){
+        for (int i=0;i<= foods.size();i++){
+            for (int j=i+1;j <= foods.size();j++){
+                if (foods.get(i).getAverageRate() > foods.get(j).getAverageRate()){
+                    Collections.swap(foods,i,j);
+                }
+            }
+        }
+    }
+
+    public void sortFoodMenuUpPrice(){
+        for (int i=0;i<= foods.size();i++){
+            for (int j=i+1;j <= foods.size();j++){
+                if (foods.get(i).getPrice() < foods.get(j).getPrice()){
+                    Collections.swap(foods,i,j);
+                }
+            }
+        }
+    }
+
+    public void sortFoodMenuDownPrice(){
+        for (int i=0;i<= foods.size();i++){
+            for (int j=i+1;j <= foods.size();j++){
+                if (foods.get(i).getPrice() > foods.get(j).getPrice()){
+                    Collections.swap(foods,i,j);
+                }
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o){
