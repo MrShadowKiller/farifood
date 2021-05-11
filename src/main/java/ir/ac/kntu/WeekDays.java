@@ -1,15 +1,16 @@
 package ir.ac.kntu;
 
-public enum WeeklySchedule {
+public enum WeekDays {
     SATURDAY(0),SUNDAY(1),MONDAY(2),TUESDAY(3),WEDNESDAY(4),
     THURSDAY(5),FRIDAY(6);
 
     private int rate;
 
-    private int availability;
+    private boolean availability;
 
-    WeeklySchedule(int rate) {
+    WeekDays(int rate) {
         this.rate = rate;
+        availability = false;
     }
 
     public int getRate() {
@@ -20,11 +21,11 @@ public enum WeeklySchedule {
         this.rate = rate;
     }
 
-    public int getAvailability() {
+    public boolean getAvailability() {
         return availability;
     }
 
-    public void setAvailability(int availability) {
+    public void setAvailability(boolean availability) {
         this.availability = availability;
     }
 }
