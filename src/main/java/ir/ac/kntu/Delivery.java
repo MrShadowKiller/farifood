@@ -9,12 +9,12 @@ public class Delivery {
 
     private double salary;
 
-    private WeeklySchedule[] schedule;
+    private WeekDays[] schedule;
 
 
     public Delivery(String fullName, DeliveryVehicle vehicleType,
                     SalaryType salaryType, double salary,
-                    WeeklySchedule[] schedule) {
+                    WeekDays[] schedule) {
 
         this.fullName = fullName;
         this.vehicleType = vehicleType;
@@ -55,11 +55,11 @@ public class Delivery {
         this.salary = salary;
     }
 
-    public WeeklySchedule[] getSchedule() {
+    public WeekDays[] getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(WeeklySchedule[] schedule) {
+    public void setSchedule(WeekDays[] schedule) {
         this.schedule = schedule;
     }
 }

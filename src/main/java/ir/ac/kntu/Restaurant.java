@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Restaurant {
@@ -10,19 +11,21 @@ public class Restaurant {
 
     private String workHours;
 
-    private WeeklySchedule[] weeklySchedules;
+    private WeekDays[] weeklySchedules;
 
     private RestaurantType restaurantType;
 
     private ArrayList<Food> foods;
 
+    private ArrayList<Delivery> deliveries;
+
     private ArrayList<Comment> comments;
 
-    public Restaurant(String name, String address, WeeklySchedule[] weeklySchedules,
-                      RestaurantType restaurantType, ArrayList<Food> foods) {
+    public Restaurant(String name, String address, RestaurantType restaurantType,
+                      ArrayList<Food> foods) {
         this.name = name;
         this.address = address;
-        this.weeklySchedules = weeklySchedules;
+        weeklySchedules = WeekDays.values();
         this.restaurantType = restaurantType;
         this.foods = foods;
     }
@@ -51,11 +54,11 @@ public class Restaurant {
         this.workHours = workHours;
     }
 
-    public WeeklySchedule[] getWeeklySchedules() {
+    public WeekDays[] getWeeklySchedules() {
         return weeklySchedules;
     }
 
-    public void setWeeklySchedules(WeeklySchedule[] weeklySchedules) {
+    public void setWeeklySchedules(WeekDays[] weeklySchedules) {
         this.weeklySchedules = weeklySchedules;
     }
 
@@ -83,12 +86,42 @@ public class Restaurant {
         this.comments = comments;
     }
 
+    public ArrayList<Delivery> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(ArrayList<Delivery> deliveries) {
+        this.deliveries = deliveries;
+    }
+
+    public void addFood(Food food){
+        foods.add(food);
+    }
+
+
     public double getAverageRate(){
         double averageRate =0;
         for (Comment comment : comments){
             averageRate += comment.getAverageRate();
         }
         return averageRate/ comments.size();
+    }
+
+    public void setDayAvailable(WeekDays day){
+        for (WeekDays d : weeklySchedules){
+            if (d == day){
+                d.setAvailability(true);
+            }
+        }
+    }
+
+    public boolean isOpen(WeekDays day){
+        for (WeekDays d : weeklySchedules){
+            if (d == day && d.getAvailability()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

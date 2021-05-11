@@ -54,7 +54,13 @@ public class Food {
         foodrates.add(foodrate);
     }
 
-    public double averageRate() {
+    @Override
+    public String toString() {
+        return name +"\t" + timeForCooking + "min\t" + price
+                +"$\t" + getAverageRate();
+    }
+
+    public double getAverageRate() {
         double average = 0;
         for (UserRate f : foodrates) {
             average += f.getRate();
