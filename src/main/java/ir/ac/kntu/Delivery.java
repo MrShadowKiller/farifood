@@ -1,7 +1,8 @@
 package ir.ac.kntu;
 
-public class Delivery {
-    private String fullName;
+import java.util.ArrayList;
+
+public class Delivery extends Person{
 
     private DeliveryVehicle vehicleType;
 
@@ -11,24 +12,16 @@ public class Delivery {
 
     private WeekDays[] schedule;
 
+    private ArrayList<Order> orders;
 
-    public Delivery(String fullName, DeliveryVehicle vehicleType,
-                    SalaryType salaryType, double salary,
-                    WeekDays[] schedule) {
-
-        this.fullName = fullName;
+    public Delivery(String firstName, String lastName, String phoneNumber, DeliveryVehicle vehicleType,
+                    SalaryType salaryType, double salary, WeekDays[] schedule) {
+        super(firstName, lastName, phoneNumber);
         this.vehicleType = vehicleType;
         this.salaryType = salaryType;
         this.salary = salary;
         this.schedule = schedule;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+        orders = new ArrayList<>();
     }
 
     public DeliveryVehicle getVehicleType() {
@@ -61,5 +54,22 @@ public class Delivery {
 
     public void setSchedule(WeekDays[] schedule) {
         this.schedule = schedule;
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void addOrder(Order order){
+        orders.add(order);
+    }
+
+    public String getBriefInformation(){
+        return "Full Name : " + getFirstName() + " " + getLastName() +
+                "\n\tVehicle : " + vehicleType.toString();
     }
 }
