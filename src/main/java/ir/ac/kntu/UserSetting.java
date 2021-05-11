@@ -1,11 +1,11 @@
 package ir.ac.kntu;
 
 public class UserSetting {
-    FoodSortOption foodSortOption;
+    private FoodSortOption foodSortOption;
 
-    RestaurantSortOption restaurantSortOption;
+    private RestaurantSortOption restaurantSortOption;
 
-    WeekDays currentDay;
+    private WeekDays currentDay;
 
     public FoodSortOption getFoodSortOption() {
         return foodSortOption;
