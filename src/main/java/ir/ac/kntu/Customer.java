@@ -1,31 +1,24 @@
 package ir.ac.kntu;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Customer {
+public class Customer extends Person{
     private String username;
 
     private String password;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String phoneNumber;
-
     private String address;
 
-    public Customer(){
-    }
+    private ArrayList<Order> orders;
 
-    public Customer(String username, String password, String firstName,
-                    String lastName, String phoneNumber, String address) {
+    public Customer(String firstName, String lastName, String phoneNumber,
+                    String username, String password, String address) {
+        super(firstName, lastName, phoneNumber);
         this.username = username;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.address = address;
+        orders = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -51,29 +44,6 @@ public class Customer {
         return false;
     }
 
-    public String getfirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getAddress() {
         return address;
@@ -84,8 +54,12 @@ public class Customer {
     }
 
     public String briefInformation(){
-        return "Full Name : " + firstName + " " + lastName
-                + "\nAddress : " + address;
+        return "Full Name : " + getFirstName() + " " + getLastName()
+                + "\n\tAddress : " + address;
+    }
+
+    public void addOrder(Order order){
+        orders.add(order);
     }
 
     @Override
@@ -93,9 +67,9 @@ public class Customer {
         return "Customer Information {" +
                 "\tUsername= '" + username + '\n' +
                 "\tpassword= '" + password + '\n' +
-                "\tName= '" + firstName + '\n' +
-                "\tLastName= '" + lastName + '\n' +
-                "\tPhoneNumber= '" + phoneNumber + '\n' +
+                "\tName= '" + getFirstName() + '\n' +
+                "\tLastName= '" + getLastName() + '\n' +
+                "\tPhoneNumber= '" + getPhoneNumber() + '\n' +
                 "\tAddress= '" + address + '\'' +
                 '}';
     }
