@@ -124,7 +124,7 @@ public class Restaurant {
         return false;
     }
 
-    public void sortFoodMenuUpRating(){
+    public void sortFoodHighRating(){
         for (int i=0;i<= foods.size();i++){
             for (int j=i+1;j <= foods.size();j++){
                 if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()){
@@ -134,7 +134,7 @@ public class Restaurant {
         }
     }
 
-    public void sortFoodMenuDownRating(){
+    public void sortFoodLowRating(){
         for (int i=0;i<= foods.size();i++){
             for (int j=i+1;j <= foods.size();j++){
                 if (foods.get(i).getAverageRate() > foods.get(j).getAverageRate()){
@@ -144,7 +144,7 @@ public class Restaurant {
         }
     }
 
-    public void sortFoodMenuUpPrice(){
+    public void sortFoodHighPrice(){
         for (int i=0;i<= foods.size();i++){
             for (int j=i+1;j <= foods.size();j++){
                 if (foods.get(i).getPrice() < foods.get(j).getPrice()){
@@ -154,7 +154,7 @@ public class Restaurant {
         }
     }
 
-    public void sortFoodMenuDownPrice(){
+    public void sortFoodLowPrice(){
         for (int i=0;i<= foods.size();i++){
             for (int j=i+1;j <= foods.size();j++){
                 if (foods.get(i).getPrice() > foods.get(j).getPrice()){
@@ -176,6 +176,7 @@ public class Restaurant {
         return name.equals(that.name) && address.equals(that.address) &&
                 restaurantType == that.restaurantType && foods.equals(that.foods);
     }
+
 
     @Override
     public int hashCode() {
