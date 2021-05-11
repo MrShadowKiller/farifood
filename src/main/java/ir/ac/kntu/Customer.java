@@ -7,7 +7,7 @@ public class Customer {
 
     private String password;
 
-    private String name;
+    private String firstName;
 
     private String lastName;
 
@@ -15,11 +15,14 @@ public class Customer {
 
     private String address;
 
-    public Customer(String username, String password, String name,
+    public Customer(){
+    }
+
+    public Customer(String username, String password, String firstName,
                     String lastName, String phoneNumber, String address) {
         this.username = username;
         this.password = password;
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -37,16 +40,23 @@ public class Customer {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public boolean setPassword(String password) {
+        String passwordValidation = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=." +
+                "*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+
+        if (password.matches(passwordValidation)){
+            this.password = password;
+            return true;
+        }
+        return false;
     }
 
-    public String getName() {
-        return name;
+    public String getfirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -73,12 +83,17 @@ public class Customer {
         this.address = address;
     }
 
+    public String briefInformation(){
+        return "Full Name : " + firstName + " " + lastName
+                + "\nAddress : " + address;
+    }
+
     @Override
     public String toString() {
         return "Customer Information {" +
                 "\tUsername= '" + username + '\n' +
                 "\tpassword= '" + password + '\n' +
-                "\tName= '" + name + '\n' +
+                "\tName= '" + firstName + '\n' +
                 "\tLastName= '" + lastName + '\n' +
                 "\tPhoneNumber= '" + phoneNumber + '\n' +
                 "\tAddress= '" + address + '\'' +
