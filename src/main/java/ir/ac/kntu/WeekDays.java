@@ -6,11 +6,8 @@ public enum WeekDays {
 
     private int rate;
 
-    private boolean availability;
-
     WeekDays(int rate) {
         this.rate = rate;
-        availability = false;
     }
 
     public int getRate() {
@@ -21,11 +18,4 @@ public enum WeekDays {
         this.rate = rate;
     }
 
-    public boolean getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
-    }
 }

@@ -5,7 +5,7 @@ public class UserSetting {
 
     private RestaurantSortOption restaurantSortOption;
 
-    private WeekDays currentDay;
+    private WeekDays weekDays;
 
     public FoodSortOption getFoodSortOption() {
         return foodSortOption;
@@ -24,10 +24,10 @@ public class UserSetting {
     }
 
     public WeekDays getCurrentDay() {
-        return currentDay;
+        return weekDays;
     }
 
-    public void setCurrentDay(WeekDays currentDay) {
-        this.currentDay = currentDay;
+    public void setCurrentDay(WeekDays weekDays) {
+        this.weekDays = weekDays;
     }
 }

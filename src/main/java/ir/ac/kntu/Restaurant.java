@@ -11,7 +11,7 @@ public class Restaurant {
 
     private String workHours;
 
-    private WeekDays[] weeklySchedules;
+    private RestaurantSchedule[] schedule;
 
     private RestaurantType restaurantType;
 
@@ -25,7 +25,7 @@ public class Restaurant {
                       ArrayList<Food> foods) {
         this.name = name;
         this.address = address;
-        weeklySchedules = WeekDays.values();
+        schedule = RestaurantSchedule.values();
         this.restaurantType = restaurantType;
         this.foods = foods;
     }
@@ -54,12 +54,12 @@ public class Restaurant {
         this.workHours = workHours;
     }
 
-    public WeekDays[] getWeeklySchedules() {
-        return weeklySchedules;
+    public RestaurantSchedule[] getSchedule() {
+        return schedule;
     }
 
-    public void setWeeklySchedules(WeekDays[] weeklySchedules) {
-        this.weeklySchedules = weeklySchedules;
+    public void setSchedule(RestaurantSchedule[] schedule) {
+        this.schedule = schedule;
     }
 
     public RestaurantType getRestaurantType() {
@@ -98,6 +98,14 @@ public class Restaurant {
         foods.add(food);
     }
 
+    public void addDelivery (Delivery delivery){
+        deliveries.add(delivery);
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
 
     public double getAverageRate(){
         double averageRate =0;
@@ -107,16 +115,16 @@ public class Restaurant {
         return averageRate/ comments.size();
     }
 
-    public void setDayAvailable(WeekDays day){
-        for (WeekDays d : weeklySchedules){
+    public void setDayAvailable(RestaurantSchedule day){
+        for (RestaurantSchedule d : schedule){
             if (d == day){
                 d.setAvailability(true);
             }
         }
     }
 
-    public boolean isOpen(WeekDays day){
-        for (WeekDays d : weeklySchedules){
+    public boolean isOpen(RestaurantSchedule day){
+        for (RestaurantSchedule d : schedule){
             if (d == day && d.getAvailability()){
                 return true;
             }
