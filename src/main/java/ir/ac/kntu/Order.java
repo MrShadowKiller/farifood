@@ -12,12 +12,16 @@ public class Order {
 
     private Delivery delivery;
 
-    private WeekDays day;
+    private RestaurantSchedule day;
+
+    private OrderStatus orderStatus = OrderStatus.IN_PROGRESS;
 
     private LocalDateTime dateTime;
 
+
+
     public Order(Customer customer, Restaurant restaurant, Food food,
-                 Delivery delivery, WeekDays day, LocalDateTime dateTime) {
+                 Delivery delivery, RestaurantSchedule day, LocalDateTime dateTime) {
         this.customer = customer;
         this.restaurant = restaurant;
         this.food = food;
@@ -58,11 +62,11 @@ public class Order {
         this.delivery = delivery;
     }
 
-    public WeekDays getDay() {
+    public RestaurantSchedule getDay() {
         return day;
     }
 
-    public void setDay(WeekDays day) {
+    public void setDay(RestaurantSchedule day) {
         this.day = day;
     }
 
@@ -72,6 +76,14 @@ public class Order {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override
