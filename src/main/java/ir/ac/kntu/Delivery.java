@@ -10,18 +10,22 @@ public class Delivery extends Person{
 
     private double salary;
 
-    private WeekDays[] schedule;
+    private DeliverySchedule[] schedule;
+
+    private Restaurant[] restaurants = new Restaurant[2];
 
     private ArrayList<Order> orders;
 
     public Delivery(String firstName, String lastName, String phoneNumber, DeliveryVehicle vehicleType,
-                    SalaryType salaryType, double salary, WeekDays[] schedule) {
+                    SalaryType salaryType, double salary,DeliverySchedule[] schedule,
+                    Restaurant[] restaurants, ArrayList<Order> orders) {
         super(firstName, lastName, phoneNumber);
         this.vehicleType = vehicleType;
         this.salaryType = salaryType;
         this.salary = salary;
         this.schedule = schedule;
-        orders = new ArrayList<>();
+        this.restaurants = restaurants;
+        this.orders = orders;
     }
 
     public DeliveryVehicle getVehicleType() {
@@ -48,11 +52,11 @@ public class Delivery extends Person{
         this.salary = salary;
     }
 
-    public WeekDays[] getSchedule() {
+    public DeliverySchedule[] getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(WeekDays[] schedule) {
+    public void setSchedule(DeliverySchedule[] schedule) {
         this.schedule = schedule;
     }
 
@@ -64,9 +68,33 @@ public class Delivery extends Person{
         this.orders = orders;
     }
 
+    public Restaurant[] getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(Restaurant[] restaurants) {
+        this.restaurants = restaurants;
+    }
+
     public void addOrder(Order order){
         orders.add(order);
     }
+
+    public void printRestaurants(){
+        for (int i=0;i<restaurants.length;i++){
+            System.out.println(i +". "+ restaurants[i].getName());
+        }
+    }
+
+    public void printSchedule(){
+        System.out.println("Weekly Schedule : ");
+        for (DeliverySchedule day : schedule){
+            if (day.getRestaurantIndex() != -1){
+                System.out.println(day.toString() + ": " + restaurants[day.getRestaurantIndex()] + "\n");
+            }
+        }
+    }
+
 
     public String getBriefInformation(){
         return "Full Name : " + getFirstName() + " " + getLastName() +
