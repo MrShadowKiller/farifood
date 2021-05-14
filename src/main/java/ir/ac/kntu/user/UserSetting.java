@@ -1,6 +1,8 @@
-package ir.ac.kntu.setting;
+package ir.ac.kntu.user;
 
 import ir.ac.kntu.WeekDays;
+import ir.ac.kntu.setting.FoodSortOption;
+import ir.ac.kntu.setting.RestaurantSortOption;
 
 public class UserSetting {
     private FoodSortOption foodSortOption;
@@ -8,6 +10,13 @@ public class UserSetting {
     private RestaurantSortOption restaurantSortOption;
 
     private WeekDays currentDay;
+
+    public UserSetting(FoodSortOption foodSortOption, RestaurantSortOption restaurantSortOption,
+                       WeekDays currentDay) {
+        this.foodSortOption = foodSortOption;
+        this.restaurantSortOption = restaurantSortOption;
+        this.currentDay = currentDay;
+    }
 
     public FoodSortOption getFoodSortOption() {
         return foodSortOption;
