@@ -2,6 +2,7 @@ package ir.ac.kntu.user;
 
 import ir.ac.kntu.Address;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.setting.UserSetting;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -18,6 +19,8 @@ public class Customer extends Person {
     private Wallet wallet;
 
     private CreditCard creditCard;
+
+    private UserSetting userSetting;
 
     public Customer(String firstName, String lastName, String phoneNumber,
                     String username, String password, Address address, CreditCard creditCard) {
@@ -96,6 +99,14 @@ public class Customer extends Person {
 
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
+    }
+
+    public UserSetting getUserSetting() {
+        return userSetting;
+    }
+
+    public void setUserSetting(UserSetting userSetting) {
+        this.userSetting = userSetting;
     }
 
     public String briefInformation(){
