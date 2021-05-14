@@ -1,4 +1,10 @@
-package ir.ac.kntu;
+package ir.ac.kntu.order;
+
+import ir.ac.kntu.Food;
+import ir.ac.kntu.UserRate;
+import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.user.Customer;
 
 import java.util.Objects;
 

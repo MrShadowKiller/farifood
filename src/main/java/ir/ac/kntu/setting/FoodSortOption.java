@@ -1,11 +1,11 @@
-package ir.ac.kntu;
+package ir.ac.kntu.setting;
 
-public enum RestaurantSortOption {
-    HIGH_RATE(0),LOW_RATE(1),HIGH_COMMENT(2),LOW_COMMENT(3),RISING(4);
+public enum FoodSortOption {
+    HIGH_RATE(0),LOW_RATE(1),HIGH_PRICE(2),LOW_PRICE(3);
 
     private int rate;
 
-    RestaurantSortOption(int rate) {
+    FoodSortOption(int rate) {
         this.rate = rate;
     }
 

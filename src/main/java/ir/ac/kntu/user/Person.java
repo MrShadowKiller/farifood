@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.user;
 
 public class Person {
     private String firstName;

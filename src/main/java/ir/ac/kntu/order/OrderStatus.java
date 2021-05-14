@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.order;
 
 public enum OrderStatus {
     IN_PROGRESS(0,"In progress"),DELIVERING(1,"Delivering"),COMPLETED(2,"Completed");

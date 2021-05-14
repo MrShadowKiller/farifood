@@ -1,8 +1,12 @@
-package ir.ac.kntu;
+package ir.ac.kntu.delivery;
+
+import ir.ac.kntu.order.Order;
+import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.user.Person;
 
 import java.util.ArrayList;
 
-public class Delivery extends Person{
+public class Delivery extends Person {
 
     private DeliveryVehicle vehicleType;
 

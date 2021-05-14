@@ -1,11 +1,11 @@
-package ir.ac.kntu;
+package ir.ac.kntu.setting;
 
-public enum DeliveryVehicle {
-    CAR(0),BIKE(1);
+public enum RestaurantSortOption {
+    HIGH_RATE(0),LOW_RATE(1),HIGH_COMMENT(2),LOW_COMMENT(3),RISING(4);
 
     private int rate;
 
-    DeliveryVehicle(int rate) {
+    RestaurantSortOption(int rate) {
         this.rate = rate;
     }
 

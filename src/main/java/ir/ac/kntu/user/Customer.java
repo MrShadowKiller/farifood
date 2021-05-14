@@ -1,24 +1,45 @@
-package ir.ac.kntu;
+package ir.ac.kntu.user;
+
+import ir.ac.kntu.Address;
+import ir.ac.kntu.order.Order;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Customer extends Person{
+public class Customer extends Person {
     private String username;
 
     private String password;
 
-    private String address;
+    private Address address;
 
     private ArrayList<Order> orders;
 
+    private Wallet wallet;
+
+    private CreditCard creditCard;
+
     public Customer(String firstName, String lastName, String phoneNumber,
-                    String username, String password, String address) {
+                    String username, String password, Address address, CreditCard creditCard) {
+        super(firstName, lastName, phoneNumber);
+        this.username = username;
+        this.password = password;
+        this.address = address;
+        this.creditCard = creditCard;
+        orders = new ArrayList<>();
+        wallet = new Wallet();
+    }
+
+    //Admin Constructor
+    public Customer(String firstName, String lastName, String phoneNumber,
+                    String username, String password, Address address) {
         super(firstName, lastName, phoneNumber);
         this.username = username;
         this.password = password;
         this.address = address;
         orders = new ArrayList<>();
+        wallet = new Wallet();
+        creditCard = new CreditCard();
     }
 
     public String getUsername() {
@@ -45,12 +66,36 @@ public class Customer extends Person{
     }
 
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 
     public String briefInformation(){
@@ -70,7 +115,7 @@ public class Customer extends Person{
                 "\tName= '" + getFirstName() + '\n' +
                 "\tLastName= '" + getLastName() + '\n' +
                 "\tPhoneNumber= '" + getPhoneNumber() + '\n' +
-                "\tAddress= '" + address + '\'' +
+                "\tAddress= '" + address + '\n' +
                 '}';
     }
 

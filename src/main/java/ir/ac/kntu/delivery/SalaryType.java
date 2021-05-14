@@ -1,11 +1,11 @@
-package ir.ac.kntu;
+package ir.ac.kntu.delivery;
 
-public enum RestaurantType {
-    ECONOMY(0),HIGH_CLASS(1),LUXURY(2);
+public enum SalaryType {
+    HOURLY(0),DAILY(1);
 
     private int rate;
 
-    RestaurantType(int rate) {
+    SalaryType(int rate) {
         this.rate = rate;
     }
 

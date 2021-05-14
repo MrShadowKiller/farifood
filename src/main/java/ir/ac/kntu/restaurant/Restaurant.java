@@ -1,4 +1,8 @@
-package ir.ac.kntu;
+package ir.ac.kntu.restaurant;
+
+import ir.ac.kntu.order.Comment;
+import ir.ac.kntu.Food;
+import ir.ac.kntu.delivery.Delivery;
 
 import java.util.ArrayList;
 import java.util.Collections;

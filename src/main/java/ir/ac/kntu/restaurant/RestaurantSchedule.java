@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.restaurant;
 
 public enum RestaurantSchedule {
     SATURDAY(0),SUNDAY(1),MONDAY(2),TUESDAY(3),WEDNESDAY(4),

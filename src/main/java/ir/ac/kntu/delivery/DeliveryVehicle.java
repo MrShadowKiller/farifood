@@ -1,11 +1,11 @@
-package ir.ac.kntu;
+package ir.ac.kntu.delivery;
 
-public enum SalaryType {
-    HOURLY(0),DAILY(1);
+public enum DeliveryVehicle {
+    CAR(0),BIKE(1);
 
     private int rate;
 
-    SalaryType(int rate) {
+    DeliveryVehicle(int rate) {
         this.rate = rate;
     }
 
