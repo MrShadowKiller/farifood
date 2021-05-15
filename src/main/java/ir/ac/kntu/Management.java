@@ -2,6 +2,7 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.delivery.Delivery;
 
+import ir.ac.kntu.menu.*;
 import ir.ac.kntu.restaurant.Restaurant;
 
 import ir.ac.kntu.user.Admin;
@@ -39,17 +40,24 @@ public class Management {
 
     public void startMenuHandler(Admin admin) {
         view.printStartMenu();
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        StartMenuOptions userChoice = StartMenuOptions.DEFAULT;
 
+        StartMenuOptions[] options = StartMenuOptions.values();
+        for (StartMenuOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                userChoice = option;
+            }
+        }
         switch (userChoice) {
-            case 1:
+            case ADMIN_LOGIN:
                 adminLoginVerify(admin);
                 break;
-            case 2:
+            case CUSTOMER_LOGIN:
                 System.out.println("NOT YET AVAILABLE!");
                 startMenuHandler(admin);
                 break;
-            case 3:
+            case EXIT:
                 return;
             default:
                 startMenuHandler(admin);
@@ -76,12 +84,22 @@ public class Management {
 
     public void adminMenuHandler(Admin admin) {
         view.printAdminStartMenu();
-        int adminOptionChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+
+        AdminMenuOptions adminOptionChoice = AdminMenuOptions.DEFAULT;
+
+        AdminMenuOptions[] options = AdminMenuOptions.values();
+        for (AdminMenuOptions option : options) {
+            if (option.getRate() == adminOptionInput - 1) {
+                adminOptionChoice = option;
+            }
+        }
+
         switch (adminOptionChoice) {
-            case 1:
+            case ADMINS:
                 adminsTabHandler(admin);
                 break;
-            case 2:
+            case CUSTOMERS:
                 customersTabHandler(admin);
                 break;
 //            case 3:
@@ -103,19 +121,27 @@ public class Management {
     }
 
     public void adminsTabHandler(Admin admin) {
-        view.printAdminTab();
-        int adminTabChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        view.printAdminsTab();
+        int adminTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        AdminsTabOptions adminTabChoice = AdminsTabOptions.DEFAULT;
+
+        AdminsTabOptions[] options = AdminsTabOptions.values();
+        for (AdminsTabOptions option : options) {
+            if (option.getRate() == adminTabInput - 1) {
+                adminTabChoice = option;
+            }
+        }
         switch (adminTabChoice) {
-            case 1:
+            case ADD_ADMIN:
                 addAdminHandler();
                 break;
-            case 2:
+            case REMOVE_ADMIN:
                 removeAdminHandler();
                 break;
-            case 3:
-                viewAdmins();
+            case VIEW_EDIT_ADMIN:
+                viewAndEditAdmins(admin);
                 break;
-            case 4:
+            case EXIT:
                 adminMenuHandler(admin);
                 break;
             default:
@@ -152,27 +178,71 @@ public class Management {
 
     }
 
-    public void viewAdmins() {
+    public void viewAndEditAdmins(Admin admin) {
         view.printAdmins(admins);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == admins.size() + 1){
+            adminsTabHandler(admin);
+        }
+        editAdminHandler(admins.get(userChoice - 1));
+    }
+
+    public void editAdminHandler(Admin admin) {
+        view.printAdminEditMenu();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        AdminEditOptions userChoice = AdminEditOptions.DEFAULT;
+
+        AdminEditOptions[] options = AdminEditOptions.values();
+        for (AdminEditOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                userChoice = option;
+            }
+        }
+
+        switch (userChoice) {
+            case CHANGE_PERSONAL_INFO:
+                admin.changeInformation();
+                break;
+            case CHANGE_PASSWORD:
+                admin.changePassword();
+                break;
+            case CHANGE_BALANCE:
+                admin.changeBalance();
+                break;
+            case EXIT:
+                adminsTabHandler(admin);
+                break;
+            default:
+                editAdminHandler(admin);
+        }
+        editAdminHandler(admin);
     }
 
     public void customersTabHandler(Admin admin) {
         view.printCustomersTab();
-        int customerTabChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        CustomersTabOptions customerTabChoice = CustomersTabOptions.DEFAULT;
+
+        CustomersTabOptions[] options = CustomersTabOptions.values();
+        for (CustomersTabOptions option : options) {
+            if (option.getRate() == customerTabInput - 1) {
+                customerTabChoice = option;
+            }
+        }
         switch (customerTabChoice) {
-            case 1:
+            case ADD_CUSTOMER:
                 addCustomerHandler();
                 break;
-            case 2:
+            case REMOVE_CUSTOMER:
                 removeCustomerHandler();
                 break;
-            case 3:
-                viewCustomers();
+            case VIEW_EDIT_CUSTOMER:
+                viewCustomers(admin);
                 break;
-            case 4:
-                viewCustomerOrders();
+            case VIEW_CUSTOMER_ORDERS:
+                viewCustomerOrders(admin);
                 break;
-            case 5:
+            case EXIT:
                 adminMenuHandler(admin);
             default:
                 customersTabHandler(admin);
@@ -197,16 +267,55 @@ public class Management {
         System.out.println("Cant find the Customer!");
     }
 
-    public void viewCustomers() {
+    public void viewCustomers(Admin admin) {
         view.printCustomers(customers);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == customers.size() + 1){
+            customersTabHandler(admin);
+        }
+        editCustomerHandler(customers.get(userChoice - 1), admin);
     }
 
-    public void viewCustomerOrders() {
+    public void editCustomerHandler(Customer customer, Admin admin) {
+        view.printCustomerEditMenu();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        CustomerEditOptions userChoice = CustomerEditOptions.DEFAULT;
+
+        CustomerEditOptions[] options = CustomerEditOptions.values();
+        for (CustomerEditOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                userChoice = option;
+            }
+        }
+
+        switch (userChoice) {
+            case CHANGE_PERSONAL_INFO:
+                customer.changeInformation();
+                break;
+            case CHANGE_PASSWORD:
+                customer.changePassword();
+                break;
+            case CHANGE_BALANCE:
+                customer.changeBalance();
+                break;
+            case EXIT:
+                customersTabHandler(admin);
+                break;
+            default:
+                editCustomerHandler(customer, admin);
+        }
+        editCustomerHandler(customer, admin);
+    }
+
+    public void viewCustomerOrders(Admin admin) {
         System.out.println("Which Customer ?");
-        viewCustomers();
+        viewCustomers(admin);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         view.printCustomerOrders(customers.get(userChoice - 1));
     }
 
+    public void restaurantsTabHandler(Admin admin) {
+        view.printRestaurantsTab();
+    }
 
 }

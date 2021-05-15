@@ -67,14 +67,14 @@ public class InputObjectHandler {
         Customer resultCustomer = new Customer(firstname, lastname, phoneNumber,
                 username, password, new Address(neighbor, fullAddress, zipcode));
 
-        if (creditCardChoice.matches("[Yy](es)*")){
+        if (creditCardChoice.matches("[Yy](es)*")) {
             System.out.print("Credit Card Number: ");
             String creditCardNumber = ScannerWrapper.getInstance().nextLine().trim();
             System.out.print("Credit Card Password: ");
             String creditCardPassword = ScannerWrapper.getInstance().nextLine().trim();
             System.out.print("Balance: ");
             double creditCardBalance = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
-            resultCustomer.setCreditCard(new CreditCard(creditCardNumber,creditCardPassword,creditCardBalance));
+            resultCustomer.setCreditCard(new CreditCard(creditCardNumber, creditCardPassword, creditCardBalance));
         }
         return resultCustomer;
     }

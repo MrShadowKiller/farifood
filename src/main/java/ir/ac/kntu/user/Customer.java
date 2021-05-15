@@ -1,6 +1,7 @@
 package ir.ac.kntu.user;
 
 import ir.ac.kntu.Address;
+import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.order.Order;
 
 import java.util.ArrayList;
@@ -48,14 +49,18 @@ public class Customer extends Person {
     }
 
     public boolean setPassword(String password) {
-        String passwordValidation = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=." +
-                "*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
-
-        if (password.matches(passwordValidation)){
+        if (checkPasswordValidation(password)){
             this.password = password;
             return true;
         }
         return false;
+    }
+
+    public boolean checkPasswordValidation(String password){
+        String passwordValidation = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=." +
+                "*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+
+        return password.matches(passwordValidation);
     }
 
 
@@ -106,6 +111,38 @@ public class Customer extends Person {
 
     public void addOrder(Order order){
         orders.add(order);
+    }
+
+    public void changePassword(){
+        System.out.print("New Password : ");
+        String newPassword = ScannerWrapper.getInstance().nextLine().trim();
+        if (checkPasswordValidation(newPassword)){
+            this.password = newPassword;
+            return;
+        }
+        System.out.println("Invalid Password!");
+    }
+
+    public void changeInformation(){
+        System.out.println("\tPlease enter the required information");
+        System.out.print("first name: ");
+        setFirstName(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("last name: ");
+        setLastName(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("phone number: ");
+        setPhoneNumber(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("\tAddress Section\nneighbor: ");
+        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("full address: ");
+        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("zip code: ");
+        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
+        address = new Address(neighbor,fullAddress,zipcode);
+    }
+
+    public void changeBalance(){
+        System.out.print("New Balance : ");
+        wallet.setBalance(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
     }
 
     @Override
