@@ -16,17 +16,17 @@ public class InputObjectHandler {
         String username = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("password: ");
         String password = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("first name: ");
+        System.out.print("first name: ");
         String firstname = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("last name: ");
+        System.out.print("last name: ");
         String lastname = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("phone number: ");
+        System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("Address Section\nneighbor: ");
+        System.out.print("Address Section\nneighbor: ");
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("full address: ");
+        System.out.print("full address: ");
         String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("zip code: ");
+        System.out.print("zip code: ");
         String zipcode = ScannerWrapper.getInstance().nextLine().trim();
 
         return new Admin(firstname, lastname, phoneNumber,
@@ -49,17 +49,17 @@ public class InputObjectHandler {
         String username = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("password: ");
         String password = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("first name: ");
+        System.out.print("first name: ");
         String firstname = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("last name: ");
+        System.out.print("last name: ");
         String lastname = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("phone number: ");
+        System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("Address Section\nneighbor: ");
+        System.out.print("\tAddress Section\nneighbor: ");
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("full address: ");
+        System.out.print("full address: ");
         String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("zip code: ");
+        System.out.print("zip code: ");
         String zipcode = ScannerWrapper.getInstance().nextLine().trim();
         System.out.println("Want to add Credit Card for faster transactions ?");
         String creditCardChoice = ScannerWrapper.getInstance().nextLine().trim();
@@ -67,12 +67,12 @@ public class InputObjectHandler {
         Customer resultCustomer = new Customer(firstname, lastname, phoneNumber,
                 username, password, new Address(neighbor, fullAddress, zipcode));
 
-        if (creditCardChoice.matches("[Yy] | [Yy]es")){
-            System.out.println("Credit Card Number: ");
+        if (creditCardChoice.matches("[Yy](es)*")){
+            System.out.print("Credit Card Number: ");
             String creditCardNumber = ScannerWrapper.getInstance().nextLine().trim();
-            System.out.println("Credit Card Password: ");
+            System.out.print("Credit Card Password: ");
             String creditCardPassword = ScannerWrapper.getInstance().nextLine().trim();
-            System.out.println("Balance: ");
+            System.out.print("Balance: ");
             double creditCardBalance = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
             resultCustomer.setCreditCard(new CreditCard(creditCardNumber,creditCardPassword,creditCardBalance));
         }

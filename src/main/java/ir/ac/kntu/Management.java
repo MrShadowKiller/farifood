@@ -25,6 +25,17 @@ public class Management {
 
     private InputObjectHandler inputObjectHandler;
 
+    public Management(Admin admin) {
+        admins = new ArrayList<>();
+        admins.add(admin);
+        restaurants = new ArrayList<>();
+        foods = new ArrayList<>();
+        deliveries = new ArrayList<>();
+        customers = new ArrayList<>();
+        customers.add(admin);
+        view = new View();
+        inputObjectHandler = new InputObjectHandler();
+    }
 
     public void startMenuHandler(Admin admin) {
         view.printStartMenu();
@@ -67,20 +78,24 @@ public class Management {
         view.printAdminStartMenu();
         int adminOptionChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (adminOptionChoice) {
-            case 1: adminsTabHandler(admin);
+            case 1:
+                adminsTabHandler(admin);
                 break;
-            case 2: customersTabHandler(admin);
+            case 2:
+                customersTabHandler(admin);
                 break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 5:
-                break;
-            case 7:
-                break;
+//            case 3:
+//                break;
+//            case 4:
+//                break;
+//            case 5:
+//                break;
+//            case 5:
+//                break;
+//            case 7:
+//                break;
+//            case 8:
+//                break;
             default:
                 adminMenuHandler(admin);
         }
@@ -94,11 +109,14 @@ public class Management {
             case 1:
                 addAdminHandler();
                 break;
-            case 2: removeAdminHandler();
+            case 2:
+                removeAdminHandler();
                 break;
-            case 3: viewAdmins();
+            case 3:
+                viewAdmins();
                 break;
-            case 4: adminMenuHandler(admin);
+            case 4:
+                adminMenuHandler(admin);
                 break;
             default:
                 adminsTabHandler(admin);
@@ -112,29 +130,29 @@ public class Management {
         customers.add(newAdmin);
     }
 
-    public void removeAdminHandler(){
+    public void removeAdminHandler() {
         String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
-        for (int i=0;i<admins.size();i++){
+        for (int i = 0; i < admins.size(); i++) {
             if (admins.get(i).getUsername().equals(adminLoginDetails[0])
-                    && admins.get(i).getPassword().equals(adminLoginDetails[1])){
+                    && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
                 admins.remove(i);
                 System.out.println("Done!");
             }
         }
 
-        for (int i=0;i<customers.size();i++){
+        for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(adminLoginDetails[0])
-                    && customers.get(i).getPassword().equals(adminLoginDetails[1])){
+                    && customers.get(i).getPassword().equals(adminLoginDetails[1])) {
                 customers.remove(i);
-                System.out.println("Done!");
                 return;
             }
         }
+
         System.out.println("Cant find the admin!");
 
     }
 
-    public void viewAdmins(){
+    public void viewAdmins() {
         view.printAdmins(admins);
     }
 
@@ -145,28 +163,32 @@ public class Management {
             case 1:
                 addCustomerHandler();
                 break;
-            case 2: removeCustomerHandler();
+            case 2:
+                removeCustomerHandler();
                 break;
-            case 3: viewCustomers();
+            case 3:
+                viewCustomers();
                 break;
-            case 4: viewCustomerOrders();
+            case 4:
+                viewCustomerOrders();
                 break;
-            case 5: adminMenuHandler(admin);
+            case 5:
+                adminMenuHandler(admin);
             default:
                 customersTabHandler(admin);
         }
         customersTabHandler(admin);
     }
 
-    public void addCustomerHandler(){
+    public void addCustomerHandler() {
         customers.add(inputObjectHandler.scanCustomerInfo());
     }
 
-    public void removeCustomerHandler(){
+    public void removeCustomerHandler() {
         String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
-        for (int i=0;i<customers.size();i++){
+        for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(customerLoginDetails[0])
-                    && customers.get(i).getPassword().equals(customerLoginDetails[1])){
+                    && customers.get(i).getPassword().equals(customerLoginDetails[1])) {
                 customers.remove(i);
                 System.out.println("Done!");
                 return;
@@ -175,26 +197,16 @@ public class Management {
         System.out.println("Cant find the Customer!");
     }
 
-    public void viewCustomers(){
+    public void viewCustomers() {
         view.printCustomers(customers);
     }
 
-    public void viewCustomerOrders(){
+    public void viewCustomerOrders() {
         System.out.println("Which Customer ?");
         viewCustomers();
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        view.printCustomerOrders(customers.get(userChoice-1));
+        view.printCustomerOrders(customers.get(userChoice - 1));
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
