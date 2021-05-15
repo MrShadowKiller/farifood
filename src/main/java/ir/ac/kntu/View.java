@@ -3,6 +3,7 @@ package ir.ac.kntu;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
+import ir.ac.kntu.user.Customer;
 
 import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
@@ -34,6 +35,15 @@ public class View {
         System.out.println("4.Exit");
     }
 
+    public void printCustomersTab(){
+        System.out.println("Please use of these options : ");
+        System.out.println("1.Add Customer");
+        System.out.println("2.Remove Customer");
+        System.out.println("3.View Customers");
+        System.out.println("4.View Customer orders");
+        System.out.println("5.Exit");
+    }
+
     public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
         for (int i = 1; i <= restaurantOptions.length; i++) {
             System.out.println("[" + i + "]. " + restaurantOptions[i].getName());
@@ -55,6 +65,18 @@ public class View {
     public void printAdmins(ArrayList<Admin> admins){
         for (int i = 1; i <= admins.size(); i++) {
             System.out.println("[" + i + "]. " + admins.get(i).briefInformation());
+        }
+    }
+
+    public void printCustomers(ArrayList<Customer> customers){
+        for (int i = 1; i <= customers.size(); i++) {
+            System.out.println("[" + i + "]. " + customers.get(i).toString());
+        }
+    }
+
+    public void printCustomerOrders(Customer customer){
+        for (int i = 1; i <= customer.getOrders().size(); i++) {
+            System.out.println("[" + i + "]. " + customer.getOrders().get(i).toString());
         }
     }
 

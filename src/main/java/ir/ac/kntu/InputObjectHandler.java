@@ -3,6 +3,8 @@ package ir.ac.kntu;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
+import ir.ac.kntu.user.CreditCard;
+import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.UserSetting;
 
 import java.time.LocalDateTime;
@@ -31,7 +33,7 @@ public class InputObjectHandler {
                 username, password, new Address(neighbor, fullAddress, zipcode));
     }
 
-    public String[] scanAdminLogin() {
+    public String[] scanCustomerLogin() {
         String[] loginDetails = new String[2];
         System.out.println("\tPlease enter the required information");
         System.out.print("username: ");
@@ -39,6 +41,42 @@ public class InputObjectHandler {
         System.out.print("password: ");
         loginDetails[1] = ScannerWrapper.getInstance().nextLine().trim();
         return loginDetails;
+    }
+
+    public Customer scanCustomerInfo() {
+        System.out.println("\tPlease enter the required information");
+        System.out.print("username: ");
+        String username = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("password: ");
+        String password = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("first name: ");
+        String firstname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("last name: ");
+        String lastname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("phone number: ");
+        String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("Address Section\nneighbor: ");
+        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("full address: ");
+        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("zip code: ");
+        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("Want to add Credit Card for faster transactions ?");
+        String creditCardChoice = ScannerWrapper.getInstance().nextLine().trim();
+
+        Customer resultCustomer = new Customer(firstname, lastname, phoneNumber,
+                username, password, new Address(neighbor, fullAddress, zipcode));
+
+        if (creditCardChoice.matches("[Yy] | [Yy]es")){
+            System.out.println("Credit Card Number: ");
+            String creditCardNumber = ScannerWrapper.getInstance().nextLine().trim();
+            System.out.println("Credit Card Password: ");
+            String creditCardPassword = ScannerWrapper.getInstance().nextLine().trim();
+            System.out.println("Balance: ");
+            double creditCardBalance = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+            resultCustomer.setCreditCard(new CreditCard(creditCardNumber,creditCardPassword,creditCardBalance));
+        }
+        return resultCustomer;
     }
 
     public UserSetting scanUserSetting(View view) {

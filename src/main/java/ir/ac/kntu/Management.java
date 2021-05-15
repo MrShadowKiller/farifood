@@ -4,14 +4,10 @@ import ir.ac.kntu.delivery.Delivery;
 
 import ir.ac.kntu.restaurant.Restaurant;
 
-import ir.ac.kntu.setting.FoodSortOption;
-import ir.ac.kntu.setting.RestaurantSortOption;
-import ir.ac.kntu.user.UserSetting;
 import ir.ac.kntu.user.Admin;
 
 import ir.ac.kntu.user.Customer;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Management {
@@ -50,7 +46,7 @@ public class Management {
     }
 
     public void adminLoginVerify(Admin admin) {
-        String[] adminLoginDetails = inputObjectHandler.scanAdminLogin();
+        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
         if (!admin.getUsername().equals(adminLoginDetails[0]) ||
                 !admin.getPassword().equals(adminLoginDetails[1])) {
             System.out.println("Wrong username or password!");
@@ -73,7 +69,7 @@ public class Management {
         switch (adminOptionChoice) {
             case 1: adminsTabHandler(admin);
                 break;
-            case 2:
+            case 2: customersTabHandler(admin);
                 break;
             case 3:
                 break;
@@ -111,15 +107,25 @@ public class Management {
     }
 
     public void addAdminHandler() {
-        admins.add(inputObjectHandler.scanAdminInfo());
+        Admin newAdmin = inputObjectHandler.scanAdminInfo();
+        admins.add(newAdmin);
+        customers.add(newAdmin);
     }
 
     public void removeAdminHandler(){
-        String[] adminLoginDetails = inputObjectHandler.scanAdminLogin();
+        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
         for (int i=0;i<admins.size();i++){
             if (admins.get(i).getUsername().equals(adminLoginDetails[0])
                     && admins.get(i).getPassword().equals(adminLoginDetails[1])){
                 admins.remove(i);
+                System.out.println("Done!");
+            }
+        }
+
+        for (int i=0;i<customers.size();i++){
+            if (customers.get(i).getUsername().equals(adminLoginDetails[0])
+                    && customers.get(i).getPassword().equals(adminLoginDetails[1])){
+                customers.remove(i);
                 System.out.println("Done!");
                 return;
             }
@@ -132,9 +138,63 @@ public class Management {
         view.printAdmins(admins);
     }
 
-
-    public void adminMenuHandler() {
-
+    public void customersTabHandler(Admin admin) {
+        view.printCustomersTab();
+        int customerTabChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        switch (customerTabChoice) {
+            case 1:
+                addCustomerHandler();
+                break;
+            case 2: removeCustomerHandler();
+                break;
+            case 3: viewCustomers();
+                break;
+            case 4: viewCustomerOrders();
+                break;
+            case 5: adminMenuHandler(admin);
+            default:
+                customersTabHandler(admin);
+        }
+        customersTabHandler(admin);
     }
+
+    public void addCustomerHandler(){
+        customers.add(inputObjectHandler.scanCustomerInfo());
+    }
+
+    public void removeCustomerHandler(){
+        String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
+        for (int i=0;i<customers.size();i++){
+            if (customers.get(i).getUsername().equals(customerLoginDetails[0])
+                    && customers.get(i).getPassword().equals(customerLoginDetails[1])){
+                customers.remove(i);
+                System.out.println("Done!");
+                return;
+            }
+        }
+        System.out.println("Cant find the Customer!");
+    }
+
+    public void viewCustomers(){
+        view.printCustomers(customers);
+    }
+
+    public void viewCustomerOrders(){
+        System.out.println("Which Customer ?");
+        viewCustomers();
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        view.printCustomerOrders(customers.get(userChoice-1));
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
