@@ -9,5 +9,4 @@ public class Admin extends Customer {
         super(firstName, lastName, phoneNumber, username, password, address);
     }
 
-
 }

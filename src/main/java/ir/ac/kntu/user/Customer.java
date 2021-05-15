@@ -2,7 +2,6 @@ package ir.ac.kntu.user;
 
 import ir.ac.kntu.Address;
 import ir.ac.kntu.order.Order;
-import ir.ac.kntu.setting.UserSetting;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,7 +40,7 @@ public class Customer extends Person {
         this.password = password;
         this.address = address;
         orders = new ArrayList<>();
-        wallet = new Wallet();
+        wallet = new Wallet(999999);
         creditCard = new CreditCard();
     }
 
