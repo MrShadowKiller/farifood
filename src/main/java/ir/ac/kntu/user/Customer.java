@@ -22,27 +22,18 @@ public class Customer extends Person {
     private UserSetting userSetting;
 
     public Customer(String firstName, String lastName, String phoneNumber,
-                    String username, String password, Address address, CreditCard creditCard) {
-        super(firstName, lastName, phoneNumber);
-        this.username = username;
-        this.password = password;
-        this.address = address;
-        this.creditCard = creditCard;
-        orders = new ArrayList<>();
-        wallet = new Wallet();
-    }
-
-    //Admin Constructor
-    public Customer(String firstName, String lastName, String phoneNumber,
                     String username, String password, Address address) {
         super(firstName, lastName, phoneNumber);
         this.username = username;
         this.password = password;
         this.address = address;
         orders = new ArrayList<>();
-        wallet = new Wallet(999999);
-        creditCard = new CreditCard();
+        wallet = new Wallet();
+        if (this instanceof Admin){
+            wallet.setBalance(99999999);
+        }
     }
+
 
     public String getUsername() {
         return username;

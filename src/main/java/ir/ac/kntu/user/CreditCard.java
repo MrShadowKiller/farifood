@@ -5,6 +5,14 @@ public class CreditCard {
 
     private String password;
 
+    private double balance;
+
+    public CreditCard(String cardNumber, String password, double balance) {
+        this.cardNumber = cardNumber;
+        this.password = password;
+        this.balance = balance;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
@@ -19,5 +27,13 @@ public class CreditCard {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }
