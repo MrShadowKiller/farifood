@@ -15,4 +15,14 @@ public enum StartMenuOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public StartMenuOptions findOption(int userInput){
+        StartMenuOptions[] options = StartMenuOptions.values();
+        for (StartMenuOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }

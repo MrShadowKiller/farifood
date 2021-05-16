@@ -13,7 +13,9 @@ public class Restaurant {
 
     private String address;
 
-    private String workHours;
+    private String workHoursStart;
+
+    private String workHoursEnd;
 
     private RestaurantSchedule[] schedule;
 
@@ -25,13 +27,17 @@ public class Restaurant {
 
     private ArrayList<Comment> comments;
 
-    public Restaurant(String name, String address, RestaurantType restaurantType,
-                      ArrayList<Food> foods) {
+    public Restaurant(String name, String address, String workHoursStart, String workHoursEnd,
+                      RestaurantSchedule[] schedule, RestaurantType restaurantType,
+                      ArrayList<Food> foods, ArrayList<Delivery> deliveries) {
         this.name = name;
         this.address = address;
-        schedule = RestaurantSchedule.values();
+        this.workHoursStart = workHoursStart;
+        this.workHoursEnd = workHoursEnd;
+        this.schedule = schedule;
         this.restaurantType = restaurantType;
         this.foods = foods;
+        this.deliveries = deliveries;
     }
 
     public String getName() {
@@ -50,12 +56,20 @@ public class Restaurant {
         this.address = address;
     }
 
-    public String getWorkHours() {
-        return workHours;
+    public String getWorkHoursStart() {
+        return workHoursStart;
     }
 
-    public void setWorkHours(String workHours) {
-        this.workHours = workHours;
+    public void setWorkHoursStart(String workHoursStart) {
+        this.workHoursStart = workHoursStart;
+    }
+
+    public String getWorkHoursEnd() {
+        return workHoursEnd;
+    }
+
+    public void setWorkHoursEnd(String workHoursEnd) {
+        this.workHoursEnd = workHoursEnd;
     }
 
     public RestaurantSchedule[] getSchedule() {
@@ -98,79 +112,79 @@ public class Restaurant {
         this.deliveries = deliveries;
     }
 
-    public void addFood(Food food){
+    public void addFood(Food food) {
         foods.add(food);
     }
 
-    public void addDelivery (Delivery delivery){
+    public void addDelivery(Delivery delivery) {
         deliveries.add(delivery);
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
 
-    public double getAverageRate(){
-        double averageRate =0;
-        for (Comment comment : comments){
+    public double getAverageRate() {
+        double averageRate = 0;
+        for (Comment comment : comments) {
             averageRate += comment.getAverageRate();
         }
-        return averageRate/ comments.size();
+        return averageRate / comments.size();
     }
 
-    public void setDayAvailable(RestaurantSchedule day){
-        for (RestaurantSchedule d : schedule){
-            if (d == day){
+    public void setDayAvailable(RestaurantSchedule day) {
+        for (RestaurantSchedule d : schedule) {
+            if (d == day) {
                 d.setAvailability(true);
             }
         }
     }
 
-    public boolean isOpen(RestaurantSchedule day){
-        for (RestaurantSchedule d : schedule){
-            if (d == day && d.getAvailability()){
+    public boolean isOpen(RestaurantSchedule day) {
+        for (RestaurantSchedule d : schedule) {
+            if (d == day && d.getAvailability()) {
                 return true;
             }
         }
         return false;
     }
 
-    public void sortFoodHighRating(){
-        for (int i=0;i<= foods.size();i++){
-            for (int j=i+1;j <= foods.size();j++){
-                if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()){
-                    Collections.swap(foods,i,j);
+    public void sortFoodHighRating() {
+        for (int i = 0; i <= foods.size(); i++) {
+            for (int j = i + 1; j <= foods.size(); j++) {
+                if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()) {
+                    Collections.swap(foods, i, j);
                 }
             }
         }
     }
 
-    public void sortFoodLowRating(){
-        for (int i=0;i<= foods.size();i++){
-            for (int j=i+1;j <= foods.size();j++){
-                if (foods.get(i).getAverageRate() > foods.get(j).getAverageRate()){
-                    Collections.swap(foods,i,j);
+    public void sortFoodLowRating() {
+        for (int i = 0; i <= foods.size(); i++) {
+            for (int j = i + 1; j <= foods.size(); j++) {
+                if (foods.get(i).getAverageRate() > foods.get(j).getAverageRate()) {
+                    Collections.swap(foods, i, j);
                 }
             }
         }
     }
 
-    public void sortFoodHighPrice(){
-        for (int i=0;i<= foods.size();i++){
-            for (int j=i+1;j <= foods.size();j++){
-                if (foods.get(i).getPrice() < foods.get(j).getPrice()){
-                    Collections.swap(foods,i,j);
+    public void sortFoodHighPrice() {
+        for (int i = 0; i <= foods.size(); i++) {
+            for (int j = i + 1; j <= foods.size(); j++) {
+                if (foods.get(i).getPrice() < foods.get(j).getPrice()) {
+                    Collections.swap(foods, i, j);
                 }
             }
         }
     }
 
-    public void sortFoodLowPrice(){
-        for (int i=0;i<= foods.size();i++){
-            for (int j=i+1;j <= foods.size();j++){
-                if (foods.get(i).getPrice() > foods.get(j).getPrice()){
-                    Collections.swap(foods,i,j);
+    public void sortFoodLowPrice() {
+        for (int i = 0; i <= foods.size(); i++) {
+            for (int j = i + 1; j <= foods.size(); j++) {
+                if (foods.get(i).getPrice() > foods.get(j).getPrice()) {
+                    Collections.swap(foods, i, j);
                 }
             }
         }
@@ -178,10 +192,10 @@ public class Restaurant {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Restaurant that = (Restaurant) o;

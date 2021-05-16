@@ -44,13 +44,8 @@ public class Management {
         view.printStartMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         StartMenuOptions userChoice = StartMenuOptions.DEFAULT;
+        userChoice = userChoice.findOption(userInput);
 
-        StartMenuOptions[] options = StartMenuOptions.values();
-        for (StartMenuOptions option : options) {
-            if (option.getRate() == userInput - 1) {
-                userChoice = option;
-            }
-        }
         switch (userChoice) {
             case ADMIN_LOGIN:
                 adminLoginVerify(admin);
@@ -61,8 +56,7 @@ public class Management {
                 break;
             case EXIT:
                 return;
-            default:
-                startMenuHandler(admin);
+            default: startMenuHandler(admin);
         }
     }
 
@@ -85,25 +79,15 @@ public class Management {
     public void adminMenuHandler(Admin admin) {
         view.printAdminStartMenu();
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-
         AdminMenuOptions adminOptionChoice = AdminMenuOptions.DEFAULT;
-
-        AdminMenuOptions[] options = AdminMenuOptions.values();
-        for (AdminMenuOptions option : options) {
-            if (option.getRate() == adminOptionInput - 1) {
-                adminOptionChoice = option;
-            }
-        }
+        adminOptionChoice = adminOptionChoice.findOption(adminOptionInput);
 
         switch (adminOptionChoice) {
-            case ADMINS:
-                adminsTabHandler(admin);
+            case ADMINS: adminsTabHandler(admin);
                 break;
-            case CUSTOMERS:
-                customersTabHandler(admin);
+            case CUSTOMERS: customersTabHandler(admin);
                 break;
-            case DELIVERIES:
-                deliveriesTabHandler(admin);
+            case DELIVERIES: deliveriesTabHandler(admin);
                 break;
             case FOOD: foodTabHandler(admin);
                 break;
@@ -125,28 +109,18 @@ public class Management {
         view.printAdminsTab();
         int adminTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminsTabOptions adminTabChoice = AdminsTabOptions.DEFAULT;
+        adminTabChoice = adminTabChoice.findOption(adminTabInput);
 
-        AdminsTabOptions[] options = AdminsTabOptions.values();
-        for (AdminsTabOptions option : options) {
-            if (option.getRate() == adminTabInput - 1) {
-                adminTabChoice = option;
-            }
-        }
         switch (adminTabChoice) {
-            case ADD_ADMIN:
-                addAdminHandler();
+            case ADD_ADMIN: addAdminHandler();
                 break;
-            case REMOVE_ADMIN:
-                removeAdminHandler();
+            case REMOVE_ADMIN: removeAdminHandler();
                 break;
-            case VIEW_EDIT_ADMIN:
-                viewAndEditAdmins(admin);
+            case VIEW_EDIT_ADMIN: viewAndEditAdmins(admin);
                 break;
-            case EXIT:
-                adminMenuHandler(admin);
+            case EXIT: adminMenuHandler(admin);
                 break;
-            default:
-                adminsTabHandler(admin);
+            default: adminsTabHandler(admin);
         }
         adminsTabHandler(admin);
     }
@@ -191,29 +165,18 @@ public class Management {
         view.printAdminEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminEditOptions userChoice = AdminEditOptions.DEFAULT;
-
-        AdminEditOptions[] options = AdminEditOptions.values();
-        for (AdminEditOptions option : options) {
-            if (option.getRate() == userInput - 1) {
-                userChoice = option;
-            }
-        }
+        userChoice = userChoice.findOption(userInput);
 
         switch (userChoice) {
-            case CHANGE_PERSONAL_INFO:
-                changeCustomerInfo(admin);
+            case CHANGE_PERSONAL_INFO: changeCustomerInfo(admin);
                 break;
-            case CHANGE_PASSWORD:
-                changeCustomerPassword(admin);
+            case CHANGE_PASSWORD: changeCustomerPassword(admin);
                 break;
-            case CHANGE_BALANCE:
-                changeCustomerBalance(admin);
+            case CHANGE_BALANCE: changeCustomerBalance(admin);
                 break;
-            case EXIT:
-                adminsTabHandler(admin);
+            case EXIT: adminsTabHandler(admin);
                 break;
-            default:
-                editAdminHandler(admin);
+            default: editAdminHandler(admin);
         }
         editAdminHandler(admin);
     }
@@ -222,32 +185,22 @@ public class Management {
         view.printCustomersTab();
         int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         CustomersTabOptions customerTabChoice = CustomersTabOptions.DEFAULT;
+        customerTabChoice = customerTabChoice.findOption(customerTabInput);
 
-        CustomersTabOptions[] options = CustomersTabOptions.values();
-        for (CustomersTabOptions option : options) {
-            if (option.getRate() == customerTabInput - 1) {
-                customerTabChoice = option;
-            }
-        }
         switch (customerTabChoice) {
-            case ADD_CUSTOMER:
-                addCustomerHandler();
+            case ADD_CUSTOMER: addCustomerHandler();
                 break;
-            case REMOVE_CUSTOMER:
-                removeCustomerHandler();
+            case REMOVE_CUSTOMER: removeCustomerHandler();
                 break;
-            case VIEW_EDIT_CUSTOMER:
-                viewAndEditCustomers(admin);
+            case VIEW_EDIT_CUSTOMER: viewAndEditCustomers(admin);
                 break;
-            case VIEW_CUSTOMER_ORDERS:
-                viewCustomerOrders(admin);
+            case VIEW_CUSTOMER_ORDERS: viewCustomerOrders(admin);
                 break;
-            case VIEW_COMMENTS:
-                viewCustomerComments(admin);
-            case EXIT:
-                adminMenuHandler(admin);
-            default:
-                customersTabHandler(admin);
+            case VIEW_COMMENTS: viewCustomerComments(admin);
+                break;
+            case EXIT: adminMenuHandler(admin);
+                break;
+            default: customersTabHandler(admin);
         }
         customersTabHandler(admin);
     }
@@ -290,29 +243,18 @@ public class Management {
         view.printCustomerEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         CustomerEditOptions userChoice = CustomerEditOptions.DEFAULT;
-
-        CustomerEditOptions[] options = CustomerEditOptions.values();
-        for (CustomerEditOptions option : options) {
-            if (option.getRate() == userInput - 1) {
-                userChoice = option;
-            }
-        }
+        userChoice = userChoice.findOption(userInput);
 
         switch (userChoice) {
-            case CHANGE_PERSONAL_INFO:
-                changeCustomerInfo(customer);
+            case CHANGE_PERSONAL_INFO: changeCustomerInfo(customer);
                 break;
-            case CHANGE_PASSWORD:
-                changeCustomerPassword(customer);
+            case CHANGE_PASSWORD: changeCustomerPassword(customer);
                 break;
-            case CHANGE_BALANCE:
-                changeCustomerBalance(customer);
+            case CHANGE_BALANCE: changeCustomerBalance(customer);
                 break;
-            case EXIT:
-                customersTabHandler(admin);
+            case EXIT: customersTabHandler(admin);
                 break;
-            default:
-                editCustomerHandler(customer, admin);
+            default: editCustomerHandler(customer, admin);
         }
         editCustomerHandler(customer, admin);
     }
@@ -351,31 +293,19 @@ public class Management {
         view.printDeliveriesTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         DeliveriesTabOptions userChoice = DeliveriesTabOptions.DEFAULT;
-
-        DeliveriesTabOptions[] options = DeliveriesTabOptions.values();
-        for (DeliveriesTabOptions option : options) {
-            if (option.getRate() == userInput - 1) {
-                userChoice = option;
-            }
-        }
+        userChoice = userChoice.findOption(userInput);
 
         switch (userChoice) {
-            case ADD_DELIVERY:
-                addDeliveryHandler();
+            case ADD_DELIVERY: addDeliveryHandler();
                 break;
-            case REMOVE_DELIVERY:
-                removeDeliveryHandler();
+            case REMOVE_DELIVERY: removeDeliveryHandler();
                 break;
-            case VIEW_EDIT_DELIVERIES:
-                viewAndEditDeliveries(admin);
+            case VIEW_EDIT_DELIVERIES: viewAndEditDeliveries(admin);
                 break;
-            case VIEW_ORDERS:
-                 viewDeliveryOrders(admin);
-            case EXIT:
-                adminMenuHandler(admin);
+            case VIEW_ORDERS: viewDeliveryOrders(admin);
+            case EXIT: adminMenuHandler(admin);
                 break;
-            default:
-                deliveriesTabHandler(admin);
+            default: deliveriesTabHandler(admin);
         }
         deliveriesTabHandler(admin);
     }
@@ -415,29 +345,18 @@ public class Management {
         view.printDeliveryEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         DeliveryEditOptions userChoice = DeliveryEditOptions.DEFAULT;
-
-        DeliveryEditOptions[] options = DeliveryEditOptions.values();
-        for (DeliveryEditOptions option : options) {
-            if (option.getRate() == userInput - 1) {
-                userChoice = option;
-            }
-        }
+        userChoice = userChoice.findOption(userInput);
 
         switch (userChoice) {
-            case CHANGE_SALARY:
-                changeDeliverySalary(delivery);
+            case CHANGE_SALARY: changeDeliverySalary(delivery);
                 break;
-            case CHANGE_VEHICLE:
-                changeDeliveryVehicle(delivery);
+            case CHANGE_VEHICLE: changeDeliveryVehicle(delivery);
                 break;
-            case CHANGE_SALARY_TYPE:
-                changeDeliverySalaryType(delivery);
+            case CHANGE_SALARY_TYPE: changeDeliverySalaryType(delivery);
                 break;
-            case EXIT:
-                deliveriesTabHandler(admin);
+            case EXIT: deliveriesTabHandler(admin);
                 break;
-            default:
-                editDeliveryHandler(delivery, admin);
+            default: editDeliveryHandler(delivery, admin);
         }
         editDeliveryHandler(delivery, admin);
     }
@@ -482,31 +401,20 @@ public class Management {
         view.printFoodTab();
         int foodTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         FoodTabOptions foodTabChoice = FoodTabOptions.DEFAULT;
+        foodTabChoice = foodTabChoice.findOption(foodTabInput);
 
-        FoodTabOptions[] options = FoodTabOptions.values();
-        for (FoodTabOptions option : options) {
-            if (option.getRate() == foodTabInput - 1) {
-                foodTabChoice = option;
-            }
-        }
         switch (foodTabChoice) {
-            case ADD_FOOD:
-                addFoodHandler();
+            case ADD_FOOD: addFoodHandler();
                 break;
-            case REMOVE_FOOD:
-                removeFoodHandler();
+            case REMOVE_FOOD: removeFoodHandler();
                 break;
-            case VIEW_FOODS:
-                viewFoodsHandler();
+            case VIEW_FOODS: viewFoodsHandler();
                 break;
-            case VIEW_FOOD_COMMENTS:
-                viewFoodCommentsHandler();
+            case VIEW_FOOD_COMMENTS: viewFoodCommentsHandler();
                 break;
-            case EXIT:
-                adminMenuHandler(admin);
+            case EXIT: adminMenuHandler(admin);
                 break;
-            default:
-                foodTabHandler(admin);
+            default: foodTabHandler(admin);
         }
         foodTabHandler(admin);
     }

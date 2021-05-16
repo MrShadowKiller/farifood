@@ -17,4 +17,14 @@ public enum CustomerEditOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public CustomerEditOptions findOption(int userInput){
+        CustomerEditOptions[] options = CustomerEditOptions.values();
+        for (CustomerEditOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }

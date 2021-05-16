@@ -17,4 +17,14 @@ public enum FoodTabOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public FoodTabOptions findOption(int userInput){
+        FoodTabOptions[] options = FoodTabOptions.values();
+        for (FoodTabOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }

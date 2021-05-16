@@ -17,4 +17,14 @@ public enum DeliveryEditOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public DeliveryEditOptions findOption(int userInput){
+        DeliveryEditOptions[] options = DeliveryEditOptions.values();
+        for (DeliveryEditOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }

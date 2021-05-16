@@ -58,6 +58,8 @@ public class View {
         System.out.println("[2].Remove Restaurant");
         System.out.println("[3].View Restaurants");
         System.out.println("[4].View Restaurant orders");
+        System.out.println("[5].View Restaurant foods");
+        System.out.println("[6].View Restaurant comments");
         System.out.println("[5].Exit");
     }
 

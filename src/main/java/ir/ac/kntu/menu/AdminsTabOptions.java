@@ -17,4 +17,14 @@ public enum AdminsTabOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public AdminsTabOptions findOption(int userInput){
+        AdminsTabOptions[] options = AdminsTabOptions.values();
+        for (AdminsTabOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }

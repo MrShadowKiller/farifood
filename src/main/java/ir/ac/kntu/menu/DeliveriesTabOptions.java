@@ -17,4 +17,14 @@ public enum DeliveriesTabOptions {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public DeliveriesTabOptions findOption(int userInput){
+        DeliveriesTabOptions[] options = DeliveriesTabOptions.values();
+        for (DeliveriesTabOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                return option;
+            }
+        }
+        return DEFAULT;
+    }
 }
