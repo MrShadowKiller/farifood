@@ -122,7 +122,8 @@ public class View {
         System.out.println("1.Add Delivery");
         System.out.println("2.Remove Delivery");
         System.out.println("3.View and Edit Deliveries");
-        System.out.println("4.Exit");
+        System.out.println("4.View Orders");
+        System.out.println("5.Exit");
     }
 
     public void printSalaryTypes(){
@@ -132,9 +133,15 @@ public class View {
         }
     }
 
+    public void printRestaurants(ArrayList<Restaurant> restaurants){
+        for (int i=1;i<=restaurants.size();i++){
+            System.out.println("["+ i +"]. " + restaurants.get(i-1).getName());
+        }
+    }
+
     public void printDeliveries(ArrayList<Delivery> deliveries){
         for (int i=1;i<=deliveries.size();i++){
-            System.out.println("["+ i +"]. " + deliveries.get(i).getBriefInformation());
+            System.out.println("["+ i +"]. " + deliveries.get(i-1).getBriefInformation());
         }
         System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
     }
@@ -147,15 +154,11 @@ public class View {
         System.out.println("4.Exit");
     }
 
-    public void printRestaurants(ArrayList<Restaurant> restaurants){
-        for (int i=1;i<=restaurants.size();i++){
-            System.out.println("["+ i +"]. " + restaurants.get(i).getName());
-        }
-    }
+
 
     public void printDeliveryRestaurants(Delivery delivery){
         for (int i=1;i<=delivery.getRestaurants().length;i++){
-            System.out.println("[" + i + "]. " +  delivery.getRestaurants()[i].getName());
+            System.out.println("[" + i + "]. " +  delivery.getRestaurants()[i-1].getName());
         }
     }
 

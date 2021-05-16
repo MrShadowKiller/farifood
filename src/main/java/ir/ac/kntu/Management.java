@@ -340,8 +340,10 @@ public class Management {
                 removeDeliveryHandler();
                 break;
             case VIEW_EDIT_DELIVERIES:
+                viewAndEditDeliveries(admin);
                 break;
             case VIEW_ORDERS:
+                 viewDeliveryOrders(admin);
             case EXIT:
                 adminMenuHandler(admin);
                 break;
@@ -364,6 +366,7 @@ public class Management {
     }
 
     public void viewDeliveryOrders(Admin admin) {
+        System.out.println("Which Delivery ?");
         view.printDeliveries(deliveries);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {

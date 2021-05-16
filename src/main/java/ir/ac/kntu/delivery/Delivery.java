@@ -28,6 +28,7 @@ public class Delivery extends Person {
         this.salaryType = salaryType;
         this.salary = salary;
         this.schedule = schedule;
+        orders = new ArrayList<>();
     }
 
     public DeliveryVehicle getVehicleType() {
@@ -90,6 +91,7 @@ public class Delivery extends Person {
 
     public String getBriefInformation(){
         return "Full Name : " + getFirstName() + " " + getLastName() +
-                "\n\tVehicle : " + vehicleType.toString();
+                "\n\tVehicle : " + vehicleType.toString() + "\n\tSalary : " +
+                salary;
     }
 }
