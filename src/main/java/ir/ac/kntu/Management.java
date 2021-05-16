@@ -73,9 +73,7 @@ public class Management {
             System.out.println("Wrong username or password!");
             adminLoginVerify(admin);
         }
-
 //        setUserSetting(admin);
-
         adminMenuHandler(admin);
     }
 
@@ -166,6 +164,7 @@ public class Management {
                     && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
                 admins.remove(i);
                 System.out.println("Done!");
+                break;
             }
         }
 
@@ -202,13 +201,13 @@ public class Management {
 
         switch (userChoice) {
             case CHANGE_PERSONAL_INFO:
-                admin.changeInformation();
+                changeCustomerInfo(admin);
                 break;
             case CHANGE_PASSWORD:
-                admin.changePassword();
+                changeCustomerPassword(admin);
                 break;
             case CHANGE_BALANCE:
-                admin.changeBalance();
+                changeCustomerBalance(admin);
                 break;
             case EXIT:
                 adminsTabHandler(admin);
@@ -291,13 +290,13 @@ public class Management {
 
         switch (userChoice) {
             case CHANGE_PERSONAL_INFO:
-                customer.changeInformation();
+                changeCustomerInfo(customer);
                 break;
             case CHANGE_PASSWORD:
-                customer.changePassword();
+                changeCustomerPassword(customer);
                 break;
             case CHANGE_BALANCE:
-                customer.changeBalance();
+                changeCustomerBalance(customer);
                 break;
             case EXIT:
                 customersTabHandler(admin);
@@ -306,6 +305,25 @@ public class Management {
                 editCustomerHandler(customer, admin);
         }
         editCustomerHandler(customer, admin);
+    }
+
+    public void changeCustomerInfo(Customer customer){
+        inputObjectHandler.changeCustomerInformation(customer);
+    }
+
+    public void changeCustomerPassword(Customer customer){
+        System.out.print("New Password : ");
+        String newPassword = ScannerWrapper.getInstance().nextLine().trim();
+        if (customer.checkPasswordValidation(newPassword)){
+            customer.setPassword(newPassword);
+        } else {
+            System.out.println("Invalid Password!");
+        }
+    }
+
+    public void changeCustomerBalance(Customer customer){
+        System.out.print("New Balance : ");
+        customer.getWallet().setBalance(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
     }
 
     public void viewCustomerOrders(Admin admin) {

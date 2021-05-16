@@ -2,6 +2,7 @@ package ir.ac.kntu.user;
 
 import ir.ac.kntu.Address;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class Customer extends Person {
     private Address address;
 
     private ArrayList<Order> orders;
+
+    private ArrayList<Comment> comments;
 
     private Wallet wallet;
 
@@ -35,6 +38,13 @@ public class Customer extends Person {
         }
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getUsername() {
         return username;
@@ -113,6 +123,10 @@ public class Customer extends Person {
         orders.add(order);
     }
 
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
     public void changePassword(){
         System.out.print("New Password : ");
         String newPassword = ScannerWrapper.getInstance().nextLine().trim();
@@ -121,28 +135,6 @@ public class Customer extends Person {
             return;
         }
         System.out.println("Invalid Password!");
-    }
-
-    public void changeInformation(){
-        System.out.println("\tPlease enter the required information");
-        System.out.print("first name: ");
-        setFirstName(ScannerWrapper.getInstance().nextLine().trim());
-        System.out.print("last name: ");
-        setLastName(ScannerWrapper.getInstance().nextLine().trim());
-        System.out.print("phone number: ");
-        setPhoneNumber(ScannerWrapper.getInstance().nextLine().trim());
-        System.out.print("\tAddress Section\nneighbor: ");
-        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("full address: ");
-        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("zip code: ");
-        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
-        address = new Address(neighbor,fullAddress,zipcode);
-    }
-
-    public void changeBalance(){
-        System.out.print("New Balance : ");
-        wallet.setBalance(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
     }
 
     @Override

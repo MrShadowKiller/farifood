@@ -84,6 +84,23 @@ public class InputObjectHandler {
         return resultCustomer;
     }
 
+    public void changeCustomerInformation(Customer customer){
+        System.out.println("\tPlease enter the required information");
+        System.out.print("first name: ");
+        customer.setFirstName(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("last name: ");
+        customer.setLastName(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("phone number: ");
+        customer.setPhoneNumber(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("\tAddress Section\nneighbor: ");
+        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("full address: ");
+        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("zip code: ");
+        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
+        customer.setAddress(new Address(neighbor,fullAddress,zipcode));
+    }
+
     public UserSetting scanUserSetting(View view) {
         System.out.println("How do you want the foods to be sorted ?");
         FoodSortOption foodSortOption = selectFoodSort(view);
