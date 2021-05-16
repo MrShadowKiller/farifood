@@ -142,6 +142,7 @@ public class View {
     public void printDeliveries(ArrayList<Delivery> deliveries){
         for (int i=1;i<=deliveries.size();i++){
             System.out.println("["+ i +"]. " + deliveries.get(i-1).getBriefInformation());
+            printDeliverySchedule(deliveries.get(i-1));
         }
         System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
     }
@@ -168,7 +169,11 @@ public class View {
             if (day.getRestaurant() != null){
                 System.out.println(day.toString() + ": " + day.getRestaurant() + "\n");
             }else {
-                System.out.println(day.toString() + ": " + "\n");
+                if (day.getAvailability()) {
+                    System.out.println(day.toString() + ": IS FREE" + "\n");
+                } else {
+                    System.out.println(day.toString() + ": " + "\n");
+                }
             }
         }
     }
@@ -179,5 +184,6 @@ public class View {
             System.out.println("[" + i + "]. " + deliveryVehicles[i-1].toString());
         }
     }
+
 
 }
