@@ -73,7 +73,7 @@ public class Management {
             adminLoginVerify(admin);
         }
 
-        setUserSetting(admin);
+//        setUserSetting(admin);
 
         adminMenuHandler(admin);
     }
