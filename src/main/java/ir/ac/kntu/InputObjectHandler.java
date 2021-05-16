@@ -12,6 +12,7 @@ import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.UserSetting;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class InputObjectHandler {
     public Admin scanAdminInfo() {
@@ -178,4 +179,20 @@ public class InputObjectHandler {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return deliveryVehicles[userChoice-1];
     }
+
+    public Food scanFoodInfo(){
+        System.out.print("Food name : ");
+        String foodName = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("Time for cooking: ");
+        int foodCookTime = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return new Food(foodName,foodCookTime);
+    }
+
+    public Food selectFood(View view, ArrayList<Food> foods){
+        System.out.println("Which Food ?");
+        view.printFoods(foods);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return foods.get(userInput-1);
+    }
+
 }

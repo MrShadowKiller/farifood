@@ -3,6 +3,7 @@ package ir.ac.kntu;
 import ir.ac.kntu.delivery.Delivery;
 
 import ir.ac.kntu.delivery.DeliveryVehicle;
+import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.menu.*;
 import ir.ac.kntu.restaurant.Restaurant;
 
@@ -106,10 +107,10 @@ public class Management {
             case DELIVERIES:
                 deliveriesTabHandler(admin);
                 break;
-//            case 4:
-//                break;
-//            case 5:
-//                break;
+            case FOOD: foodTabHandler(admin);
+                break;
+            case RESTAURANTS: restaurantsTabHandler(admin);
+                break;
 //            case 5:
 //                break;
 //            case 7:
@@ -175,9 +176,7 @@ public class Management {
                 return;
             }
         }
-
         System.out.println("Cant find the admin!");
-
     }
 
     public void viewAndEditAdmins(Admin admin) {
@@ -385,7 +384,7 @@ public class Management {
     }
 
     public void editDeliveryHandler(Delivery delivery, Admin admin) {
-        view.printCustomerEditMenu();
+        view.printDeliveryEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         DeliveryEditOptions userChoice = DeliveryEditOptions.DEFAULT;
 
@@ -398,13 +397,13 @@ public class Management {
 
         switch (userChoice) {
             case CHANGE_SALARY:
-                delivery.changeSalary();
+                changeDeliverySalary(delivery);
                 break;
             case CHANGE_VEHICLE:
                 changeDeliveryVehicle(delivery);
                 break;
-            case CHANGE_RESTAURANTS:
-                changeDeliveryRestaurants(delivery);
+            case CHANGE_SALARY_TYPE:
+                changeDeliverySalaryType(delivery);
                 break;
             case EXIT:
                 deliveriesTabHandler(admin);
@@ -415,24 +414,25 @@ public class Management {
         editDeliveryHandler(delivery, admin);
     }
 
-
-    //NEED_CHANGE
-
     public void changeDeliverySalary(Delivery delivery) {
         System.out.println("How Much ? ");
         delivery.setSalary(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
     }
 
-
-    public void changeDeliveryRestaurants(Delivery delivery) {
-        System.out.println("Which restaurant to add ?");
-        view.printRestaurants(restaurants);
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        System.out.println("Which index of restaurant ?");
-        view.printDeliveryRestaurants(delivery);
-        int userInput2 = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        delivery.getRestaurants()[userInput2 - 1] = restaurants.get(userInput - 1);
-    }
+    //NEED_CHANGE
+//    public void changeDeliveryRestaurants(Delivery delivery) {
+//        if (restaurants.size()==0){
+//            System.out.println("THERE IS NO RESTAURANT!");
+//            return;
+//        }
+//        System.out.println("Which restaurant to add ?");
+//        view.printRestaurants(restaurants);
+//        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+//        System.out.println("Which index of restaurant ?");
+//        view.printDeliveryRestaurants(delivery);
+//        int userInput2 = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+//        delivery.getRestaurants()[userInput2 - 1] = restaurants.get(userInput - 1);
+//    }
 
     public void changeDeliveryVehicle(Delivery delivery) {
         DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
@@ -442,5 +442,61 @@ public class Management {
         delivery.setVehicleType(deliveryVehicles[userInput - 1]);
     }
 
+    public void changeDeliverySalaryType(Delivery delivery){
+        SalaryType[] salaryTypes = SalaryType.values();
+        System.out.println("Which Salary ?");
+        view.printSalaryTypes();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        delivery.setSalaryType(salaryTypes[userInput - 1]);
+    }
+
+    public void foodTabHandler(Admin admin){
+        view.printFoodTab();
+        int foodTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        FoodTabOptions foodTabChoice = FoodTabOptions.DEFAULT;
+
+        FoodTabOptions[] options = FoodTabOptions.values();
+        for (FoodTabOptions option : options) {
+            if (option.getRate() == foodTabInput - 1) {
+                foodTabChoice = option;
+            }
+        }
+        switch (foodTabChoice) {
+            case ADD_FOOD:
+                addFoodHandler();
+                break;
+            case REMOVE_FOOD:
+                removeFoodHandler();
+                break;
+            case VIEW_FOODS:
+                viewFoodsHandler();
+                break;
+            case VIEW_FOOD_COMMENTS:
+                viewFoodCommentsHandler();
+                break;
+            case EXIT:
+                adminMenuHandler(admin);
+                break;
+            default:
+                foodTabHandler(admin);
+        }
+        foodTabHandler(admin);
+    }
+
+    public void addFoodHandler(){
+        foods.add(inputObjectHandler.scanFoodInfo());
+    }
+
+    public void removeFoodHandler(){
+        foods.remove(inputObjectHandler.scanFoodInfo());
+    }
+
+    public void viewFoodsHandler(){
+        view.printFoods(foods);
+    }
+
+    public void viewFoodCommentsHandler(){
+        view.printFoodComments(inputObjectHandler.selectFood(view,foods),restaurants);
+    }
 
 }

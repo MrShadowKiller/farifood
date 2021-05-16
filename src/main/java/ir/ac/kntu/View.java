@@ -4,6 +4,7 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.setting.FoodSortOption;
@@ -185,5 +186,37 @@ public class View {
         }
     }
 
+    public void printFoodTab(){
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Add Food");
+        System.out.println("[2].Remove Food");
+        System.out.println("[3].View Foods");
+        System.out.println("[4].View Food Comments");
+        System.out.println("[5].Exit");
+    }
 
+    public void printFoods(ArrayList<Food> foods){
+        for (int i=1;i<=foods.size();i++){
+            System.out.println("["+ i +"]. " + foods.get(i-1).getName() +
+                    "  " + foods.get(i-1).getTimeForCooking() + "min");
+        }
+        if (foods.size()==0){
+            System.out.println("EMPTY!");
+        }
+    }
+
+    public void printFoodComments(Food food,ArrayList<Restaurant> restaurants){
+        int count = 1;
+        for (Restaurant restaurant : restaurants){
+            for (Comment comment : restaurant.getComments()){
+                if (comment.getFood().equals(food)){
+                    System.out.println("["+ count +"]. " + comment);
+                    count++;
+                }
+            }
+        }
+        if (count == 1){
+            System.out.println("EMPTY!");
+        }
+    }
 }

@@ -77,7 +77,7 @@ public class Food {
             return false;
         }
         Food food = (Food) o;
-        return name.equals(food.name);
+        return name.equals(food.name) && timeForCooking == food.timeForCooking;
     }
 
     @Override

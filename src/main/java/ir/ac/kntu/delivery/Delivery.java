@@ -83,10 +83,6 @@ public class Delivery extends Person {
         orders.add(order);
     }
 
-    public void changeSalary(){
-        System.out.println("How Much ? ");
-        salary = Double.parseDouble(ScannerWrapper.getInstance().nextLine());
-    }
 
 
     public String getBriefInformation(){

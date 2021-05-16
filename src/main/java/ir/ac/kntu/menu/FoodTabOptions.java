@@ -1,12 +1,12 @@
 package ir.ac.kntu.menu;
 
-public enum DeliveryEditOptions {
-    CHANGE_SALARY(0),CHANGE_VEHICLE(1),CHANGE_SALARY_TYPE(2),EXIT(3),
-    DEFAULT(4);
+public enum FoodTabOptions {
+    ADD_FOOD(0),REMOVE_FOOD(1),VIEW_FOODS(2),VIEW_FOOD_COMMENTS(3),
+    EXIT(4),DEFAULT(5);
 
     private int rate;
 
-    DeliveryEditOptions(int rate) {
+    FoodTabOptions(int rate) {
         this.rate = rate;
     }
 
