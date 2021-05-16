@@ -18,6 +18,12 @@ public class Food {
         foodrates = new ArrayList<>();
     }
 
+    public Food(Food food,double price) {
+        this.name = food.name;
+        this.timeForCooking = food.timeForCooking;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }

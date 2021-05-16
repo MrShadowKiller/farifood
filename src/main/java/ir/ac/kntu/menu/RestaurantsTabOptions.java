@@ -2,7 +2,7 @@ package ir.ac.kntu.menu;
 
 public enum RestaurantsTabOptions {
     ADD_RESTAURANT(0),REMOVE_RESTAURANT(1),VIEW_EDIT_RESTAURANT(2),
-    VIEW_ORDERS(3),VIEW_FOODS(3),VIEW_COMMENTS(4),EXIT(3),DEFAULT(4);
+    VIEW_ORDERS(3),VIEW_FOODS(4),VIEW_COMMENTS(5),EXIT(6),DEFAULT(7);
 
     private int rate;
 

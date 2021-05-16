@@ -1,8 +1,10 @@
 package ir.ac.kntu.restaurant;
 
+import ir.ac.kntu.Address;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.Food;
 import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.order.Order;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,11 +13,11 @@ import java.util.Objects;
 public class Restaurant {
     private String name;
 
-    private String address;
+    private Address address;
 
-    private String workHoursStart;
+    private String workHoursOpen;
 
-    private String workHoursEnd;
+    private String workHoursClose;
 
     private RestaurantSchedule[] schedule;
 
@@ -25,19 +27,24 @@ public class Restaurant {
 
     private ArrayList<Delivery> deliveries;
 
+    private ArrayList<Order> orders;
+
     private ArrayList<Comment> comments;
 
-    public Restaurant(String name, String address, String workHoursStart, String workHoursEnd,
+
+    public Restaurant(String name, Address address, String workHoursOpen, String workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType,
-                      ArrayList<Food> foods, ArrayList<Delivery> deliveries) {
+                      ArrayList<Food> foods) {
         this.name = name;
         this.address = address;
-        this.workHoursStart = workHoursStart;
-        this.workHoursEnd = workHoursEnd;
+        this.workHoursOpen = workHoursOpen;
+        this.workHoursClose = workHoursClose;
         this.schedule = schedule;
         this.restaurantType = restaurantType;
         this.foods = foods;
-        this.deliveries = deliveries;
+        deliveries = new ArrayList<>();
+        orders = new ArrayList<>();
+        comments = new ArrayList<>();
     }
 
     public String getName() {
@@ -48,28 +55,28 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public String getWorkHoursStart() {
-        return workHoursStart;
+    public String getWorkHoursOpen() {
+        return workHoursOpen;
     }
 
-    public void setWorkHoursStart(String workHoursStart) {
-        this.workHoursStart = workHoursStart;
+    public void setWorkHoursOpen(String workHoursOpen) {
+        this.workHoursOpen = workHoursOpen;
     }
 
-    public String getWorkHoursEnd() {
-        return workHoursEnd;
+    public String getWorkHoursClose() {
+        return workHoursClose;
     }
 
-    public void setWorkHoursEnd(String workHoursEnd) {
-        this.workHoursEnd = workHoursEnd;
+    public void setWorkHoursClose(String workHoursClose) {
+        this.workHoursClose = workHoursClose;
     }
 
     public RestaurantSchedule[] getSchedule() {
@@ -86,6 +93,14 @@ public class Restaurant {
 
     public void setRestaurantType(RestaurantType restaurantType) {
         this.restaurantType = restaurantType;
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
     }
 
     public ArrayList<Food> getFoods() {
@@ -124,6 +139,9 @@ public class Restaurant {
         comments.add(comment);
     }
 
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
 
     public double getAverageRate() {
         double averageRate = 0;

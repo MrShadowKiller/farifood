@@ -4,6 +4,9 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.RestaurantSchedule;
+import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
@@ -28,14 +31,11 @@ public class InputObjectHandler {
         System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
-        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("full address: ");
-        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("zip code: ");
+        Address address = scanAddressInfo();
         String zipcode = ScannerWrapper.getInstance().nextLine().trim();
 
         return new Admin(firstname, lastname, phoneNumber,
-                username, password, new Address(neighbor, fullAddress, zipcode));
+                username, password, address);
     }
 
     public String[] scanCustomerLogin() {
@@ -61,16 +61,12 @@ public class InputObjectHandler {
         System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("\tAddress Section\nneighbor: ");
-        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("full address: ");
-        String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("zip code: ");
-        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
+        Address address = scanAddressInfo();
         System.out.println("Want to add Credit Card for faster transactions ?");
         String creditCardChoice = ScannerWrapper.getInstance().nextLine().trim();
 
         Customer resultCustomer = new Customer(firstname, lastname, phoneNumber,
-                username, password, new Address(neighbor, fullAddress, zipcode));
+                username, password, address);
 
         if (creditCardChoice.matches("[Yy](es)*")) {
             System.out.print("Credit Card Number: ");
@@ -84,7 +80,7 @@ public class InputObjectHandler {
         return resultCustomer;
     }
 
-    public void changeCustomerInformation(Customer customer){
+    public void changeCustomerInformation(Customer customer) {
         System.out.println("\tPlease enter the required information");
         System.out.print("first name: ");
         customer.setFirstName(ScannerWrapper.getInstance().nextLine().trim());
@@ -93,12 +89,17 @@ public class InputObjectHandler {
         System.out.print("phone number: ");
         customer.setPhoneNumber(ScannerWrapper.getInstance().nextLine().trim());
         System.out.print("\tAddress Section\nneighbor: ");
+        Address address = scanAddressInfo();
+        customer.setAddress(address);
+    }
+
+    public Address scanAddressInfo() {
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("full address: ");
         String fullAddress = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("zip code: ");
         String zipcode = ScannerWrapper.getInstance().nextLine().trim();
-        customer.setAddress(new Address(neighbor,fullAddress,zipcode));
+        return new Address(neighbor, fullAddress, zipcode);
     }
 
     public UserSetting scanUserSetting(View view) {
@@ -145,7 +146,7 @@ public class InputObjectHandler {
         return weekDays[dayChoice - 1];
     }
 
-    public Delivery scanDeliveryInfo(View view){
+    public Delivery scanDeliveryInfo(View view) {
         System.out.println("\tPlease enter the required information");
         System.out.print("first name: ");
         String firstname = ScannerWrapper.getInstance().nextLine().trim();
@@ -162,19 +163,19 @@ public class InputObjectHandler {
         System.out.println("Which is the Delivery Vehicle ?");
         DeliveryVehicle deliveryVehicle = selectDeliveryVehicle();
 
-        return new Delivery(firstname,lastname,phoneNumber,
-                deliveryVehicle,salaryType,salary,schedule);
+        return new Delivery(firstname, lastname, phoneNumber,
+                deliveryVehicle, salaryType, salary, schedule);
     }
 
-    public SalaryType selectDeliverySalaryType(){
+    public SalaryType selectDeliverySalaryType() {
         SalaryType[] salaryTypes = SalaryType.values();
         System.out.println("[1]. Hourly");
         System.out.println("[2]. Per Order");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return salaryTypes[userChoice-1];
+        return salaryTypes[userChoice - 1];
     }
 
-    public DeliverySchedule[] selectDeliverySchedule(View view){
+    public DeliverySchedule[] selectDeliverySchedule(View view) {
         boolean status = true;
         DeliverySchedule[] schedule = DeliverySchedule.values();
         while (true) {
@@ -189,27 +190,104 @@ public class InputObjectHandler {
         return schedule;
     }
 
-    public DeliveryVehicle selectDeliveryVehicle(){
+    public DeliveryVehicle selectDeliveryVehicle() {
         DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
         System.out.println("[1]. Car");
         System.out.println("[2]. Bike");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return deliveryVehicles[userChoice-1];
+        return deliveryVehicles[userChoice - 1];
     }
 
-    public Food scanFoodInfo(){
+    public Food scanFoodInfo() {
         System.out.print("Food name : ");
         String foodName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Time for cooking: ");
         int foodCookTime = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return new Food(foodName,foodCookTime);
+        return new Food(foodName, foodCookTime);
     }
 
-    public Food selectFood(View view, ArrayList<Food> foods){
+    public Food selectFood(View view, ArrayList<Food> foods) {
         System.out.println("Which Food ?");
         view.printFoods(foods);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return foods.get(userInput-1);
+        return foods.get(userInput - 1);
     }
+
+    public Restaurant scanRestaurantInfo(View view,ArrayList<Food> foods) {
+        System.out.print("Restaurant Name : ");
+        String restaurantName = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("Address Section\nneighbor: ");
+        Address address = scanAddressInfo();
+        System.out.print("Open Time : ");
+        String workHoursOpen = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("Close Time : ");
+        String workHoursClose = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("Which days restaurant is Open ? ");
+        RestaurantSchedule[] restaurantSchedules = selectRestaurantSchedule(view);
+        System.out.println("What is the Restaurant Type ?");
+        view.printRestaurantTypes();
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        RestaurantType restaurantType = RestaurantType.values()[userChoice - 1];
+        System.out.println("Which foods restaurant have ? ");
+        ArrayList<Food> restaurantFoods = setRestaurantFoods(view,foods);
+
+        return new Restaurant(restaurantName,address,workHoursOpen,
+                workHoursClose,restaurantSchedules,restaurantType,restaurantFoods);
+    }
+
+    public RestaurantSchedule[] selectRestaurantSchedule(View view) {
+        RestaurantSchedule[] schedule = RestaurantSchedule.values();
+        while (true) {
+            view.printWeekDays();
+            System.out.println("[" + (schedule.length + 1) + "]. Exit");
+            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            if (userChoice == schedule.length + 1) {
+                break;
+            }
+            schedule[userChoice - 1].setAvailability(true);
+        }
+        return schedule;
+    }
+
+    public ArrayList<Food> setRestaurantFoods(View view,ArrayList<Food> foods){
+        ArrayList<Food> result = new ArrayList<>();
+        if (foods.size() == 0){
+            System.out.println("Food list is empty!");
+            return null;
+        }
+        while (true) {
+            view.printFoods(foods);
+            System.out.println("[" + (foods.size() + 1) + "]. Exit");
+            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            if (userChoice == foods.size() + 1) {
+                break;
+            }
+            if (result.contains(foods.get(userChoice-1))) {
+                System.out.println("Food already exist !");
+            } else {
+                System.out.print("Price : ");
+                double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+                result.add(new Food(foods.get(userChoice - 1), price));
+            }
+        }
+        return result;
+    }
+
+    public Restaurant findRestaurant(ArrayList<Restaurant> restaurants){
+        System.out.println("Restaurant name : ");
+        String name = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("Restaurant neighbor : ");
+        String neighbor = ScannerWrapper.getInstance().nextLine().trim();
+        for (Restaurant restaurant : restaurants){
+            if (restaurant.getAddress().getNeighbor().equals(neighbor)){
+                if (restaurant.getName().equals(name)){
+                    return restaurant;
+                }
+            }
+        }
+        System.out.println("Cant Find Restaurant");
+        return null;
+    }
+
 
 }

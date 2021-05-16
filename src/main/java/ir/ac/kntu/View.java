@@ -7,6 +7,7 @@ import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
@@ -56,11 +57,11 @@ public class View {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add Restaurant");
         System.out.println("[2].Remove Restaurant");
-        System.out.println("[3].View Restaurants");
+        System.out.println("[3].View and Edit Restaurants");
         System.out.println("[4].View Restaurant orders");
         System.out.println("[5].View Restaurant foods");
         System.out.println("[6].View Restaurant comments");
-        System.out.println("[5].Exit");
+        System.out.println("[7].Exit");
     }
 
     public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
@@ -230,5 +231,16 @@ public class View {
         if (comments.size() == 0){
             System.out.println("EMPTY!");
         }
+    }
+
+    public void printRestaurantTypes(){
+        RestaurantType[] restaurantTypes = RestaurantType.values();
+        for (int i = 1; i <= restaurantTypes.length; i++) {
+            System.out.println("[" + i + "]. " + restaurantTypes[i-1].toString());
+        }
+    }
+
+    public void printEditRestaurantOptions(){
+
     }
 }
