@@ -1,5 +1,9 @@
 package ir.ac.kntu;
 
+import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.delivery.DeliverySchedule;
+import ir.ac.kntu.delivery.DeliveryVehicle;
+import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
@@ -118,8 +122,60 @@ public class InputObjectHandler {
             }
         }
         System.out.println("Which day do you want to choose ? ");
-        view.printWeekDays(weekDays);
+        view.printWeekDays();
         int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return weekDays[dayChoice - 1];
+    }
+
+    public Delivery scanDeliveryInfo(View view){
+        System.out.println("\tPlease enter the required information");
+        System.out.print("first name: ");
+        String firstname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("last name: ");
+        String lastname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("phone number: ");
+        String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("Which salary type ? ");
+        SalaryType salaryType = selectDeliverySalaryType();
+        System.out.println("How much Salary ?");
+        double salary = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.println("Which days the delivery is available ?");
+        DeliverySchedule[] schedule = selectDeliverySchedule(view);
+        System.out.println("Which is the Delivery Vehicle ?");
+        DeliveryVehicle deliveryVehicle = selectDeliveryVehicle();
+
+        return new Delivery(firstname,lastname,phoneNumber,
+                deliveryVehicle,salaryType,salary,schedule);
+    }
+
+    public SalaryType selectDeliverySalaryType(){
+        SalaryType[] salaryTypes = SalaryType.values();
+        System.out.println("[1]. Hourly");
+        System.out.println("[2]. Per Order");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return salaryTypes[userChoice-1];
+    }
+
+    public DeliverySchedule[] selectDeliverySchedule(View view){
+        boolean status = true;
+        DeliverySchedule[] schedule = DeliverySchedule.values();
+        while (true) {
+            view.printWeekDays();
+            System.out.println("[" + (schedule.length + 1) + "]. Exit");
+            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            if (userChoice == schedule.length + 1) {
+                break;
+            }
+            schedule[userChoice - 1].setAvailability(true);
+        }
+        return schedule;
+    }
+
+    public DeliveryVehicle selectDeliveryVehicle(){
+        DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
+        System.out.println("[1]. Car");
+        System.out.println("[2]. Bike");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return deliveryVehicles[userChoice-1];
     }
 }

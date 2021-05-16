@@ -1,5 +1,11 @@
 package ir.ac.kntu;
 
+import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.delivery.DeliverySchedule;
+import ir.ac.kntu.delivery.DeliveryVehicle;
+import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.order.Order;
+import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
@@ -65,9 +71,10 @@ public class View {
         }
     }
 
-    public void printWeekDays(WeekDays[] weekDays){
+    public void printWeekDays(){
+        WeekDays[] weekDays = WeekDays.values();
         for (int i = 1; i <= weekDays.length; i++) {
-            System.out.println(i + "." + weekDays[i-1].toString());
+            System.out.println("[" + i + "]. " + weekDays[i-1].toString());
         }
     }
 
@@ -85,11 +92,11 @@ public class View {
         System.out.println("[" + (customers.size()+1) + "]. " + "Exit");
     }
 
-    public void printCustomerOrders(Customer customer){
-        for (int i = 1; i <= customer.getOrders().size(); i++) {
-            System.out.println("[" + i + "]. " + customer.getOrders().get(i-1).toString());
+    public void printOrders(ArrayList<Order> orders){
+        for (int i = 1; i <= orders.size(); i++) {
+            System.out.println("[" + i + "]. " + orders.get(i-1).toString());
         }
-        if (customer.getOrders().size() == 0){
+        if (orders.size() == 0){
             System.out.println("EMPTY!");
         }
     }
@@ -108,6 +115,66 @@ public class View {
         System.out.println("2.Change Password");
         System.out.println("3.Change Wallet Balance");
         System.out.println("4.Exit");
+    }
+
+    public void printDeliveriesTab(){
+        System.out.println("Please use of these options : ");
+        System.out.println("1.Add Delivery");
+        System.out.println("2.Remove Delivery");
+        System.out.println("3.View and Edit Deliveries");
+        System.out.println("4.Exit");
+    }
+
+    public void printSalaryTypes(){
+        SalaryType[] salaryTypes = SalaryType.values();
+        for (int i = 1; i <= salaryTypes.length; i++) {
+            System.out.println("[" + i + "]. " + salaryTypes[i-1].toString());
+        }
+    }
+
+    public void printDeliveries(ArrayList<Delivery> deliveries){
+        for (int i=1;i<=deliveries.size();i++){
+            System.out.println("["+ i +"]. " + deliveries.get(i).getBriefInformation());
+        }
+        System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
+    }
+
+    public void printDeliveryEditMenu(){
+        System.out.println("Please use of these options : ");
+        System.out.println("1.Change Salary");
+        System.out.println("2.Change Vehicle Type");
+        System.out.println("3.Change Restaurants of Delivery");
+        System.out.println("4.Exit");
+    }
+
+    public void printRestaurants(ArrayList<Restaurant> restaurants){
+        for (int i=1;i<=restaurants.size();i++){
+            System.out.println("["+ i +"]. " + restaurants.get(i).getName());
+        }
+    }
+
+    public void printDeliveryRestaurants(Delivery delivery){
+        for (int i=1;i<=delivery.getRestaurants().length;i++){
+            System.out.println("[" + i + "]. " +  delivery.getRestaurants()[i].getName());
+        }
+    }
+
+    public void printDeliverySchedule(Delivery delivery){
+        System.out.println("Weekly Schedule : ");
+        for (DeliverySchedule day : delivery.getSchedule()){
+            if (day.getRestaurant() != null){
+                System.out.println(day.toString() + ": " + day.getRestaurant() + "\n");
+            }else {
+                System.out.println(day.toString() + ": " + "\n");
+            }
+        }
+    }
+
+    public void printDeliveryVehicles(){
+        DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
+        for (int i = 1; i <= deliveryVehicles.length; i++) {
+            System.out.println("[" + i + "]. " + deliveryVehicles[i-1].toString());
+        }
     }
 
 }

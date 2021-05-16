@@ -2,6 +2,7 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.delivery.Delivery;
 
+import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.menu.*;
 import ir.ac.kntu.restaurant.Restaurant;
 
@@ -102,8 +103,9 @@ public class Management {
             case CUSTOMERS:
                 customersTabHandler(admin);
                 break;
-//            case 3:
-//                break;
+            case DELIVERIES:
+                deliveriesTabHandler(admin);
+                break;
 //            case 4:
 //                break;
 //            case 5:
@@ -181,7 +183,7 @@ public class Management {
     public void viewAndEditAdmins(Admin admin) {
         view.printAdmins(admins);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == admins.size() + 1){
+        if (userChoice == admins.size() + 1) {
             adminsTabHandler(admin);
         }
         editAdminHandler(admins.get(userChoice - 1));
@@ -237,7 +239,7 @@ public class Management {
                 removeCustomerHandler();
                 break;
             case VIEW_EDIT_CUSTOMER:
-                viewCustomers(admin);
+                viewAndEditCustomers(admin);
                 break;
             case VIEW_CUSTOMER_ORDERS:
                 viewCustomerOrders(admin);
@@ -267,10 +269,10 @@ public class Management {
         System.out.println("Cant find the Customer!");
     }
 
-    public void viewCustomers(Admin admin) {
+    public void viewAndEditCustomers(Admin admin) {
         view.printCustomers(customers);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == customers.size() + 1){
+        if (userChoice == customers.size() + 1) {
             customersTabHandler(admin);
         }
         editCustomerHandler(customers.get(userChoice - 1), admin);
@@ -309,13 +311,133 @@ public class Management {
 
     public void viewCustomerOrders(Admin admin) {
         System.out.println("Which Customer ?");
-        viewCustomers(admin);
+        viewAndEditCustomers(admin);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        view.printCustomerOrders(customers.get(userChoice - 1));
+        view.printOrders(customers.get(userChoice - 1).getOrders());
     }
 
     public void restaurantsTabHandler(Admin admin) {
         view.printRestaurantsTab();
     }
+
+    public void deliveriesTabHandler(Admin admin) {
+        view.printDeliveriesTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        DeliveriesTabOptions userChoice = DeliveriesTabOptions.DEFAULT;
+
+        DeliveriesTabOptions[] options = DeliveriesTabOptions.values();
+        for (DeliveriesTabOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                userChoice = option;
+            }
+        }
+
+        switch (userChoice) {
+            case ADD_DELIVERY:
+                addDeliveryHandler();
+                break;
+            case REMOVE_DELIVERY:
+                removeDeliveryHandler();
+                break;
+            case VIEW_EDIT_DELIVERIES:
+                break;
+            case VIEW_ORDERS:
+            case EXIT:
+                adminMenuHandler(admin);
+                break;
+            default:
+                deliveriesTabHandler(admin);
+        }
+        deliveriesTabHandler(admin);
+    }
+
+    public void addDeliveryHandler() {
+        deliveries.add(inputObjectHandler.scanDeliveryInfo(view));
+    }
+
+    public void removeDeliveryHandler() {
+        System.out.println("Choose one of the deliveries : ");
+        view.printDeliveries(deliveries);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        deliveries.remove(userInput - 1);
+        System.out.println("Done!");
+    }
+
+    public void viewDeliveryOrders(Admin admin) {
+        view.printDeliveries(deliveries);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == deliveries.size() + 1) {
+            deliveriesTabHandler(admin);
+        }
+        view.printOrders(deliveries.get(userChoice - 1).getOrders());
+    }
+
+    public void viewAndEditDeliveries(Admin admin) {
+        view.printDeliveries(deliveries);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == deliveries.size() + 1) {
+            deliveriesTabHandler(admin);
+        }
+        editDeliveryHandler(deliveries.get(userChoice - 1), admin);
+    }
+
+    public void editDeliveryHandler(Delivery delivery, Admin admin) {
+        view.printCustomerEditMenu();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        DeliveryEditOptions userChoice = DeliveryEditOptions.DEFAULT;
+
+        DeliveryEditOptions[] options = DeliveryEditOptions.values();
+        for (DeliveryEditOptions option : options) {
+            if (option.getRate() == userInput - 1) {
+                userChoice = option;
+            }
+        }
+
+        switch (userChoice) {
+            case CHANGE_SALARY:
+                delivery.changeSalary();
+                break;
+            case CHANGE_VEHICLE:
+                changeDeliveryVehicle(delivery);
+                break;
+            case CHANGE_RESTAURANTS:
+                changeDeliveryRestaurants(delivery);
+                break;
+            case EXIT:
+                deliveriesTabHandler(admin);
+                break;
+            default:
+                editDeliveryHandler(delivery, admin);
+        }
+        editDeliveryHandler(delivery, admin);
+    }
+
+
+    //NEED_CHANGE
+
+    public void changeDeliverySalary(Delivery delivery) {
+        System.out.println("How Much ? ");
+        delivery.setSalary(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
+    }
+
+
+    public void changeDeliveryRestaurants(Delivery delivery) {
+        System.out.println("Which restaurant to add ?");
+        view.printRestaurants(restaurants);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.println("Which index of restaurant ?");
+        view.printDeliveryRestaurants(delivery);
+        int userInput2 = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        delivery.getRestaurants()[userInput2 - 1] = restaurants.get(userInput - 1);
+    }
+
+    public void changeDeliveryVehicle(Delivery delivery) {
+        DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
+        System.out.println("Which vehicle ?");
+        view.printDeliveryVehicles();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        delivery.setVehicleType(deliveryVehicles[userInput - 1]);
+    }
+
 
 }

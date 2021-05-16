@@ -1,5 +1,6 @@
 package ir.ac.kntu.delivery;
 
+import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Person;
@@ -21,15 +22,12 @@ public class Delivery extends Person {
     private ArrayList<Order> orders;
 
     public Delivery(String firstName, String lastName, String phoneNumber, DeliveryVehicle vehicleType,
-                    SalaryType salaryType, double salary,DeliverySchedule[] schedule,
-                    Restaurant[] restaurants, ArrayList<Order> orders) {
+                    SalaryType salaryType, double salary,DeliverySchedule[] schedule) {
         super(firstName, lastName, phoneNumber);
         this.vehicleType = vehicleType;
         this.salaryType = salaryType;
         this.salary = salary;
         this.schedule = schedule;
-        this.restaurants = restaurants;
-        this.orders = orders;
     }
 
     public DeliveryVehicle getVehicleType() {
@@ -84,19 +82,9 @@ public class Delivery extends Person {
         orders.add(order);
     }
 
-    public void printRestaurants(){
-        for (int i=0;i<restaurants.length;i++){
-            System.out.println(i +". "+ restaurants[i].getName());
-        }
-    }
-
-    public void printSchedule(){
-        System.out.println("Weekly Schedule : ");
-        for (DeliverySchedule day : schedule){
-            if (day.getRestaurantIndex() != -1){
-                System.out.println(day.toString() + ": " + restaurants[day.getRestaurantIndex()] + "\n");
-            }
-        }
+    public void changeSalary(){
+        System.out.println("How Much ? ");
+        salary = Double.parseDouble(ScannerWrapper.getInstance().nextLine());
     }
 
 
