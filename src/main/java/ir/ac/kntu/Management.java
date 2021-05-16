@@ -242,6 +242,8 @@ public class Management {
             case VIEW_CUSTOMER_ORDERS:
                 viewCustomerOrders(admin);
                 break;
+            case VIEW_COMMENTS:
+                viewCustomerComments(admin);
             case EXIT:
                 adminMenuHandler(admin);
             default:
@@ -268,12 +270,20 @@ public class Management {
     }
 
     public void viewAndEditCustomers(Admin admin) {
+        editCustomerHandler(selectCustomerHandler(admin), admin);
+    }
+
+    public void viewCustomerComments(Admin admin){
+        view.printComments(selectCustomerHandler(admin).getComments());
+    }
+
+    public Customer selectCustomerHandler(Admin admin){
         view.printCustomers(customers);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == customers.size() + 1) {
             customersTabHandler(admin);
         }
-        editCustomerHandler(customers.get(userChoice - 1), admin);
+        return customers.get(userChoice - 1);
     }
 
     public void editCustomerHandler(Customer customer, Admin admin) {

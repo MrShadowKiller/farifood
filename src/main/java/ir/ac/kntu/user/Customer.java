@@ -33,6 +33,8 @@ public class Customer extends Person {
         this.address = address;
         orders = new ArrayList<>();
         wallet = new Wallet();
+        comments = new ArrayList<>();
+
         if (this instanceof Admin){
             wallet.setBalance(99999999);
         }

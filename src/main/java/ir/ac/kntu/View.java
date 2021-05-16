@@ -48,6 +48,7 @@ public class View {
         System.out.println("[2].Remove Customer");
         System.out.println("[3].View Customers and Edit");
         System.out.println("[4].View Customer orders");
+        System.out.println("[5].View Customer comments");
         System.out.println("[5].Exit");
     }
 
@@ -216,6 +217,15 @@ public class View {
             }
         }
         if (count == 1){
+            System.out.println("EMPTY!");
+        }
+    }
+
+    public void printComments(ArrayList<Comment> comments){
+        for (int i=1;i<=comments.size();i++){
+            System.out.println("[" + i + "]. " +  comments.get(i-1));
+        }
+        if (comments.size() == 0){
             System.out.println("EMPTY!");
         }
     }
