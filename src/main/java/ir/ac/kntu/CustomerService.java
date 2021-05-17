@@ -85,7 +85,7 @@ public class CustomerService {
                 showBestRestaurantsForFood(customer);
                 break;
             case SEARCH_BY_NAME:
-                searchByNameRestaurant(customer);
+                searchByRestaurantName(customer);
                 break;
             case SEARCH_BY_TYPE:
                 break;
@@ -131,7 +131,7 @@ public class CustomerService {
         }
     }
 
-    public void searchByNameRestaurant(Customer customer){
+    public void searchByRestaurantName(Customer customer){
         Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants,customer);
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
@@ -140,7 +140,18 @@ public class CustomerService {
         }
     }
 
+    public void searchByRestaurantType(Customer customer){
+        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(restaurants,customer,viewCustomer);
+        if (selectedRestaurant == null){
+            restaurantsFoodsTabHandler(customer);
+        } else {
+            restaurantMenu(selectedRestaurant,customer);
+        }
+    }
 
+    public void restaurantMenu(Restaurant restaurant,Customer customer){
+
+    }
 
     public void setRestaurantSort(Customer customer){
         switch (customer.getUserSetting().getRestaurantSortOption()){
@@ -197,17 +208,5 @@ public class CustomerService {
             }
         }
     }
-
-
-
-
-
-
-    public void restaurantMenu(Restaurant restaurant,Customer customer){
-
-    }
-
-
-
 
 }

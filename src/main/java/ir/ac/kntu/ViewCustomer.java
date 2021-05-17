@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Customer;
@@ -74,6 +75,13 @@ public class ViewCustomer {
         if (foods.size()==0){
             System.out.println("EMPTY!");
             return;
+        }
+    }
+
+    public void printRestaurantTypes(){
+        RestaurantType[] restaurantType = RestaurantType.values();
+        for (int i = 1; i <= restaurantType.length; i++) {
+            System.out.println("[" + i + "]. " + restaurantType[i-1].toString());
         }
     }
 

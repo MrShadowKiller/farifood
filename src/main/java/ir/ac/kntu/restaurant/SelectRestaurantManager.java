@@ -5,6 +5,7 @@ import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.ViewCustomer;
 import ir.ac.kntu.user.Customer;
 
+import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 
 public class SelectRestaurantManager {
@@ -89,6 +90,33 @@ public class SelectRestaurantManager {
         }
         System.out.println("Didnt Found!");
         return null;
+    }
+
+    public Restaurant selectRestaurantByType(ArrayList<Restaurant> restaurants,Customer customer,ViewCustomer viewCustomer){
+        RestaurantType restaurantType = selectRestaurantType(viewCustomer);
+        ArrayList<Restaurant> sameRestaurantTypes = new ArrayList<>();
+        for (Restaurant restaurant : restaurants){
+            if (restaurant.getRestaurantType() == restaurantType && restaurant.isOpen(customer.getUserSetting())){
+                sameRestaurantTypes.add(restaurant);
+            }
+        }
+        if (sameRestaurantTypes.size() == 0 ){
+            System.out.println("Not Found!");
+            return null;
+        }
+        System.out.println("Select One :");
+        viewCustomer.printRestaurants(sameRestaurantTypes);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return restaurants.get(userChoice-1);
+    }
+
+    public RestaurantType selectRestaurantType(ViewCustomer viewCustomer){
+        System.out.println("Which restaurant Type ?");
+        viewCustomer.printRestaurantTypes();
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        RestaurantType restaurantType = RestaurantType.DEFAULT;
+
+        return (restaurantType.findOption(userChoice-1));
     }
 
 }
