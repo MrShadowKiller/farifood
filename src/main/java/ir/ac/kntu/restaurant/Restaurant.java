@@ -1,6 +1,7 @@
 package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Address;
+import ir.ac.kntu.WeekDays;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.Food;
 import ir.ac.kntu.delivery.Delivery;
@@ -181,9 +182,11 @@ public class Restaurant {
         }
     }
 
-    public boolean isOpen(RestaurantSchedule day) {
-        for (RestaurantSchedule d : schedule) {
-            if (d == day && d.getAvailability()) {
+    public boolean isOpen(WeekDays currentDay) {
+        RestaurantSchedule restaurantSchedule = RestaurantSchedule.DEFAULT;
+        restaurantSchedule = restaurantSchedule.findTheSameDay(currentDay);
+        for (RestaurantSchedule day : schedule) {
+            if (day == restaurantSchedule && day.getAvailability()) {
                 return true;
             }
         }
@@ -228,6 +231,11 @@ public class Restaurant {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return name + "\t" + getAverageRate() + "\t";
     }
 
     @Override

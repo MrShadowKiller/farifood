@@ -25,13 +25,13 @@ public class AdminService {
 
     private ArrayList<Order> orders;
 
-    private View view;
+    private ViewAdmin viewAdmin;
 
     private InputObjectHandler inputObjectHandler;
 
     public AdminService(Admin admin, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
                         ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
-                        View view, InputObjectHandler inputObjectHandler) {
+                        ViewAdmin viewAdmin, InputObjectHandler inputObjectHandler) {
         admins = new ArrayList<>();
         admins.add(admin);
         this.restaurants = restaurants;
@@ -39,12 +39,12 @@ public class AdminService {
         this.deliveries = deliveries;
         this.customers = customers;
         this.orders = orders;
-        this.view = view;
+        this.viewAdmin = viewAdmin;
         this.inputObjectHandler = inputObjectHandler;
     }
 
     public void startMenuHandler(Admin admin) {
-        view.printStartMenu();
+        viewAdmin.printStartMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         StartMenuOptions userChoice = StartMenuOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -75,7 +75,7 @@ public class AdminService {
     }
 
     public void adminMenuHandler(Admin admin) {
-        view.printAdminStartMenu();
+        viewAdmin.printAdminStartMenu();
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminMenuOptions adminOptionChoice = AdminMenuOptions.DEFAULT;
         adminOptionChoice = adminOptionChoice.findOption(adminOptionInput);
@@ -109,9 +109,9 @@ public class AdminService {
     public void ordersTabHandler(Admin admin) {
         OrderStatus[] orderStatuses = OrderStatus.values();
         System.out.println("Which Status ?");
-        view.printOrderStatus();
+        viewAdmin.printOrderStatus();
         int orderStatusChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        view.printOrdersByStatus(orders,orderStatuses[orderStatusChoice-1]);
+        viewAdmin.printOrdersByStatus(orders,orderStatuses[orderStatusChoice-1]);
         System.out.println("[" + (orders.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == orders.size() + 1) {
@@ -124,13 +124,13 @@ public class AdminService {
     public void changeOrderStatus(Order order) {
         OrderStatus[] orderStatuses = OrderStatus.values();
         System.out.println("Change status to :");
-        view.printOrderStatus();
+        viewAdmin.printOrderStatus();
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         order.setOrderStatus(orderStatuses[userChoice - 1]);
     }
 
     public void adminsTabHandler(Admin admin) {
-        view.printAdminsTab();
+        viewAdmin.printAdminsTab();
         int adminTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminsTabOptions adminTabChoice = AdminsTabOptions.DEFAULT;
         adminTabChoice = adminTabChoice.findOption(adminTabInput);
@@ -182,7 +182,7 @@ public class AdminService {
     }
 
     public void viewAndEditAdmins(Admin admin) {
-        view.printAdmins(admins);
+        viewAdmin.printAdmins(admins);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == admins.size() + 1) {
             adminsTabHandler(admin);
@@ -191,7 +191,7 @@ public class AdminService {
     }
 
     public void editAdminHandler(Admin admin) {
-        view.printAdminEditMenu();
+        viewAdmin.printAdminEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminEditOptions userChoice = AdminEditOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -216,7 +216,7 @@ public class AdminService {
     }
 
     public void customersTabHandler(Admin admin) {
-        view.printCustomersTab();
+        viewAdmin.printCustomersTab();
         int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         CustomersTabOptions customerTabChoice = CustomersTabOptions.DEFAULT;
         customerTabChoice = customerTabChoice.findOption(customerTabInput);
@@ -268,11 +268,11 @@ public class AdminService {
     }
 
     public void viewCustomerComments(Admin admin) {
-        view.printComments(selectCustomerHandler(admin).getComments());
+        viewAdmin.printComments(selectCustomerHandler(admin).getComments());
     }
 
     public Customer selectCustomerHandler(Admin admin) {
-        view.printCustomers(customers);
+        viewAdmin.printCustomers(customers);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == customers.size() + 1) {
             customersTabHandler(admin);
@@ -281,7 +281,7 @@ public class AdminService {
     }
 
     public void editCustomerHandler(Customer customer, Admin admin) {
-        view.printCustomerEditMenu();
+        viewAdmin.printCustomerEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         CustomerEditOptions userChoice = CustomerEditOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -328,11 +328,11 @@ public class AdminService {
         System.out.println("Which Customer ?");
         viewAndEditCustomers(admin);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        view.printOrders(customers.get(userChoice - 1).getOrders());
+        viewAdmin.printOrders(customers.get(userChoice - 1).getOrders());
     }
 
     public void restaurantsTabHandler(Admin admin) {
-        view.printRestaurantsTab();
+        viewAdmin.printRestaurantsTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantsTabOptions userChoice = RestaurantsTabOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -368,7 +368,7 @@ public class AdminService {
     }
 
     public void addRestaurantHandler() {
-        restaurants.add(inputObjectHandler.scanRestaurantInfo(view, foods));
+        restaurants.add(inputObjectHandler.scanRestaurantInfo(viewAdmin, foods));
     }
 
     public void removeRestaurantHandler() {
@@ -376,24 +376,24 @@ public class AdminService {
     }
 
     public void viewRestaurantOrders(Admin admin) {
-        view.printOrders(selectRestaurantHandler(admin).getOrders());
+        viewAdmin.printOrders(selectRestaurantHandler(admin).getOrders());
     }
 
     public void viewRestaurantFoods(Admin admin) {
-        view.printFoods(selectRestaurantHandler(admin).getFoods());
+        viewAdmin.printFoods(selectRestaurantHandler(admin).getFoods());
     }
 
     public void viewRestaurantComments(Admin admin) {
-        view.printComments(selectRestaurantHandler(admin).getComments());
+        viewAdmin.printComments(selectRestaurantHandler(admin).getComments());
     }
 
     public void viewRestaurantDeliveries(Admin admin) {
-        view.printDeliveries(selectRestaurantHandler(admin).getDeliveries());
+        viewAdmin.printDeliveries(selectRestaurantHandler(admin).getDeliveries());
     }
 
     public void viewAndEditRestaurantHandler(Admin admin) {
         Restaurant selectedRestaurant = selectRestaurantHandler(admin);
-        view.printEditRestaurantTab();
+        viewAdmin.printEditRestaurantTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantEditOptions userChoice = RestaurantEditOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -442,29 +442,29 @@ public class AdminService {
 
     public void changeRestaurantSchedule(Restaurant restaurant) {
         System.out.println("Which days restaurant is available ? ");
-        restaurant.setSchedule(inputObjectHandler.selectRestaurantSchedule(view));
+        restaurant.setSchedule(inputObjectHandler.selectRestaurantSchedule(viewAdmin));
     }
 
     public void addFoodRestaurant(Restaurant restaurant) {
-        restaurant.addFood(inputObjectHandler.selectFood(view, foods));
+        restaurant.addFood(inputObjectHandler.selectFood(viewAdmin, foods));
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
-        restaurant.getFoods().remove(inputObjectHandler.selectFood(view, restaurant.getFoods()));
+        restaurant.getFoods().remove(inputObjectHandler.selectFood(viewAdmin, restaurant.getFoods()));
     }
 
     public void addDeliveryRestaurant(Restaurant restaurant) {
-        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(view, deliveries, restaurant));
+        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(viewAdmin, deliveries, restaurant));
     }
 
     public void removeDeliveryRestaurant(Restaurant restaurant) {
-        Delivery delivery = inputObjectHandler.findRestaurantDelivery(view, restaurant);
+        Delivery delivery = inputObjectHandler.findRestaurantDelivery(viewAdmin, restaurant);
         delivery.removeRestaurant(restaurant);
         restaurant.getDeliveries().remove(delivery);
     }
 
     public Restaurant selectRestaurantHandler(Admin admin) {
-        view.printRestaurants(restaurants);
+        viewAdmin.printRestaurants(restaurants);
         System.out.println("[" + (restaurants.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == restaurants.size() + 1) {
@@ -475,7 +475,7 @@ public class AdminService {
 
 
     public void deliveriesTabHandler(Admin admin) {
-        view.printDeliveriesTab();
+        viewAdmin.printDeliveriesTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         DeliveriesTabOptions userChoice = DeliveriesTabOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -503,12 +503,12 @@ public class AdminService {
     }
 
     public void addDeliveryHandler() {
-        deliveries.add(inputObjectHandler.scanDeliveryInfo(view));
+        deliveries.add(inputObjectHandler.scanDeliveryInfo(viewAdmin));
     }
 
     public void removeDeliveryHandler() {
         System.out.println("Choose one of the deliveries : ");
-        view.printDeliveries(deliveries);
+        viewAdmin.printDeliveries(deliveries);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         deliveries.remove(userInput - 1);
         System.out.println("Done!");
@@ -516,17 +516,17 @@ public class AdminService {
 
     public void viewDeliveryOrders(Admin admin) {
         System.out.println("Which Delivery ?");
-        view.printDeliveries(deliveries);
+        viewAdmin.printDeliveries(deliveries);
         System.out.println("[" + (deliveries.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
             deliveriesTabHandler(admin);
         }
-        view.printOrders(deliveries.get(userChoice - 1).getOrders());
+        viewAdmin.printOrders(deliveries.get(userChoice - 1).getOrders());
     }
 
     public void viewAndEditDeliveries(Admin admin) {
-        view.printDeliveries(deliveries);
+        viewAdmin.printDeliveries(deliveries);
         System.out.println("[" + (deliveries.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
@@ -536,7 +536,7 @@ public class AdminService {
     }
 
     public void editDeliveryHandler(Delivery delivery, Admin admin) {
-        view.printDeliveryEditMenu();
+        viewAdmin.printDeliveryEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         DeliveryEditOptions userChoice = DeliveryEditOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
@@ -568,7 +568,7 @@ public class AdminService {
     public void changeDeliveryVehicle(Delivery delivery) {
         DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
         System.out.println("Which vehicle ?");
-        view.printDeliveryVehicles();
+        viewAdmin.printDeliveryVehicles();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         delivery.setVehicleType(deliveryVehicles[userInput - 1]);
     }
@@ -576,13 +576,13 @@ public class AdminService {
     public void changeDeliverySalaryType(Delivery delivery) {
         SalaryType[] salaryTypes = SalaryType.values();
         System.out.println("Which Salary ?");
-        view.printSalaryTypes();
+        viewAdmin.printSalaryTypes();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         delivery.setSalaryType(salaryTypes[userInput - 1]);
     }
 
     public void foodTabHandler(Admin admin) {
-        view.printFoodTab();
+        viewAdmin.printFoodTab();
         int foodTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         FoodTabOptions foodTabChoice = FoodTabOptions.DEFAULT;
         foodTabChoice = foodTabChoice.findOption(foodTabInput);
@@ -618,10 +618,10 @@ public class AdminService {
     }
 
     public void viewFoodsHandler() {
-        view.printFoods(foods);
+        viewAdmin.printFoods(foods);
     }
 
     public void viewFoodCommentsHandler() {
-        view.printFoodComments(inputObjectHandler.selectFood(view, foods), restaurants);
+        viewAdmin.printFoodComments(inputObjectHandler.selectFood(viewAdmin, foods), restaurants);
     }
 }

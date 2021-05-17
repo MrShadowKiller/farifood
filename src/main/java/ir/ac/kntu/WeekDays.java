@@ -2,7 +2,7 @@ package ir.ac.kntu;
 
 public enum WeekDays {
     SATURDAY(7),SUNDAY(1),MONDAY(2),TUESDAY(3),WEDNESDAY(4),
-    THURSDAY(5),FRIDAY(6);
+    THURSDAY(5),FRIDAY(6),DEFAULT(7);
 
     private int rate;
 
