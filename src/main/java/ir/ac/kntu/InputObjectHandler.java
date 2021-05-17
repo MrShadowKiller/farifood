@@ -14,7 +14,6 @@ import ir.ac.kntu.user.CreditCard;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.UserSetting;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -110,8 +109,9 @@ public class InputObjectHandler {
         RestaurantSortOption restaurantSortOption = selectRestaurantSort(viewCustomer);
         System.out.println("How do you want to choose your current Day ?");
         WeekDays currentDay = selectWeekDay(viewCustomer);
-
-        return new UserSetting(foodSortOption, restaurantSortOption, currentDay);
+        System.out.println("How do you want to Choose your Hour ?");
+        int hour = selectHour();
+        return new UserSetting(foodSortOption, restaurantSortOption, currentDay,hour);
     }
 
     public FoodSortOption selectFoodSort(ViewCustomer viewCustomer) {
@@ -141,10 +141,24 @@ public class InputObjectHandler {
                 }
             }
         }
-        System.out.println("Which day do you want to choose ? ");
-        viewCustomer.printWeekDays();
-        int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return weekDays[dayChoice - 1];
+            System.out.println("Which day do you want to choose ? ");
+            viewCustomer.printWeekDays();
+            int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            return weekDays[dayChoice - 1];
+    }
+
+
+    public int selectHour(){
+        System.out.println("1.Manual");
+        System.out.println("2.Automatic (By System Time)");
+        int timeTypeChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+
+        if (timeTypeChoice == 2) {
+            return LocalDateTime.now().getHour();
+        } else {
+            System.out.print("Enter hour (0-24) :");
+            return Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        }
     }
 
     public Delivery scanDeliveryInfo(ViewAdmin viewAdmin) {
@@ -224,9 +238,9 @@ public class InputObjectHandler {
         System.out.print("Address Section\nneighbor: ");
         Address address = scanAddressInfo();
         System.out.print("Open Time : ");
-        String workHoursOpen = ScannerWrapper.getInstance().nextLine().trim();
+        int workHoursOpen = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         System.out.print("Close Time : ");
-        String workHoursClose = ScannerWrapper.getInstance().nextLine().trim();
+        int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         System.out.println("Which days restaurant is Open ? ");
         RestaurantSchedule[] restaurantSchedules = selectRestaurantSchedule(viewAdmin);
         System.out.println("What is the Restaurant Type ?");
@@ -342,7 +356,7 @@ public class InputObjectHandler {
     public Restaurant selectDefaultRestaurantCustomer(ArrayList<Restaurant> restaurants,Customer customer,ViewCustomer viewCustomer){
         ArrayList<Restaurant> openRestaurants = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
-            if (restaurant.isOpen(customer.getUserSetting().getCurrentDay())) {
+            if (restaurant.isOpen(customer.getUserSetting())){
                 openRestaurants.add(restaurant);
             }
         }
@@ -360,7 +374,7 @@ public class InputObjectHandler {
         ArrayList<Restaurant> bestThreeRestaurants = new ArrayList<>(3);
         int count = 1;
         for (Restaurant restaurant : restaurants){
-            if (restaurant.isOpen(customer.getUserSetting().getCurrentDay())) {
+            if (restaurant.isOpen(customer.getUserSetting())) {
                 bestThreeRestaurants.add(restaurant);
                 count ++;
             }

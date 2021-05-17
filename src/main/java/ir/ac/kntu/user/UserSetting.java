@@ -11,11 +11,14 @@ public class UserSetting {
 
     private WeekDays currentDay;
 
+    private int currentHour;
+
     public UserSetting(FoodSortOption foodSortOption, RestaurantSortOption restaurantSortOption,
-                       WeekDays currentDay) {
+                       WeekDays currentDay,int currentHour) {
         this.foodSortOption = foodSortOption;
         this.restaurantSortOption = restaurantSortOption;
         this.currentDay = currentDay;
+        this.currentHour = currentHour;
     }
 
     public FoodSortOption getFoodSortOption() {
@@ -40,5 +43,13 @@ public class UserSetting {
 
     public void setCurrentDay(WeekDays weekDays) {
         this.currentDay = weekDays;
+    }
+
+    public int getCurrentHour() {
+        return currentHour;
+    }
+
+    public void setCurrentHour(int currentHour) {
+        this.currentHour = currentHour;
     }
 }

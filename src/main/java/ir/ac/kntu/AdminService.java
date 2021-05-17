@@ -435,9 +435,9 @@ public class AdminService {
 
     public void changeRestaurantWorkHours(Restaurant restaurant) {
         System.out.println("Work Opens at : ");
-        restaurant.setWorkHoursOpen(ScannerWrapper.getInstance().nextLine().trim());
+        restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
         System.out.println("Work Closes at : ");
-        restaurant.setWorkHoursClose(ScannerWrapper.getInstance().nextLine().trim());
+        restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
     }
 
     public void changeRestaurantSchedule(Restaurant restaurant) {

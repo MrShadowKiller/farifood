@@ -1,11 +1,11 @@
 package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Address;
-import ir.ac.kntu.WeekDays;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.user.UserSetting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +16,9 @@ public class Restaurant {
 
     private Address address;
 
-    private String workHoursOpen;
+    private int workHoursOpen;
 
-    private String workHoursClose;
+    private int workHoursClose;
 
     private RestaurantSchedule[] schedule;
 
@@ -33,7 +33,7 @@ public class Restaurant {
     private ArrayList<Comment> comments;
 
 
-    public Restaurant(String name, Address address, String workHoursOpen, String workHoursClose,
+    public Restaurant(String name, Address address, int workHoursOpen, int workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType,
                       ArrayList<Food> foods) {
         this.name = name;
@@ -47,7 +47,7 @@ public class Restaurant {
         orders = new ArrayList<>();
         comments = new ArrayList<>();
     }
-    public Restaurant(String name, Address address, String workHoursOpen, String workHoursClose,
+    public Restaurant(String name, Address address, int workHoursOpen, int workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType) {
         this.name = name;
         this.address = address;
@@ -77,19 +77,19 @@ public class Restaurant {
         this.address = address;
     }
 
-    public String getWorkHoursOpen() {
+    public int getWorkHoursOpen() {
         return workHoursOpen;
     }
 
-    public void setWorkHoursOpen(String workHoursOpen) {
+    public void setWorkHoursOpen(int workHoursOpen) {
         this.workHoursOpen = workHoursOpen;
     }
 
-    public String getWorkHoursClose() {
+    public int getWorkHoursClose() {
         return workHoursClose;
     }
 
-    public void setWorkHoursClose(String workHoursClose) {
+    public void setWorkHoursClose(int workHoursClose) {
         this.workHoursClose = workHoursClose;
     }
 
@@ -182,12 +182,14 @@ public class Restaurant {
         }
     }
 
-    public boolean isOpen(WeekDays currentDay) {
+    public boolean isOpen(UserSetting userSetting) {
         RestaurantSchedule restaurantSchedule = RestaurantSchedule.DEFAULT;
-        restaurantSchedule = restaurantSchedule.findTheSameDay(currentDay);
+        restaurantSchedule = restaurantSchedule.findTheSameDay(userSetting.getCurrentDay());
         for (RestaurantSchedule day : schedule) {
             if (day == restaurantSchedule && day.getAvailability()) {
-                return true;
+                if (userSetting.getCurrentHour() >= workHoursOpen && userSetting.getCurrentHour() <= workHoursClose) {
+                    return true;
+                }
             }
         }
         return false;
