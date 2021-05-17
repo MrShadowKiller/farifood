@@ -354,4 +354,9 @@ public class InputObjectHandler {
             return openRestaurants.get(userChoice-1);
         }
     }
+
+    public Restaurant selectBestThreeRestaurantCustomer(ArrayList<Restaurant> restaurants,Customer customer,ViewCustomer viewCustomer){
+
+    }
+
 }

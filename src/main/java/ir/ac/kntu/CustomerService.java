@@ -7,6 +7,7 @@ import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Customer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CustomerService {
     private ArrayList<Restaurant> restaurants;
@@ -97,12 +98,49 @@ public class CustomerService {
         }
     }
 
-
     public void showBestThreeRestaurants(){
-
+        sortRestaurantHighRating();
     }
 
+    public void sortRestaurantHighRating() {
+        for (int i = 0; i < restaurants.size(); i++) {
+            for (int j = i + 1; j < restaurants.size(); j++) {
+                if (restaurants.get(i).getAverageRate() < restaurants.get(j).getAverageRate()) {
+                    Collections.swap(restaurants, i, j);
+                }
+            }
+        }
+    }
 
+    public void sortRestaurantLowRating() {
+        for (int i = 0; i < restaurants.size(); i++) {
+            for (int j = i + 1; j < restaurants.size(); j++) {
+                if (restaurants.get(i).getAverageRate() > restaurants.get(j).getAverageRate()) {
+                    Collections.swap(restaurants, i, j);
+                }
+            }
+        }
+    }
+
+    public void sortRestaurantHighComments() {
+        for (int i = 0; i < restaurants.size(); i++) {
+            for (int j = i + 1; j < restaurants.size(); j++) {
+                if (restaurants.get(i).getComments().size() < restaurants.get(j).getComments().size()) {
+                    Collections.swap(restaurants, i, j);
+                }
+            }
+        }
+    }
+
+    public void sortRestaurantLowComments() {
+        for (int i = 0; i < restaurants.size(); i++) {
+            for (int j = i + 1; j > restaurants.size(); j++) {
+                if (restaurants.get(i).getComments().size() < restaurants.get(j).getComments().size()) {
+                    Collections.swap(restaurants, i, j);
+                }
+            }
+        }
+    }
 
 
 

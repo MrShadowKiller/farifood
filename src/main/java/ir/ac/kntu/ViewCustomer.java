@@ -45,6 +45,11 @@ public class ViewCustomer {
                 "-"+restaurant.getWorkHoursClose();
     }
 
+    public void printBestThreeRestaurants(ArrayList<Restaurant> restaurants){
+
+    }
+
+
     public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
         for (int i = 1; i <= restaurantOptions.length; i++) {
             System.out.println("[" + i + "]. " + restaurantOptions[i-1].getName());
@@ -63,5 +68,7 @@ public class ViewCustomer {
             System.out.println("[" + i + "]. " + weekDays[i-1].toString());
         }
     }
+
+
 
 }

@@ -2,7 +2,7 @@ package ir.ac.kntu.setting;
 
 public enum RestaurantSortOption {
     HIGH_RATE(0,"High Rate"),LOW_RATE(1,"Low Rate"),
-    HIGH_PRICE(2,"High Price"),LOW_PRICE(3,"Low Price");
+    HIGH_COMMENTS(2,"High Comments"),LOW_COMMENTS(3,"Low Comments");
 
     private int rate;
 

@@ -194,7 +194,7 @@ public class Restaurant {
     }
 
     public void sortFoodHighRating() {
-        for (int i = 0; i <= foods.size(); i++) {
+        for (int i = 0; i < foods.size(); i++) {
             for (int j = i + 1; j <= foods.size(); j++) {
                 if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()) {
                     Collections.swap(foods, i, j);
@@ -204,7 +204,7 @@ public class Restaurant {
     }
 
     public void sortFoodLowRating() {
-        for (int i = 0; i <= foods.size(); i++) {
+        for (int i = 0; i < foods.size(); i++) {
             for (int j = i + 1; j <= foods.size(); j++) {
                 if (foods.get(i).getAverageRate() > foods.get(j).getAverageRate()) {
                     Collections.swap(foods, i, j);
@@ -214,7 +214,7 @@ public class Restaurant {
     }
 
     public void sortFoodHighPrice() {
-        for (int i = 0; i <= foods.size(); i++) {
+        for (int i = 0; i < foods.size(); i++) {
             for (int j = i + 1; j <= foods.size(); j++) {
                 if (foods.get(i).getPrice() < foods.get(j).getPrice()) {
                     Collections.swap(foods, i, j);
@@ -224,7 +224,7 @@ public class Restaurant {
     }
 
     public void sortFoodLowPrice() {
-        for (int i = 0; i <= foods.size(); i++) {
+        for (int i = 0; i < foods.size(); i++) {
             for (int j = i + 1; j <= foods.size(); j++) {
                 if (foods.get(i).getPrice() > foods.get(j).getPrice()) {
                     Collections.swap(foods, i, j);
