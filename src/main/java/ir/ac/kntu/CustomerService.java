@@ -4,6 +4,7 @@ import ir.ac.kntu.customermenu.BuyFoodTabOptions;
 import ir.ac.kntu.customermenu.CustomerMenuOptions;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.SelectRestaurantManager;
 import ir.ac.kntu.user.Customer;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class CustomerService {
 
     private InputObjectHandler inputObjectHandler;
 
+    private SelectRestaurantManager selectRestaurantManager;
+
     public CustomerService(Customer customer, ArrayList<Restaurant> restaurants,
                            ArrayList<Food> foods, ArrayList<Order> orders,
                            ViewCustomer viewCustomer, InputObjectHandler inputObjectHandler) {
@@ -32,6 +35,7 @@ public class CustomerService {
         this.orders = orders;
         this.viewCustomer = viewCustomer;
         this.inputObjectHandler = inputObjectHandler;
+        selectRestaurantManager = new SelectRestaurantManager();
     }
 
 
@@ -75,8 +79,10 @@ public class CustomerService {
                 showDefaultRestaurants(customer);
                 break;
             case SHOW_BEST_THREE:
+                showBestThreeRestaurants(customer);
                 break;
             case SHOW_WITH_BEST_FOOD:
+
                 break;
             case SEARCH_BY_NAME:
                 break;
@@ -91,7 +97,7 @@ public class CustomerService {
 
     public void showDefaultRestaurants(Customer customer){
         setRestaurantSort(customer);
-        Restaurant selectedRestaurant = inputObjectHandler.selectDefaultRestaurantCustomer(restaurants,customer,viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(restaurants,customer,viewCustomer);
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -104,7 +110,7 @@ public class CustomerService {
         if (restaurants.size() < 3){
             System.out.println("Not enough Restaurants!");
         }
-        Restaurant selectedRestaurant = inputObjectHandler.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
@@ -112,6 +118,11 @@ public class CustomerService {
             restaurantMenu(selectedRestaurant,customer);
         }
     }
+    public void showBestRestaurantsForFood(Customer customer){
+
+    }
+
+
 
     public void setRestaurantSort(Customer customer){
         switch (customer.getUserSetting().getRestaurantSortOption()){
