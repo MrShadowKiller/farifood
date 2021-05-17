@@ -30,8 +30,7 @@ public class AdminService {
     private InputObjectHandler inputObjectHandler;
 
     public AdminService(Admin admin, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
-                        ViewAdmin viewAdmin, InputObjectHandler inputObjectHandler) {
+                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders) {
         admins = new ArrayList<>();
         admins.add(admin);
         this.restaurants = restaurants;
@@ -39,39 +38,8 @@ public class AdminService {
         this.deliveries = deliveries;
         this.customers = customers;
         this.orders = orders;
-        this.viewAdmin = viewAdmin;
-        this.inputObjectHandler = inputObjectHandler;
-    }
-
-    public void startMenuHandler(Admin admin) {
-        viewAdmin.printStartMenu();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        StartMenuOptions userChoice = StartMenuOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-
-        switch (userChoice) {
-            case ADMIN_LOGIN:
-                adminLoginVerify(admin);
-                break;
-            case CUSTOMER_LOGIN:
-                System.out.println("NOT YET AVAILABLE!");
-                startMenuHandler(admin);
-                break;
-            case EXIT:
-                return;
-            default:
-                startMenuHandler(admin);
-        }
-    }
-
-    public void adminLoginVerify(Admin admin) {
-        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
-        if (!admin.getUsername().equals(adminLoginDetails[0]) ||
-                !admin.getPassword().equals(adminLoginDetails[1])) {
-            System.out.println("Wrong username or password!");
-            adminLoginVerify(admin);
-        }
-        adminMenuHandler(admin);
+        viewAdmin = new ViewAdmin();
+        inputObjectHandler = new InputObjectHandler();
     }
 
     public void adminMenuHandler(Admin admin) {

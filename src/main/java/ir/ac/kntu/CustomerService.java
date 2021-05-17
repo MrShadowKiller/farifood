@@ -25,22 +25,23 @@ public class CustomerService {
 
     private SelectRestaurantManager selectRestaurantManager;
 
-    public CustomerService(Customer customer, ArrayList<Restaurant> restaurants,
-                           ArrayList<Food> foods, ArrayList<Order> orders,
-                           ViewCustomer viewCustomer, InputObjectHandler inputObjectHandler) {
+    public CustomerService(ArrayList<Restaurant> restaurants,
+                           ArrayList<Food> foods, ArrayList<Order> orders
+                           ) {
         customers = new ArrayList<>();
-        customers.add(customer);
         this.restaurants = restaurants;
         this.foods = foods;
         this.orders = orders;
-        this.viewCustomer = viewCustomer;
-        this.inputObjectHandler = inputObjectHandler;
+        viewCustomer = new ViewCustomer();
+        inputObjectHandler = new InputObjectHandler();
         selectRestaurantManager = new SelectRestaurantManager();
     }
 
 
     public void customerMenuHandler(Customer customer){
-        setUserSetting(customer);
+        if (!customer.getUserSetting().isAlreadyCreated()) {
+            setUserSetting(customer);
+        }
         viewCustomer.printCustomerMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         CustomerMenuOptions userChoice = CustomerMenuOptions.DEFAULT;
@@ -48,6 +49,7 @@ public class CustomerService {
 
         switch (userChoice) {
             case RESTAURANTS_FOODS:
+                restaurantsFoodsTabHandler(customer);
                 break;
             case EDIT_INFORMATION:
                 break;

@@ -17,13 +17,6 @@ import ir.ac.kntu.user.Customer;
 import java.util.ArrayList;
 
 public class ViewAdmin {
-    public void printStartMenu() {
-        System.out.println("Welcome to Farifood Food Service");
-        System.out.println("[1].Admin login");
-        System.out.println("[2].Customer login");
-        System.out.println("[3].Exit");
-    }
-
     public void printAdminStartMenu() {
         System.out.println("\tPlease use of the below options");
         System.out.println("[1].Admins");

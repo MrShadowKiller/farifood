@@ -21,6 +21,9 @@ public class UserSetting {
         this.currentHour = currentHour;
     }
 
+    public UserSetting(){
+    }
+
     public FoodSortOption getFoodSortOption() {
         return foodSortOption;
     }
@@ -51,5 +54,9 @@ public class UserSetting {
 
     public void setCurrentHour(int currentHour) {
         this.currentHour = currentHour;
+    }
+
+    public boolean isAlreadyCreated(){
+        return foodSortOption != null;
     }
 }

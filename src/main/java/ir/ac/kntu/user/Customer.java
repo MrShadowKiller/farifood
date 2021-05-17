@@ -34,7 +34,7 @@ public class Customer extends Person {
         orders = new ArrayList<>();
         wallet = new Wallet();
         comments = new ArrayList<>();
-
+        userSetting = new UserSetting();
         if (this instanceof Admin){
             wallet.setBalance(99999999);
         }
