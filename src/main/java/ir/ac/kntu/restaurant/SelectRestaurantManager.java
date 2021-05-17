@@ -45,7 +45,7 @@ public class SelectRestaurantManager {
     }
 
     public Restaurant selectBestRestaurantForFood(ArrayList<Restaurant> restaurants,ArrayList<Food> foods,
-                                                  ViewCustomer viewCustomer){
+                                                  ViewCustomer viewCustomer,Customer customer){
         System.out.println("For which food ?");
         viewCustomer.printFoodsWithoutPrice(foods);
         System.out.println("[" + (foods.size()+1) + "]. " + "Exit");
@@ -53,17 +53,17 @@ public class SelectRestaurantManager {
         if (foodChoice == foods.size()+1) {
             return null;
         }
-        ArrayList<Restaurant> selectedRestaurant = findRestaurantWithFood(restaurants,foods.get(foodChoice-1));
+        ArrayList<Restaurant> selectedRestaurant = findRestaurantWithFood(restaurants,foods.get(foodChoice-1),customer);
         System.out.println("Choose one :");
         viewCustomer.printRestaurants(selectedRestaurant);
         int restaurantChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return selectedRestaurant.get(restaurantChoice-1);
     }
 
-    public ArrayList<Restaurant> findRestaurantWithFood(ArrayList<Restaurant> restaurants,Food food){
+    public ArrayList<Restaurant> findRestaurantWithFood(ArrayList<Restaurant> restaurants,Food food,Customer customer){
         ArrayList<Restaurant> result = new ArrayList<>();
         for (int i=1;i<=restaurants.size();i++){
-            if (restaurants.get(i-1).getFoods().contains(food)){
+            if (restaurants.get(i-1).getFoods().contains(food) && restaurants.get(i-1).isOpen(customer.getUserSetting())){
                 result.add(restaurants.get(i-1));
             }
             if (result.size() == 5){
@@ -74,7 +74,7 @@ public class SelectRestaurantManager {
         return result;
     }
 
-    public Restaurant findRestaurantByName(ArrayList<Restaurant> restaurants){
+    public Restaurant findRestaurantByName(ArrayList<Restaurant> restaurants,Customer customer){
         System.out.print("Restaurant Name: ");
         String restaurantName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Restaurant Neighbor");
@@ -82,7 +82,9 @@ public class SelectRestaurantManager {
         for (Restaurant restaurant : restaurants ){
             if (restaurant.getName().equals(restaurantName) &&
                     restaurant.getAddress().getNeighbor().equals(neighbor)){
-                return restaurant;
+                if (restaurant.isOpen(customer.getUserSetting())) {
+                    return restaurant;
+                }
             }
         }
         System.out.println("Didnt Found!");

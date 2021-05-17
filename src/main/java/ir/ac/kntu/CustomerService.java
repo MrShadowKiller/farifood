@@ -123,7 +123,7 @@ public class CustomerService {
 
     public void showBestRestaurantsForFood(Customer customer){
         sortRestaurantHighRating();
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants,foods,viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants,foods,viewCustomer,customer);
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -132,13 +132,15 @@ public class CustomerService {
     }
 
     public void searchByNameRestaurant(Customer customer){
-        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants);
+        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants,customer);
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
         } else {
             restaurantMenu(selectedRestaurant,customer);
         }
     }
+
+
 
     public void setRestaurantSort(Customer customer){
         switch (customer.getUserSetting().getRestaurantSortOption()){
