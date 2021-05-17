@@ -65,18 +65,6 @@ public class ViewAdmin {
         System.out.println("[8].Exit");
     }
 
-    public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
-        for (int i = 1; i <= restaurantOptions.length; i++) {
-            System.out.println("[" + i + "]. " + restaurantOptions[i-1].getName());
-        }
-    }
-
-    public void printFoodSortOptions(FoodSortOption[] foodOptions){
-        for (int i = 1; i <= foodOptions.length; i++) {
-            System.out.println("[" + i + "]. " + foodOptions[i-1].getName());
-        }
-    }
-
     public void printWeekDays(){
         WeekDays[] weekDays = WeekDays.values();
         for (int i = 1; i <= weekDays.length; i++) {

@@ -61,7 +61,7 @@ public class CustomerService {
 
     public void setUserSetting(Customer customer) {
         System.out.println("To provide better support we need to customize the app with your preferences.");
-        customer.setUserSetting(inputObjectHandler.scanUserSetting(viewAdmin));
+        customer.setUserSetting(inputObjectHandler.scanUserSetting(viewCustomer));
     }
 
     public void restaurantsFoodsTabHandler(Customer customer){

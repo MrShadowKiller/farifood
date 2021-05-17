@@ -102,32 +102,32 @@ public class InputObjectHandler {
         return new Address(neighbor, fullAddress, zipcode);
     }
 
-    public UserSetting scanUserSetting(ViewAdmin viewAdmin) {
+    public UserSetting scanUserSetting(ViewCustomer viewCustomer) {
         System.out.println("How do you want the foods to be sorted ?");
-        FoodSortOption foodSortOption = selectFoodSort(viewAdmin);
+        FoodSortOption foodSortOption = selectFoodSort(viewCustomer);
         System.out.println("How do you want the restaurants to be sorted ?");
-        RestaurantSortOption restaurantSortOption = selectRestaurantSort(viewAdmin);
+        RestaurantSortOption restaurantSortOption = selectRestaurantSort(viewCustomer);
         System.out.println("How do you want to choose your current Day ?");
-        WeekDays currentDay = selectWeekDay(viewAdmin);
+        WeekDays currentDay = selectWeekDay(viewCustomer);
 
         return new UserSetting(foodSortOption, restaurantSortOption, currentDay);
     }
 
-    public FoodSortOption selectFoodSort(ViewAdmin viewAdmin) {
+    public FoodSortOption selectFoodSort(ViewCustomer viewCustomer) {
         FoodSortOption[] foodOptions = FoodSortOption.values();
-        viewAdmin.printFoodSortOptions(foodOptions);
+        viewCustomer.printFoodSortOptions(foodOptions);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return foodOptions[userChoice - 1];
     }
 
-    public RestaurantSortOption selectRestaurantSort(ViewAdmin viewAdmin) {
+    public RestaurantSortOption selectRestaurantSort(ViewCustomer viewCustomer) {
         RestaurantSortOption[] restaurantOptions = RestaurantSortOption.values();
-        viewAdmin.printRestaurantSortOptions(restaurantOptions);
+        viewCustomer.printRestaurantSortOptions(restaurantOptions);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return restaurantOptions[userChoice - 1];
     }
 
-    public WeekDays selectWeekDay(ViewAdmin viewAdmin) {
+    public WeekDays selectWeekDay(ViewCustomer viewCustomer) {
         WeekDays[] weekDays = WeekDays.values();
         System.out.println("1.Manual");
         System.out.println("2.Automatic (By System Date)");
@@ -141,7 +141,7 @@ public class InputObjectHandler {
             }
         }
         System.out.println("Which day do you want to choose ? ");
-        viewAdmin.printWeekDays();
+        viewCustomer.printWeekDays();
         int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return weekDays[dayChoice - 1];
     }
