@@ -6,6 +6,7 @@ import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
@@ -261,6 +262,13 @@ public class View {
             } else {
                 System.out.println("[" + i + "]. " + restaurantSchedules[i-1].toString() + " : CLOSE");
             }
+        }
+    }
+
+    public void printOrderStatus(){
+        OrderStatus[] orderStatuses = OrderStatus.values();
+        for (int i = 1; i <= orderStatuses.length; i++) {
+            System.out.println("[" + i + "]. " + orderStatuses[i-1].toString());
         }
     }
 }

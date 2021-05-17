@@ -46,6 +46,19 @@ public class Restaurant {
         orders = new ArrayList<>();
         comments = new ArrayList<>();
     }
+    public Restaurant(String name, Address address, String workHoursOpen, String workHoursClose,
+                      RestaurantSchedule[] schedule, RestaurantType restaurantType) {
+        this.name = name;
+        this.address = address;
+        this.workHoursOpen = workHoursOpen;
+        this.workHoursClose = workHoursClose;
+        this.schedule = schedule;
+        this.restaurantType = restaurantType;
+        foods = new ArrayList<>();
+        deliveries = new ArrayList<>();
+        orders = new ArrayList<>();
+        comments = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
