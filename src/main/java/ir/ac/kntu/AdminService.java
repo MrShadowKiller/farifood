@@ -154,8 +154,9 @@ public class AdminService {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == admins.size() + 1) {
             adminsTabHandler(admin);
+        } else {
+            editAdminHandler(admins.get(userChoice - 1));
         }
-        editAdminHandler(admins.get(userChoice - 1));
     }
 
     public void editAdminHandler(Admin admin) {
@@ -244,8 +245,10 @@ public class AdminService {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == customers.size() + 1) {
             customersTabHandler(admin);
+        } else {
+            return customers.get(userChoice - 1);
         }
-        return customers.get(userChoice - 1);
+        return null;
     }
 
     public void editCustomerHandler(Customer customer, Admin admin) {
@@ -437,8 +440,10 @@ public class AdminService {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == restaurants.size() + 1) {
             restaurantsTabHandler(admin);
+        } else {
+            return restaurants.get(userChoice - 1);
         }
-        return restaurants.get(userChoice - 1);
+        return null;
     }
 
 
@@ -489,8 +494,9 @@ public class AdminService {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
             deliveriesTabHandler(admin);
+        } else {
+            viewAdmin.printOrders(deliveries.get(userChoice - 1).getOrders());
         }
-        viewAdmin.printOrders(deliveries.get(userChoice - 1).getOrders());
     }
 
     public void viewAndEditDeliveries(Admin admin) {
@@ -499,8 +505,9 @@ public class AdminService {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
             deliveriesTabHandler(admin);
+        } else {
+            editDeliveryHandler(deliveries.get(userChoice - 1), admin);
         }
-        editDeliveryHandler(deliveries.get(userChoice - 1), admin);
     }
 
     public void editDeliveryHandler(Delivery delivery, Admin admin) {

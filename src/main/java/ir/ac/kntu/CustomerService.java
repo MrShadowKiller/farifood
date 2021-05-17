@@ -115,7 +115,6 @@ public class CustomerService {
             restaurantsFoodsTabHandler(customer);
         }
         Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
         } else {

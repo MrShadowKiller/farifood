@@ -36,7 +36,7 @@ public class SelectRestaurantManager {
                 break;
             }
         }
-        viewCustomer.printRestaurants(bestThreeRestaurants);
+        viewCustomer.printBestThreeRestaurants(bestThreeRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == bestThreeRestaurants.size()+1) {
             return null;
@@ -58,6 +58,9 @@ public class SelectRestaurantManager {
         System.out.println("Choose one :");
         viewCustomer.printRestaurants(selectedRestaurant);
         int restaurantChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (restaurantChoice == selectedRestaurant.size() + 1){
+            return null;
+        }
         return selectedRestaurant.get(restaurantChoice-1);
     }
 

@@ -37,8 +37,16 @@ public class ViewCustomer {
     }
 
     public String getBriefInfoOfRestaurant(Restaurant restaurant){
-        return restaurant.getName() + "\t" + restaurant.getAverageRate() + restaurant.getWorkHoursOpen() +
+        return restaurant.getName() + "\t" + restaurant.getAverageRate() + " " + restaurant.getWorkHoursOpen() +
                 "-"+restaurant.getWorkHoursClose();
+    }
+
+    public void printBestThreeRestaurants(ArrayList<Restaurant> restaurants){
+        for (int i=1;i<=restaurants.size();i++){
+            System.out.println("["+ i +"]. " + getBriefInfoOfRestaurant(restaurants.get(i-1)));
+            printBestThreeFoods(restaurants.get(i-1));
+        }
+        System.out.println("[" + (restaurants.size()+1) + "]. " + "Exit");
     }
 
 

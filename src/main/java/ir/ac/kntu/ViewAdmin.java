@@ -32,7 +32,7 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add admin");
         System.out.println("[2].Remove admin");
-        System.out.println("[3].ViewAdmin Admins and Edit");
+        System.out.println("[3].View Admins and Edit");
         System.out.println("[4].Exit");
     }
 
@@ -40,9 +40,9 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add Customer");
         System.out.println("[2].Remove Customer");
-        System.out.println("[3].ViewAdmin Customers and Edit");
-        System.out.println("[4].ViewAdmin Customer orders");
-        System.out.println("[5].ViewAdmin Customer comments");
+        System.out.println("[3].View Customers and Edit");
+        System.out.println("[4].View Customer orders");
+        System.out.println("[5].View Customer comments");
         System.out.println("[5].Exit");
     }
 
@@ -50,11 +50,11 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add Restaurant");
         System.out.println("[2].Remove Restaurant");
-        System.out.println("[3].ViewAdmin and Edit Restaurants");
-        System.out.println("[4].ViewAdmin Restaurant orders");
-        System.out.println("[5].ViewAdmin Restaurant foods");
-        System.out.println("[6].ViewAdmin Restaurant comments");
-        System.out.println("[7].ViewAdmin Restaurant Deliveries");
+        System.out.println("[3].View and Edit Restaurants");
+        System.out.println("[4].View Restaurant orders");
+        System.out.println("[5].View Restaurant foods");
+        System.out.println("[6].View Restaurant comments");
+        System.out.println("[7].View Restaurant Deliveries");
         System.out.println("[8].Exit");
     }
 
@@ -108,8 +108,8 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add Delivery");
         System.out.println("[2].Remove Delivery");
-        System.out.println("[3].ViewAdmin and Edit Deliveries");
-        System.out.println("[4].ViewAdmin Orders");
+        System.out.println("[3].View and Edit Deliveries");
+        System.out.println("[4].View Orders");
         System.out.println("[5].Exit");
     }
 
@@ -175,8 +175,8 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add Food");
         System.out.println("[2].Remove Food");
-        System.out.println("[3].ViewAdmin Foods");
-        System.out.println("[4].ViewAdmin Food Comments");
+        System.out.println("[3].View Foods");
+        System.out.println("[4].View Food Comments");
         System.out.println("[5].Exit");
     }
 

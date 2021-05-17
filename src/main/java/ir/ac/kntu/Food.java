@@ -68,6 +68,9 @@ public class Food {
     }
 
     public double getAverageRate() {
+        if (foodrates.size()==0){
+            return 5;
+        }
         double average = 0;
         for (UserRate f : foodrates) {
             average += f.getRate();
