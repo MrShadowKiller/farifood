@@ -156,6 +156,7 @@ public class Restaurant {
         if (comment != null){
             comments.add(comment);
         }
+
     }
 
     public void addOrder(Order order) {

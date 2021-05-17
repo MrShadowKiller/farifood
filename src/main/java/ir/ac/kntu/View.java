@@ -281,7 +281,7 @@ public class View {
         }
     }
 
-    public void printCustomerStartMenu(){
+    public void printCustomerMenu(){
         System.out.println("\tPlease use of the below options");
         System.out.println("[1].Buy Food");
         System.out.println("[2].Edit Information");
@@ -289,6 +289,14 @@ public class View {
         System.out.println("[4].Add Balance");
         System.out.println("[5].Setting");
         System.out.println("[6].Exit");
+    }
+
+    public void printCustomerBuyFoodTab(){
+        System.out.println("[1].Show Restaurants (By User Setting)");
+        System.out.println("[2].Show Best 3 Restaurants and their Foods");
+        System.out.println("[3].Show Restaurants with the best Food");
+        System.out.println("[4].Search Restaurant By Name");
+        System.out.println("[5].Search Restaurant By Type");
         System.out.println("[7].Exit");
     }
 }
