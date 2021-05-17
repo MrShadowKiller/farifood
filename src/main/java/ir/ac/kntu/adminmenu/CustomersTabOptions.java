@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum CustomersTabOptions {
     ADD_CUSTOMER(0),REMOVE_CUSTOMER(1),VIEW_EDIT_CUSTOMER(2),

@@ -14,8 +14,6 @@ import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
-
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 
 public class View {
@@ -270,5 +268,26 @@ public class View {
         for (int i = 1; i <= orderStatuses.length; i++) {
             System.out.println("[" + i + "]. " + orderStatuses[i-1].toString());
         }
+    }
+
+    public void printOrdersByStatus(ArrayList<Order> orders,OrderStatus orderStatus){
+        int count = 1;
+        for (Order order : orders){
+            if (order.getOrderStatus() == orderStatus){
+                System.out.println("[" + count + "]. " + order.toString());
+                count++;
+            }
+        }
+    }
+
+    public void printCustomerStartMenu(){
+        System.out.println("\tPlease use of the below options");
+        System.out.println("[1].Buy Food");
+        System.out.println("[2].Edit Information");
+        System.out.println("[3].Show Information");
+        System.out.println("[4].Add Balance");
+        System.out.println("[5].Setting");
+        System.out.println("[6].Exit");
+        System.out.println("[7].Exit");
     }
 }

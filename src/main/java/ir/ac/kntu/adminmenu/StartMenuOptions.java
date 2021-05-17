@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 public enum StartMenuOptions {
     ADMIN_LOGIN(0),CUSTOMER_LOGIN(1),EXIT(2),DEFAULT(3);
 

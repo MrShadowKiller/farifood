@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum DeliveryEditOptions {
     CHANGE_SALARY(0),CHANGE_VEHICLE(1),CHANGE_SALARY_TYPE(2),EXIT(3),

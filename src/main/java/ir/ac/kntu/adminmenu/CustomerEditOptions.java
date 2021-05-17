@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum CustomerEditOptions {
     CHANGE_PERSONAL_INFO(0),CHANGE_PASSWORD(1),CHANGE_BALANCE(2),

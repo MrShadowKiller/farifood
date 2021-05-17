@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum AdminMenuOptions {
     ADMINS(0),CUSTOMERS(1),RESTAURANTS(2),FOOD(3),ORDERS(4),

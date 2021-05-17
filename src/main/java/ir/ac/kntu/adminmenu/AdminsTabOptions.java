@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum AdminsTabOptions {
     ADD_ADMIN(0),REMOVE_ADMIN(1),VIEW_EDIT_ADMIN(2),EXIT(3),

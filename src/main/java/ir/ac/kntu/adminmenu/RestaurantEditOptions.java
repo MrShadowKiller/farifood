@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum RestaurantEditOptions {
     CHANGE_NAME(0),CHANGE_WORK_HOURS(1),

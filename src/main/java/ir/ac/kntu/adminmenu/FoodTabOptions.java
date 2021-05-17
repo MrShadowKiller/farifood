@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum FoodTabOptions {
     ADD_FOOD(0),REMOVE_FOOD(1),VIEW_FOODS(2),VIEW_FOOD_COMMENTS(3),

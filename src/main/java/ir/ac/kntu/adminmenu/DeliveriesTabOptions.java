@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum DeliveriesTabOptions {
     ADD_DELIVERY(0),REMOVE_DELIVERY(1),VIEW_EDIT_DELIVERIES(2),

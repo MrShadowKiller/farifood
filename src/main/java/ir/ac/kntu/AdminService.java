@@ -3,7 +3,7 @@ package ir.ac.kntu;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
-import ir.ac.kntu.menu.*;
+import ir.ac.kntu.adminmenu.*;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
@@ -29,17 +29,18 @@ public class AdminService {
 
     private InputObjectHandler inputObjectHandler;
 
-    public AdminService(Admin admin) {
+    public AdminService(Admin admin, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
+                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
+                        View view, InputObjectHandler inputObjectHandler) {
         admins = new ArrayList<>();
         admins.add(admin);
-        restaurants = new ArrayList<>();
-        foods = new ArrayList<>();
-        deliveries = new ArrayList<>();
-        customers = new ArrayList<>();
-        orders = new ArrayList<>();
-        customers.add(admin);
-        view = new View();
-        inputObjectHandler = new InputObjectHandler();
+        this.restaurants = restaurants;
+        this.foods = foods;
+        this.deliveries = deliveries;
+        this.customers = customers;
+        this.orders = orders;
+        this.view = view;
+        this.inputObjectHandler = inputObjectHandler;
     }
 
     public void startMenuHandler(Admin admin) {
@@ -70,13 +71,7 @@ public class AdminService {
             System.out.println("Wrong username or password!");
             adminLoginVerify(admin);
         }
-//        setUserSetting(admin);
         adminMenuHandler(admin);
-    }
-
-    public void setUserSetting(Customer customer) {
-        System.out.println("To provide better support we need to customize the app with your preferences.");
-        customer.setUserSetting(inputObjectHandler.scanUserSetting(view));
     }
 
     public void adminMenuHandler(Admin admin) {
@@ -112,9 +107,12 @@ public class AdminService {
     }
 
     public void ordersTabHandler(Admin admin) {
-        view.printOrders(orders);
+        OrderStatus[] orderStatuses = OrderStatus.values();
+        System.out.println("Which Status ?");
+        view.printOrderStatus();
+        int orderStatusChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        view.printOrdersByStatus(orders,orderStatuses[orderStatusChoice-1]);
         System.out.println("[" + (orders.size() + 1) + "]. " + "Exit");
-        System.out.println("Which order do you want to change ?");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == orders.size() + 1) {
             adminsTabHandler(admin);
@@ -125,7 +123,7 @@ public class AdminService {
 
     public void changeOrderStatus(Order order) {
         OrderStatus[] orderStatuses = OrderStatus.values();
-        System.out.println("Which Status ?");
+        System.out.println("Change status to :");
         view.printOrderStatus();
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         order.setOrderStatus(orderStatuses[userChoice - 1]);

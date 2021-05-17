@@ -1,4 +1,4 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.adminmenu;
 
 public enum RestaurantsTabOptions {
     ADD_RESTAURANT(0),REMOVE_RESTAURANT(1),VIEW_EDIT_RESTAURANT(2),
