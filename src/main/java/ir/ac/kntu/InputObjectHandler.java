@@ -14,6 +14,7 @@ import ir.ac.kntu.user.CreditCard;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.UserSetting;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -345,9 +346,8 @@ public class InputObjectHandler {
                 openRestaurants.add(restaurant);
             }
         }
-        viewCustomer.printDefaultRestaurants(restaurants,customer);
+        viewCustomer.printRestaurants(openRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-
         if (userChoice == openRestaurants.size()+1) {
             return null;
         } else {
@@ -355,8 +355,26 @@ public class InputObjectHandler {
         }
     }
 
-    public Restaurant selectBestThreeRestaurantCustomer(ArrayList<Restaurant> restaurants,Customer customer,ViewCustomer viewCustomer){
 
+    public Restaurant selectBestThreeRestaurant(ArrayList<Restaurant> restaurants,Customer customer,ViewCustomer viewCustomer){
+        ArrayList<Restaurant> bestThreeRestaurants = new ArrayList<>(3);
+        int count = 1;
+        for (Restaurant restaurant : restaurants){
+            if (restaurant.isOpen(customer.getUserSetting().getCurrentDay())) {
+                bestThreeRestaurants.add(restaurant);
+                count ++;
+            }
+            if (count == 4){
+                break;
+            }
+        }
+        viewCustomer.printRestaurants(bestThreeRestaurants);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == bestThreeRestaurants.size()+1) {
+            return null;
+        } else {
+            return bestThreeRestaurants.get(userChoice-1);
+        }
     }
 
 }

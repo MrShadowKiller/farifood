@@ -90,6 +90,7 @@ public class CustomerService {
     }
 
     public void showDefaultRestaurants(Customer customer){
+        setRestaurantSort(customer);
         Restaurant selectedRestaurant = inputObjectHandler.selectDefaultRestaurantCustomer(restaurants,customer,viewCustomer);
         if (selectedRestaurant == null){
             restaurantsFoodsTabHandler(customer);
@@ -98,8 +99,34 @@ public class CustomerService {
         }
     }
 
-    public void showBestThreeRestaurants(){
+    public void showBestThreeRestaurants(Customer customer){
         sortRestaurantHighRating();
+        if (restaurants.size() < 3){
+            System.out.println("Not enough Restaurants!");
+        }
+        Restaurant selectedRestaurant = inputObjectHandler.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (selectedRestaurant == null){
+            restaurantsFoodsTabHandler(customer);
+        } else {
+            restaurantMenu(selectedRestaurant,customer);
+        }
+    }
+
+    public void setRestaurantSort(Customer customer){
+        switch (customer.getUserSetting().getRestaurantSortOption()){
+            case LOW_RATE:
+                sortRestaurantLowRating();
+                break;
+            case HIGH_RATE:
+                sortRestaurantHighRating();
+            case HIGH_COMMENTS:
+                sortRestaurantHighComments();
+                break;
+            case LOW_COMMENTS:
+                sortRestaurantLowComments();
+                break;
+        }
     }
 
     public void sortRestaurantHighRating() {

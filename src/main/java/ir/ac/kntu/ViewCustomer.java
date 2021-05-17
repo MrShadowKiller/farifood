@@ -28,28 +28,25 @@ public class ViewCustomer {
         System.out.println("[6].Exit");
     }
 
-    public void printDefaultRestaurants(ArrayList<Restaurant> restaurants, Customer customer){
-        int count = 1;
-        for (Restaurant restaurant : restaurants){
-            if (restaurant.isOpen(customer.getUserSetting().getCurrentDay())){
-                System.out.println("["+ count +"]. " + getBriefInfoOfRestaurant(restaurant));
-                count++;
-            }
+    public void printRestaurants(ArrayList<Restaurant> restaurants){
+        for (int i=1;i<=restaurants.size();i++){
+            System.out.println("["+ i +"]. " + getBriefInfoOfRestaurant(restaurants.get(i-1)));
         }
-        System.out.println("[" + count + "]. " + "Exit");
+        System.out.println("[" + (restaurants.size()+1) + "]. " + "Exit");
     }
-
 
     public String getBriefInfoOfRestaurant(Restaurant restaurant){
         return restaurant.getName() + "\t" + restaurant.getAverageRate() + restaurant.getWorkHoursOpen() +
                 "-"+restaurant.getWorkHoursClose();
     }
 
-    public void printBestThreeRestaurants(ArrayList<Restaurant> restaurants){
 
+    public void printBestThreeFoods(Restaurant restaurant){
+        restaurant.sortFoodHighRating();
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("(" + i + "). " + restaurant.getFoods().get(i-1));
+        }
     }
-
-
     public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
         for (int i = 1; i <= restaurantOptions.length; i++) {
             System.out.println("[" + i + "]. " + restaurantOptions[i-1].getName());
