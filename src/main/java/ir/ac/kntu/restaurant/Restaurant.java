@@ -128,19 +128,27 @@ public class Restaurant {
     }
 
     public void addFood(Food food) {
-        foods.add(food);
+        if (food != null && !foods.contains(food)){
+            foods.add(food);
+        }
     }
 
     public void addDelivery(Delivery delivery) {
-        deliveries.add(delivery);
+        if (delivery != null && !deliveries.contains(delivery)){
+            deliveries.add(delivery);
+        }
     }
 
     public void addComment(Comment comment) {
-        comments.add(comment);
+        if (comment != null){
+            comments.add(comment);
+        }
     }
 
     public void addOrder(Order order) {
-        orders.add(order);
+        if (order !=null){
+            orders.add(order);
+        }
     }
 
     public double getAverageRate() {

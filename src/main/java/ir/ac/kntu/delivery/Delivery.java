@@ -75,8 +75,49 @@ public class Delivery extends Person {
         return restaurants;
     }
 
+    public boolean isFull(Restaurant restaurant){
+        if ((restaurants[0] != restaurant && restaurants[1] != restaurant) &&
+                (restaurants[0] != null && restaurants[1] != null)){
+            return true;
+        }
+        boolean status = true;
+        for (DeliverySchedule deliverySchedule : schedule){
+            if (deliverySchedule.getAvailability()){
+                status = false;
+            }
+        }
+        return status;
+    }
     public void setRestaurants(Restaurant[] restaurants) {
         this.restaurants = restaurants;
+    }
+
+    public void addRestaurant(Restaurant restaurant){
+        if (restaurants[0] == restaurant || restaurants[1] == restaurant){
+            return;
+        }
+
+        if (restaurants[0] == null){
+            restaurants[0] = restaurant;
+        }
+
+        if (restaurants[1] == null){
+            restaurants[1] = restaurant;
+        }
+
+    }
+
+    public void removeRestaurant(Restaurant restaurant){
+        if (restaurants[0] == restaurant){
+            restaurants[0] = null;
+        } else if (restaurants[1] == restaurant){
+            restaurants[1] = null;
+        }
+        for (DeliverySchedule deliverySchedule : schedule){
+            if (deliverySchedule.getRestaurant() == restaurant){
+                deliverySchedule.setRestaurant(null);
+            }
+        }
     }
 
     public void addOrder(Order order){

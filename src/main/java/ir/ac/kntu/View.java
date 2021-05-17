@@ -7,6 +7,7 @@ import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
@@ -61,7 +62,8 @@ public class View {
         System.out.println("[4].View Restaurant orders");
         System.out.println("[5].View Restaurant foods");
         System.out.println("[6].View Restaurant comments");
-        System.out.println("[7].Exit");
+        System.out.println("[7].View Restaurant Deliveries");
+        System.out.println("[8].Exit");
     }
 
     public void printRestaurantSortOptions(RestaurantSortOption[] restaurantOptions){
@@ -149,7 +151,6 @@ public class View {
             System.out.println("["+ i +"]. " + deliveries.get(i-1).getBriefInformation());
             printDeliverySchedule(deliveries.get(i-1));
         }
-        System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
     }
 
     public void printDeliveryEditMenu(){
@@ -240,7 +241,26 @@ public class View {
         }
     }
 
-    public void printEditRestaurantOptions(){
+    public void printEditRestaurantTab(){
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Change name");
+        System.out.println("[2].Change Work hours");
+        System.out.println("[3].Change Schedule");
+        System.out.println("[4].Add Food");
+        System.out.println("[5].Remove Food");
+        System.out.println("[6].Add Delivery");
+        System.out.println("[7].Remove Delivery");
+        System.out.println("[8].Exit");
+    }
 
+    public void printRestaurantSchedule(Restaurant restaurant){
+        RestaurantSchedule[] restaurantSchedules = restaurant.getSchedule();
+        for (int i = 1; i <= restaurantSchedules.length; i++) {
+            if (restaurantSchedules[i - 1].getAvailability()){
+                System.out.println("[" + i + "]. " + restaurantSchedules[i-1].toString() + " : OPEN");
+            } else {
+                System.out.println("[" + i + "]. " + restaurantSchedules[i-1].toString() + " : CLOSE");
+            }
+        }
     }
 }

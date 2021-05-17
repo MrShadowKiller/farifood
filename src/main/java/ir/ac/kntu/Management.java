@@ -331,7 +331,7 @@ public class Management {
                 removeRestaurantHandler();
                 break;
             case VIEW_EDIT_RESTAURANT:
-                viewAndEditDeliveries(admin);
+                viewAndEditRestaurantHandler(admin);
                 break;
             case VIEW_ORDERS:
                 viewRestaurantOrders(admin);
@@ -341,6 +341,9 @@ public class Management {
                 break;
             case VIEW_COMMENTS:
                 viewRestaurantComments(admin);
+            case VIEW_DELIVERIES:
+                viewRestaurantDeliveries(admin);
+                break;
             case EXIT:
                 adminMenuHandler(admin);
                 break;
@@ -370,13 +373,89 @@ public class Management {
         view.printComments(selectRestaurantHandler(admin).getComments());
     }
 
-    public void viewAndEditRestaurantHandler(Admin admin){
-        Restaurant restaurant = selectRestaurantHandler(admin);
-
+    public void viewRestaurantDeliveries(Admin admin){
+        view.printDeliveries(selectRestaurantHandler(admin).getDeliveries());
     }
+
+    public void viewAndEditRestaurantHandler(Admin admin){
+        Restaurant selectedRestaurant = selectRestaurantHandler(admin);
+        view.printEditRestaurantTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        RestaurantEditOptions userChoice = RestaurantEditOptions.DEFAULT;
+        userChoice = userChoice.findOption(userInput);
+        switch (userChoice) {
+            case CHANGE_NAME:
+                changeRestaurantName(selectedRestaurant);
+                break;
+            case CHANGE_WORK_HOURS:
+                changeRestaurantWorkHours(selectedRestaurant);
+                break;
+            case CHANGE_SCHEDULE:
+                changeRestaurantSchedule(selectedRestaurant);
+                break;
+            case ADD_FOOD:
+                addFoodRestaurant(selectedRestaurant);
+                break;
+            case REMOVE_FOOD:
+                removeFoodRestaurant(selectedRestaurant);
+                break;
+            case ADD_DELIVERY:
+                addDeliveryRestaurant(selectedRestaurant);
+                break;
+            case REMOVE_DELIVERY:
+                removeDeliveryRestaurant(selectedRestaurant);
+                break;
+            case EXIT:
+                restaurantsTabHandler(admin);
+                break;
+            default:
+                viewAndEditRestaurantHandler(admin);
+        }
+        viewAndEditRestaurantHandler(admin);
+    }
+
+    public void changeRestaurantName(Restaurant restaurant){
+        System.out.print("New Name : ");
+        restaurant.setName(ScannerWrapper.getInstance().nextLine().trim());
+    }
+
+    public void changeRestaurantWorkHours(Restaurant restaurant){
+        System.out.println("Work Opens at : ");
+        restaurant.setWorkHoursOpen(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.println("Work Closes at : ");
+        restaurant.setWorkHoursClose(ScannerWrapper.getInstance().nextLine().trim());
+    }
+
+    public void changeRestaurantSchedule(Restaurant restaurant){
+        System.out.println("Which days restaurant is available ? ");
+        restaurant.setSchedule(inputObjectHandler.selectRestaurantSchedule(view));
+    }
+
+    public void addFoodRestaurant(Restaurant restaurant){
+        restaurant.addFood(inputObjectHandler.selectFood(view,foods));
+    }
+
+    public void removeFoodRestaurant(Restaurant restaurant){
+        restaurant.getFoods().remove(inputObjectHandler.selectFood(view,restaurant.getFoods()));
+    }
+
+    public void addDeliveryRestaurant(Restaurant restaurant){
+        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(view,deliveries,restaurant));
+    }
+
+    public void removeDeliveryRestaurant(Restaurant restaurant){
+        Delivery delivery = inputObjectHandler.findRestaurantDelivery(view,restaurant);
+        delivery.removeRestaurant(restaurant);
+        restaurant.getDeliveries().remove(delivery);
+    }
+
+
+
+
 
     public Restaurant selectRestaurantHandler(Admin admin){
         view.printRestaurants(restaurants);
+        System.out.println("[" + (restaurants.size()+1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == restaurants.size() + 1) {
             restaurantsTabHandler(admin);
@@ -410,6 +489,7 @@ public class Management {
             default:
                 deliveriesTabHandler(admin);
         }
+
         deliveriesTabHandler(admin);
     }
 
@@ -428,6 +508,7 @@ public class Management {
     public void viewDeliveryOrders(Admin admin) {
         System.out.println("Which Delivery ?");
         view.printDeliveries(deliveries);
+        System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
             deliveriesTabHandler(admin);
@@ -437,6 +518,7 @@ public class Management {
 
     public void viewAndEditDeliveries(Admin admin) {
         view.printDeliveries(deliveries);
+        System.out.println("[" + (deliveries.size()+1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
             deliveriesTabHandler(admin);

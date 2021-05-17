@@ -14,6 +14,7 @@ import ir.ac.kntu.user.CreditCard;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.UserSetting;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -207,6 +208,10 @@ public class InputObjectHandler {
     }
 
     public Food selectFood(View view, ArrayList<Food> foods) {
+        if (foods.size() ==0){
+            System.out.println("NO FOOD AVAILABLE");
+            return null;
+        }
         System.out.println("Which Food ?");
         view.printFoods(foods);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -274,9 +279,9 @@ public class InputObjectHandler {
     }
 
     public Restaurant findRestaurant(ArrayList<Restaurant> restaurants){
-        System.out.println("Restaurant name : ");
+        System.out.print("Restaurant name : ");
         String name = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("Restaurant neighbor : ");
+        System.out.print("Restaurant neighbor : ");
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
         for (Restaurant restaurant : restaurants){
             if (restaurant.getAddress().getNeighbor().equals(neighbor)){
@@ -289,5 +294,48 @@ public class InputObjectHandler {
         return null;
     }
 
+    public Delivery selectRestaurantDelivery(View view, ArrayList<Delivery> deliveries,Restaurant restaurant){
+        System.out.println("Which Delivery ?");
+        view.printDeliveries(deliveries);
+        int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (deliveries.get(userDeliveryChoice-1).isFull(restaurant)){
+            System.out.println("Delivery is full!");
+            return null;
 
+        }
+
+        while (true) {
+            System.out.println("Which day delivery will work ? ");
+            view.printRestaurantSchedule(restaurant);
+            System.out.println("[" + (restaurant.getSchedule().length + 1) + "]. Exit");
+
+            int userRestScheChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+
+            if (userRestScheChoice == restaurant.getSchedule().length + 1 ){
+                break;
+            }
+
+            if (deliveries.get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].getAvailability()
+             && restaurant.getSchedule()[userRestScheChoice - 1].getAvailability()){
+
+                deliveries.get(userDeliveryChoice - 1).addRestaurant(restaurant);
+                deliveries.get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setRestaurant(restaurant);
+                return deliveries.get(userDeliveryChoice - 1);
+            } else {
+                System.out.println("No empty schedule for delivery or restaurant!");
+            }
+        }
+        return null;
+    }
+
+    public Delivery findRestaurantDelivery(View view,Restaurant restaurant){
+        System.out.println("Which one ?");
+        view.printDeliveries(restaurant.getDeliveries());
+        System.out.println("[" + (restaurant.getDeliveries().size() + 1) + "]. Exit");
+        int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userDeliveryChoice == restaurant.getDeliveries().size() + 1){
+            return null;
+        }
+        return restaurant.getDeliveries().get(userDeliveryChoice-1);
+    }
 }
