@@ -202,7 +202,8 @@ public class View {
     public void printFoods(ArrayList<Food> foods){
         for (int i=1;i<=foods.size();i++){
             System.out.println("["+ i +"]. " + foods.get(i-1).getName() +
-                    "  " + foods.get(i-1).getTimeForCooking() + "min");
+                    "  " + foods.get(i-1).getTimeForCooking() + "min " +
+                    "  " + foods.get(i-1).getPrice() + "$"  );
         }
         if (foods.size()==0){
             System.out.println("EMPTY!");

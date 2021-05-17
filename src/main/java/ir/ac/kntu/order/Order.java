@@ -20,6 +20,8 @@ public class Order {
 
     private RestaurantSchedule day;
 
+    private Comment comment;
+
     private OrderStatus orderStatus = OrderStatus.IN_PROGRESS;
 
     private LocalDateTime dateTime;
@@ -90,6 +92,14 @@ public class Order {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     @Override

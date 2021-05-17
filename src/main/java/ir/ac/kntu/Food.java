@@ -16,6 +16,7 @@ public class Food {
         this.name = name;
         this.timeForCooking = timeForCooking;
         foodrates = new ArrayList<>();
+        price = 0;
     }
 
     public Food(Food food,double price) {

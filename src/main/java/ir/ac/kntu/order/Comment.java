@@ -103,7 +103,7 @@ public class Comment {
 
     public double getAverageRate(){
         return (restaurantRate.getRate() * 3 + foodRate.getRate() * 2 +
-                deliveryRate.getRate())/6;
+                deliveryRate.getRate())/6.0;
     }
 
     @Override
