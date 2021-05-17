@@ -82,9 +82,10 @@ public class CustomerService {
                 showBestThreeRestaurants(customer);
                 break;
             case SHOW_WITH_BEST_FOOD:
-
+                showBestRestaurantsForFood(customer);
                 break;
             case SEARCH_BY_NAME:
+                searchByNameRestaurant(customer);
                 break;
             case SEARCH_BY_TYPE:
                 break;
@@ -109,6 +110,7 @@ public class CustomerService {
         sortRestaurantHighRating();
         if (restaurants.size() < 3){
             System.out.println("Not enough Restaurants!");
+            restaurantsFoodsTabHandler(customer);
         }
         Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -118,11 +120,25 @@ public class CustomerService {
             restaurantMenu(selectedRestaurant,customer);
         }
     }
-    public void showBestRestaurantsForFood(Customer customer){
 
+    public void showBestRestaurantsForFood(Customer customer){
+        sortRestaurantHighRating();
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants,foods,viewCustomer);
+        if (selectedRestaurant == null){
+            restaurantsFoodsTabHandler(customer);
+        } else {
+            restaurantMenu(selectedRestaurant,customer);
+        }
     }
 
-
+    public void searchByNameRestaurant(Customer customer){
+        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants);
+        if (selectedRestaurant == null){
+            restaurantsFoodsTabHandler(customer);
+        } else {
+            restaurantMenu(selectedRestaurant,customer);
+        }
+    }
 
     public void setRestaurantSort(Customer customer){
         switch (customer.getUserSetting().getRestaurantSortOption()){
@@ -172,8 +188,8 @@ public class CustomerService {
 
     public void sortRestaurantLowComments() {
         for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j > restaurants.size(); j++) {
-                if (restaurants.get(i).getComments().size() < restaurants.get(j).getComments().size()) {
+            for (int j = i + 1; j < restaurants.size(); j++) {
+                if (restaurants.get(i).getComments().size() > restaurants.get(j).getComments().size()) {
                     Collections.swap(restaurants, i, j);
                 }
             }
