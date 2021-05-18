@@ -1,8 +1,6 @@
 package ir.ac.kntu;
 
-import ir.ac.kntu.customermenu.BuyFoodTabOptions;
-import ir.ac.kntu.customermenu.CustomerMenuOptions;
-import ir.ac.kntu.customermenu.RestaurantMenuOptions;
+import ir.ac.kntu.customermenu.*;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
@@ -58,12 +56,16 @@ public class CustomerService {
                 restaurantsFoodsTabHandler(customer);
                 break;
             case EDIT_INFORMATION:
+                editCustomerInformation(customer);
                 break;
             case SHOW_INFORMATION:
+                showCustomerInformationHandler(customer);
                 break;
             case ADD_BALANCE:
+                addBalanceHandler(customer);
                 break;
             case SETTING:
+                setUserSetting(customer);
                 break;
             case EXIT:
                 management.startMenu();
@@ -71,6 +73,94 @@ public class CustomerService {
                 customerMenuHandler(customer);
         }
         customerMenuHandler(customer);
+    }
+
+    public void editCustomerInformation(Customer customer){
+        inputObjectHandler.changeCustomerInformation(customer);
+    }
+
+    public void showCustomerInformationHandler(Customer customer){
+        viewCustomer.printShowCustomerTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        ShowCustomerOptions userChoice = ShowCustomerOptions.DEFAULT;
+        userChoice = userChoice.findOption(userInput);
+
+        switch(userChoice){
+            case SHOW_INFO:
+               showCustomerInfo(customer);
+                break;
+            case SHOW_ORDERS:
+                showCustomerOrders(customer);
+                break;
+            case SHOW_COMMENTS:
+                showCustomerComments(customer);
+                break;
+            case EXIT:
+                customerMenuHandler(customer);
+                break;
+            default :
+                showCustomerInformationHandler(customer);
+                break;
+        }
+        showCustomerInformationHandler(customer);
+    }
+
+    public void showCustomerInfo(Customer customer){
+        System.out.println(customer.toString());
+    }
+
+    public void showCustomerOrders(Customer customer){
+        viewCustomer.printOrders(customer.getOrders());
+    }
+
+    public void showCustomerComments(Customer customer){
+        viewCustomer.printComments(customer.getComments());
+    }
+
+    public void addBalanceHandler(Customer customer){
+        viewCustomer.printAddBalanceTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        AddBalanceOptions userChoice = AddBalanceOptions.DEFAULT;
+        userChoice = userChoice.findOption(userInput);
+
+        switch(userChoice){
+            case ADD_CREDIT_CARD:
+                addCreditCardHandler(customer);
+                break;
+            case ADD_WALLET_BALANCE:
+                addWalletBalanceHandler(customer);
+                break;
+            case ADD_CREDIT_CARD_BALANCE:
+                addCreditCardBalanceHandler(customer);
+                break;
+            case EXIT:
+                customerMenuHandler(customer);
+                break;
+            default:
+                addBalanceHandler(customer);
+        }
+        addBalanceHandler(customer);
+    }
+
+    public void addCreditCardHandler(Customer customer){
+        customer.setCreditCard(inputObjectHandler.scanCreditCard());
+    }
+
+    public void addWalletBalanceHandler(Customer customer){
+        System.out.println("How Much ?");
+        double userInput = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        if (userInput > customer.getCreditCard().getBalance()){
+            System.out.println("NOT ENOUGH BALANCE!");
+        } else {
+            customer.getCreditCard().useBalance(userInput);
+            System.out.println("DONE!");
+        }
+    }
+
+    public void addCreditCardBalanceHandler(Customer customer){
+        System.out.println("How Much ?");
+        double userInput = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        customer.getCreditCard().addBalance(userInput);
     }
 
     public void setUserSetting(Customer customer) {

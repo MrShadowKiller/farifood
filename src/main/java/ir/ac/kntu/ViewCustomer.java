@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.order.Comment;
+import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
@@ -132,6 +133,26 @@ public class ViewCustomer {
         }
     }
 
+    public void printOrders(ArrayList<Order> orders){
+        for (int i = 1; i <= orders.size(); i++) {
+            System.out.println("[" + i + "]. " + orders.get(i-1).toString());
+        }
+        if (orders.size() == 0){
+            System.out.println("EMPTY!");
+        }
+    }
 
+    public void printShowCustomerTab(){
+        System.out.println("[1].Show Information");
+        System.out.println("[2].Show Orders");
+        System.out.println("[3].Show Comments");
+        System.out.println("[4].Exit");
+    }
 
+    public void printAddBalanceTab(){
+        System.out.println("[1].Add Credit Card");
+        System.out.println("[2].Add Wallet Balance");
+        System.out.println("[3].Add Credit Card Balance");
+        System.out.println("[4].Exit");
+    }
 }

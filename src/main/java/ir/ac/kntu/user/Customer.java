@@ -142,13 +142,13 @@ public class Customer extends Person {
     @Override
     public String toString() {
         return "Customer Information {" +
-                "\tUsername= '" + username + '\n' +
-                "\tpassword= '" + password + '\n' +
-                "\tName= '" + getFirstName() + '\n' +
-                "\tLastName= '" + getLastName() + '\n' +
-                "\tPhoneNumber= '" + getPhoneNumber() + '\n' +
-                "\tAddress= '" + address + '\n' +
-                '}';
+                "\tUsername : " + username + '\n' +
+                "\tpassword : " + password + '\n' +
+                "\tName : " + getFirstName() + '\n' +
+                "\tLastName : " + getLastName() + '\n' +
+                "\tPhoneNumber :" + getPhoneNumber() + '\n' +
+                "\tAddress :" + address + '\n' +
+                "\tWallet balance : "  + wallet.getBalance() + "$\n}";
     }
 
     @Override
