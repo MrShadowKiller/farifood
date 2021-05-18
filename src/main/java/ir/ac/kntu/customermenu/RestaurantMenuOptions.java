@@ -1,7 +1,7 @@
 package ir.ac.kntu.customermenu;
 
 public enum RestaurantMenuOptions {
-    SHOW_INFORMATION(0),BUY_FOOD(1),SHOW_COMMENTS(2),EXIT(3),DEFAULT(4);
+    SHOW_INFORMATION(0), BUY_FOOD(1), SHOW_COMMENTS(2), EXIT(3), DEFAULT(4);
 
     private int rate;
 
@@ -17,7 +17,7 @@ public enum RestaurantMenuOptions {
         this.rate = rate;
     }
 
-    public RestaurantMenuOptions findOption(int userInput){
+    public RestaurantMenuOptions findOption(int userInput) {
         RestaurantMenuOptions[] options = RestaurantMenuOptions.values();
         for (RestaurantMenuOptions option : options) {
             if (option.getRate() == userInput - 1) {

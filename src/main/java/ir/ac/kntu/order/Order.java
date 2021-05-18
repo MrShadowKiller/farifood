@@ -25,9 +25,8 @@ public class Order {
     private LocalDateTime dateTime;
 
 
-
     public Order(Customer customer, Restaurant restaurant, Food food,
-                 Delivery delivery,  LocalDateTime dateTime) {
+                 Delivery delivery, LocalDateTime dateTime) {
         this.customer = customer;
         this.restaurant = restaurant;
         this.food = food;
@@ -97,7 +96,7 @@ public class Order {
         String formattedDate = dateTime.format(dateformat);
 
         return "Customer Details :\n\t" + customer.briefInformation() +
-                "\nRestaurant : \n\t" + restaurant.getName()  +
+                "\nRestaurant : \n\t" + restaurant.getName() +
                 "\nFood :\n\t" + food.getName() + food.getPrice() +
                 "\nDelivery : \n\t" + delivery.getBriefInformation() +
                 "\n Time : \n\t" + formattedDate;

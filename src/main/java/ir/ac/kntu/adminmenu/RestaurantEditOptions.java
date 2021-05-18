@@ -1,9 +1,9 @@
 package ir.ac.kntu.adminmenu;
 
 public enum RestaurantEditOptions {
-    CHANGE_NAME(0),CHANGE_WORK_HOURS(1),
-    CHANGE_SCHEDULE(2),ADD_FOOD(3),REMOVE_FOOD(4),ADD_DELIVERY(5),
-    REMOVE_DELIVERY(6),EXIT(7),DEFAULT(8);
+    CHANGE_NAME(0), CHANGE_WORK_HOURS(1),
+    CHANGE_SCHEDULE(2), ADD_FOOD(3), REMOVE_FOOD(4), ADD_DELIVERY(5),
+    REMOVE_DELIVERY(6), EXIT(7), DEFAULT(8);
 
     private int rate;
 
@@ -19,7 +19,7 @@ public enum RestaurantEditOptions {
         this.rate = rate;
     }
 
-    public RestaurantEditOptions findOption(int userInput){
+    public RestaurantEditOptions findOption(int userInput) {
         RestaurantEditOptions[] options = RestaurantEditOptions.values();
         for (RestaurantEditOptions option : options) {
             if (option.getRate() == userInput - 1) {

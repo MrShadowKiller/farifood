@@ -14,14 +14,14 @@ public class UserSetting {
     private int currentHour;
 
     public UserSetting(FoodSortOption foodSortOption, RestaurantSortOption restaurantSortOption,
-                       WeekDays currentDay,int currentHour) {
+                       WeekDays currentDay, int currentHour) {
         this.foodSortOption = foodSortOption;
         this.restaurantSortOption = restaurantSortOption;
         this.currentDay = currentDay;
         this.currentHour = currentHour;
     }
 
-    public UserSetting(){
+    public UserSetting() {
     }
 
     public FoodSortOption getFoodSortOption() {
@@ -56,7 +56,7 @@ public class UserSetting {
         this.currentHour = currentHour;
     }
 
-    public boolean isAlreadyCreated(){
+    public boolean isAlreadyCreated() {
         return foodSortOption != null;
     }
 }

@@ -1,8 +1,8 @@
 package ir.ac.kntu.adminmenu;
 
 public enum CustomersTabOptions {
-    ADD_CUSTOMER(0),REMOVE_CUSTOMER(1),VIEW_EDIT_CUSTOMER(2),
-    VIEW_CUSTOMER_ORDERS(3),VIEW_COMMENTS(4),EXIT(5),DEFAULT(6);
+    ADD_CUSTOMER(0), REMOVE_CUSTOMER(1), VIEW_EDIT_CUSTOMER(2),
+    VIEW_CUSTOMER_ORDERS(3), VIEW_COMMENTS(4), EXIT(5), DEFAULT(6);
 
     private int rate;
 
@@ -18,7 +18,7 @@ public enum CustomersTabOptions {
         this.rate = rate;
     }
 
-    public CustomersTabOptions findOption(int userInput){
+    public CustomersTabOptions findOption(int userInput) {
         CustomersTabOptions[] options = CustomersTabOptions.values();
         for (CustomersTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

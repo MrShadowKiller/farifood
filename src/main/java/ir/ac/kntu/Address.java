@@ -40,7 +40,7 @@ public class Address {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return neighbor + "\n\t" + fullAddress + "\n\t" + zipCode;
     }
 

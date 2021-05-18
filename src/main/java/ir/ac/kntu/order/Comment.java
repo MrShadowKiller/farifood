@@ -101,14 +101,14 @@ public class Comment {
         this.message = message;
     }
 
-    public double getAverageRate(){
+    public double getAverageRate() {
         return (restaurantRate.getRate() * 3 + foodRate.getRate() * 2 +
-                deliveryRate.getRate())/6.0;
+                deliveryRate.getRate()) / 6.0;
     }
 
-    public String toString(){
+    public String toString() {
         return "Customer Details :\n\t" + customer.briefInformation() +
-                "\nRestaurant : \n\t" + restaurant.getName()  +
+                "\nRestaurant : \n\t" + restaurant.getName() +
                 "\nFood :\n\t" + food.getName() + food.getPrice() +
                 "\nDelivery : \n\t" + delivery.getBriefInformation() +
                 "\nMessage : \n\t" + message + "\nFood rate : " + foodRate +

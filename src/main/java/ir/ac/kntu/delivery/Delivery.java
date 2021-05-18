@@ -22,7 +22,7 @@ public class Delivery extends Person {
     private ArrayList<Order> orders;
 
     public Delivery(String firstName, String lastName, String phoneNumber, DeliveryVehicle vehicleType,
-                    SalaryType salaryType, double salary,DeliverySchedule[] schedule) {
+                    SalaryType salaryType, double salary, DeliverySchedule[] schedule) {
         super(firstName, lastName, phoneNumber);
         this.vehicleType = vehicleType;
         this.salaryType = salaryType;
@@ -75,58 +75,58 @@ public class Delivery extends Person {
         return restaurants;
     }
 
-    public boolean isFull(Restaurant restaurant){
+    public boolean isFull(Restaurant restaurant) {
         if ((restaurants[0] != restaurant && restaurants[1] != restaurant) &&
-                (restaurants[0] != null && restaurants[1] != null)){
+                (restaurants[0] != null && restaurants[1] != null)) {
             return true;
         }
         boolean status = true;
-        for (DeliverySchedule deliverySchedule : schedule){
-            if (deliverySchedule.getAvailability()){
+        for (DeliverySchedule deliverySchedule : schedule) {
+            if (deliverySchedule.getAvailability()) {
                 status = false;
             }
         }
         return status;
     }
+
     public void setRestaurants(Restaurant[] restaurants) {
         this.restaurants = restaurants;
     }
 
-    public void addRestaurant(Restaurant restaurant){
-        if (restaurants[0] == restaurant || restaurants[1] == restaurant){
+    public void addRestaurant(Restaurant restaurant) {
+        if (restaurants[0] == restaurant || restaurants[1] == restaurant) {
             return;
         }
 
-        if (restaurants[0] == null){
+        if (restaurants[0] == null) {
             restaurants[0] = restaurant;
         }
 
-        if (restaurants[1] == null){
+        if (restaurants[1] == null) {
             restaurants[1] = restaurant;
         }
 
     }
 
-    public void removeRestaurant(Restaurant restaurant){
-        if (restaurants[0] == restaurant){
+    public void removeRestaurant(Restaurant restaurant) {
+        if (restaurants[0] == restaurant) {
             restaurants[0] = null;
-        } else if (restaurants[1] == restaurant){
+        } else if (restaurants[1] == restaurant) {
             restaurants[1] = null;
         }
-        for (DeliverySchedule deliverySchedule : schedule){
-            if (deliverySchedule.getRestaurant() == restaurant){
+        for (DeliverySchedule deliverySchedule : schedule) {
+            if (deliverySchedule.getRestaurant() == restaurant) {
                 deliverySchedule.setRestaurant(null);
             }
         }
     }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         orders.add(order);
     }
 
 
-
-    public String getBriefInformation(){
+    public String getBriefInformation() {
         return "Full Name : " + getFirstName() + " " + getLastName() +
                 "\n\tVehicle : " + vehicleType.toString() + "\n\tSalary : " +
                 salary;

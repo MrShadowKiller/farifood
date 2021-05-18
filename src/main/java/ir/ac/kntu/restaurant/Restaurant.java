@@ -49,6 +49,7 @@ public class Restaurant {
         orders = new ArrayList<>();
         comments = new ArrayList<>();
     }
+
     public Restaurant(String name, Address address, int workHoursOpen, int workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType) {
         this.name = name;
@@ -144,29 +145,27 @@ public class Restaurant {
     }
 
     public void addFood(Food food) {
-        if (foods.contains(food)){
-            foods.remove(food);
-        }
-        if (food != null){
+        foods.remove(food);
+        if (food != null) {
             foods.add(food);
         }
     }
 
     public void addDelivery(Delivery delivery) {
-        if (delivery != null && !deliveries.contains(delivery)){
+        if (delivery != null && !deliveries.contains(delivery)) {
             deliveries.add(delivery);
         }
     }
 
     public void addComment(Comment comment) {
-        if (comment != null){
+        if (comment != null) {
             comments.add(comment);
         }
 
     }
 
     public void addOrder(Order order) {
-        if (order !=null){
+        if (order != null) {
             orders.add(order);
         }
     }
@@ -203,8 +202,8 @@ public class Restaurant {
         return false;
     }
 
-    public Delivery getFreeDelivery(WeekDays day){
-        for (Delivery delivery : deliveries){
+    public Delivery getFreeDelivery(WeekDays day) {
+        for (Delivery delivery : deliveries) {
             for (DeliverySchedule deliverySchedule : delivery.getSchedule()) {
                 if (deliverySchedule.getRestaurant() == this) {
                     return delivery;

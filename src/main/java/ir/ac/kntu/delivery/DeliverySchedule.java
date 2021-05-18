@@ -3,8 +3,8 @@ package ir.ac.kntu.delivery;
 import ir.ac.kntu.restaurant.Restaurant;
 
 public enum DeliverySchedule {
-    SATURDAY(7),SUNDAY(1),MONDAY(2),TUESDAY(3),WEDNESDAY(4),
-    THURSDAY(5),FRIDAY(6),DEFAULT(8);
+    SATURDAY(7), SUNDAY(1), MONDAY(2), TUESDAY(3), WEDNESDAY(4),
+    THURSDAY(5), FRIDAY(6), DEFAULT(8);
 
     private int rate;
 
@@ -30,7 +30,7 @@ public enum DeliverySchedule {
     }
 
     public void setRestaurant(Restaurant restaurantIndex) {
-        this.restaurant= restaurantIndex;
+        this.restaurant = restaurantIndex;
     }
 
     public boolean getAvailability() {

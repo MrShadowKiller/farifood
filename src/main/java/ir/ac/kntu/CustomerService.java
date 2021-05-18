@@ -13,24 +13,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CustomerService {
-    private ArrayList<Restaurant> restaurants;
+    private final ArrayList<Restaurant> restaurants;
 
-    private ArrayList<Food> foods;
+    private final ArrayList<Food> foods;
 
-    private ArrayList<Customer> customers;
+    private final ArrayList<Customer> customers;
 
-    private ArrayList<Order> orders;
+    private final ArrayList<Order> orders;
 
-    private ViewCustomer viewCustomer;
+    private final ViewCustomer viewCustomer;
 
-    private InputObjectHandler inputObjectHandler;
+    private final InputObjectHandler inputObjectHandler;
 
-    private SelectRestaurantManager selectRestaurantManager;
+    private final SelectRestaurantManager selectRestaurantManager;
 
-    private Management management;
+    private final Management management;
 
     public CustomerService(ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                           ArrayList<Order> orders ,Management management) {
+                           ArrayList<Order> orders, Management management) {
         customers = new ArrayList<>();
         this.restaurants = restaurants;
         this.foods = foods;
@@ -42,7 +42,7 @@ public class CustomerService {
     }
 
 
-    public void customerMenuHandler(Customer customer){
+    public void customerMenuHandler(Customer customer) {
         if (!customer.getUserSetting().isAlreadyCreated()) {
             setUserSetting(customer);
         }
@@ -75,19 +75,19 @@ public class CustomerService {
         customerMenuHandler(customer);
     }
 
-    public void editCustomerInformation(Customer customer){
+    public void editCustomerInformation(Customer customer) {
         inputObjectHandler.changeCustomerInformation(customer);
     }
 
-    public void showCustomerInformationHandler(Customer customer){
+    public void showCustomerInformationHandler(Customer customer) {
         viewCustomer.printShowCustomerTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         ShowCustomerOptions userChoice = ShowCustomerOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
 
-        switch(userChoice){
+        switch (userChoice) {
             case SHOW_INFO:
-               showCustomerInfo(customer);
+                showCustomerInfo(customer);
                 break;
             case SHOW_ORDERS:
                 showCustomerOrders(customer);
@@ -98,32 +98,32 @@ public class CustomerService {
             case EXIT:
                 customerMenuHandler(customer);
                 break;
-            default :
+            default:
                 showCustomerInformationHandler(customer);
                 break;
         }
         showCustomerInformationHandler(customer);
     }
 
-    public void showCustomerInfo(Customer customer){
+    public void showCustomerInfo(Customer customer) {
         System.out.println(customer.toString());
     }
 
-    public void showCustomerOrders(Customer customer){
+    public void showCustomerOrders(Customer customer) {
         viewCustomer.printOrders(customer.getOrders());
     }
 
-    public void showCustomerComments(Customer customer){
+    public void showCustomerComments(Customer customer) {
         viewCustomer.printComments(customer.getComments());
     }
 
-    public void addBalanceHandler(Customer customer){
+    public void addBalanceHandler(Customer customer) {
         viewCustomer.printAddBalanceTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AddBalanceOptions userChoice = AddBalanceOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
 
-        switch(userChoice){
+        switch (userChoice) {
             case ADD_CREDIT_CARD:
                 addCreditCardHandler(customer);
                 break;
@@ -142,14 +142,14 @@ public class CustomerService {
         addBalanceHandler(customer);
     }
 
-    public void addCreditCardHandler(Customer customer){
+    public void addCreditCardHandler(Customer customer) {
         customer.setCreditCard(inputObjectHandler.scanCreditCard());
     }
 
-    public void addWalletBalanceHandler(Customer customer){
+    public void addWalletBalanceHandler(Customer customer) {
         System.out.println("How Much ?");
         double userInput = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput > customer.getCreditCard().getBalance()){
+        if (userInput > customer.getCreditCard().getBalance()) {
             System.out.println("NOT ENOUGH BALANCE!");
         } else {
             customer.getCreditCard().useBalance(userInput);
@@ -157,7 +157,7 @@ public class CustomerService {
         }
     }
 
-    public void addCreditCardBalanceHandler(Customer customer){
+    public void addCreditCardBalanceHandler(Customer customer) {
         System.out.println("How Much ?");
         double userInput = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         customer.getCreditCard().addBalance(userInput);
@@ -168,12 +168,12 @@ public class CustomerService {
         customer.setUserSetting(inputObjectHandler.scanUserSetting(viewCustomer));
     }
 
-    public void restaurantsFoodsTabHandler(Customer customer){
+    public void restaurantsFoodsTabHandler(Customer customer) {
         viewCustomer.printRestaurantFoodTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         BuyFoodTabOptions userChoice = BuyFoodTabOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
-        switch (userChoice){
+        switch (userChoice) {
             case SHOW_RESTAURANTS:
                 showDefaultRestaurants(customer);
                 break;
@@ -194,97 +194,98 @@ public class CustomerService {
             case SHOW_FOOD_COMMENTS:
                 showFoodCommentsHandler();
                 break;
-            case EXIT: customerMenuHandler(customer);
+            case EXIT:
+                customerMenuHandler(customer);
                 break;
             default:
                 restaurantsFoodsTabHandler(customer);
         }
     }
 
-    public void showFoodCommentsHandler(){
+    public void showFoodCommentsHandler() {
         System.out.println("Which Food ?");
         viewCustomer.printFoodsWithPrice(foods);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        for (Order order : orders){
-            if (order.getFood().equals(foods.get(userInput-1))){
+        for (Order order : orders) {
+            if (order.getFood().equals(foods.get(userInput - 1))) {
                 System.out.println(order.getComment());
             }
         }
     }
 
-    public void showDefaultRestaurants(Customer customer){
+    public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
-        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(restaurants,customer,viewCustomer);
-        if (selectedRestaurant == null){
+        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(restaurants, customer, viewCustomer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void showBestThreeRestaurants(Customer customer){
+    public void showBestThreeRestaurants(Customer customer) {
         sortRestaurantHighRating();
-        if (restaurants.size() < 3){
+        if (restaurants.size() < 3) {
             System.out.println("Not enough Restaurants!");
             restaurantsFoodsTabHandler(customer);
         }
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants,customer,viewCustomer);
-        if (selectedRestaurant == null){
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants, customer, viewCustomer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void showBestRestaurantsForFood(Customer customer){
+    public void showBestRestaurantsForFood(Customer customer) {
         sortRestaurantHighRating();
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants,foods,viewCustomer,customer);
-        if (selectedRestaurant == null){
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants, foods, viewCustomer, customer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void searchByRestaurantName(Customer customer){
-        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants,customer);
-        if (selectedRestaurant == null){
+    public void searchByRestaurantName(Customer customer) {
+        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants, customer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void searchByRestaurantType(Customer customer){
-        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(restaurants,customer,viewCustomer);
-        if (selectedRestaurant == null){
+    public void searchByRestaurantType(Customer customer) {
+        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(restaurants, customer, viewCustomer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void searchByNeighbor(Customer customer){
-        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(restaurants,customer,viewCustomer);
-        if (selectedRestaurant == null){
+    public void searchByNeighbor(Customer customer) {
+        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(restaurants, customer, viewCustomer);
+        if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
-            restaurantMenu(selectedRestaurant,customer);
+            restaurantMenu(selectedRestaurant, customer);
         }
     }
 
-    public void restaurantMenu(Restaurant restaurant,Customer customer){
-        setFoodRestaurantSort(restaurant,customer);
+    public void restaurantMenu(Restaurant restaurant, Customer customer) {
+        setFoodRestaurantSort(restaurant, customer);
         viewCustomer.printRestaurantMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantMenuOptions userChoice = RestaurantMenuOptions.DEFAULT;
         userChoice = userChoice.findOption(userInput);
-        switch (userChoice){
+        switch (userChoice) {
             case SHOW_INFORMATION:
                 showRestaurantInformationHandler(restaurant);
                 break;
             case BUY_FOOD:
-                buyFoodHandler(restaurant,customer);
+                buyFoodHandler(restaurant, customer);
                 break;
             case SHOW_COMMENTS:
                 showRestaurantComments(restaurant);
@@ -293,69 +294,69 @@ public class CustomerService {
                 restaurantsFoodsTabHandler(customer);
                 break;
             default:
-                restaurantMenu(restaurant,customer);
+                restaurantMenu(restaurant, customer);
         }
-        restaurantMenu(restaurant,customer);
+        restaurantMenu(restaurant, customer);
     }
 
-    public void showRestaurantInformationHandler(Restaurant restaurant){
+    public void showRestaurantInformationHandler(Restaurant restaurant) {
         viewCustomer.printRestaurantInformation(restaurant);
     }
 
-    public void showRestaurantComments(Restaurant restaurant){
+    public void showRestaurantComments(Restaurant restaurant) {
         viewCustomer.printComments(restaurant.getComments());
     }
 
-    public void buyFoodHandler(Restaurant restaurant,Customer customer){
+    public void buyFoodHandler(Restaurant restaurant, Customer customer) {
         viewCustomer.printRestaurantFoodMenu(restaurant);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput == restaurant.getFoods().size() + 1){
-            restaurantMenu(restaurant,customer);
+        if (userInput == restaurant.getFoods().size() + 1) {
+            restaurantMenu(restaurant, customer);
         } else {
-            processTheOrderCost(restaurant.getFoods().get(userInput-1),customer,restaurant);
+            processTheOrderCost(restaurant.getFoods().get(userInput - 1), customer, restaurant);
         }
     }
 
-    public void processTheOrderCost(Food food,Customer customer,Restaurant restaurant){
+    public void processTheOrderCost(Food food, Customer customer, Restaurant restaurant) {
         System.out.println("Buy With : ");
         System.out.println("[1].Wallet");
         System.out.println("[2].Credit Card");
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput == 1){
-            checkCustomerWallet(food,customer,restaurant);
-        } else if (userInput == 2){
-            checkCustomerCreditCard(food,customer,restaurant);
+        if (userInput == 1) {
+            checkCustomerWallet(food, customer, restaurant);
+        } else if (userInput == 2) {
+            checkCustomerCreditCard(food, customer, restaurant);
         }
     }
 
-    public void checkCustomerWallet(Food food,Customer customer,Restaurant restaurant){
-        if (customer.getWallet().getBalance() < food.getPrice()){
+    public void checkCustomerWallet(Food food, Customer customer, Restaurant restaurant) {
+        if (customer.getWallet().getBalance() < food.getPrice()) {
             System.out.println("Not Enough Money!");
-            buyFoodHandler(restaurant,customer);
+            buyFoodHandler(restaurant, customer);
         } else {
             customer.getWallet().useBalance(food.getPrice());
-            makeNewCustomerOrder(food,customer,restaurant);
+            makeNewCustomerOrder(food, customer, restaurant);
         }
     }
 
-    public void checkCustomerCreditCard(Food food,Customer customer,Restaurant restaurant){
-        if (customer.getCreditCard().getBalance() < food.getPrice()){
+    public void checkCustomerCreditCard(Food food, Customer customer, Restaurant restaurant) {
+        if (customer.getCreditCard().getBalance() < food.getPrice()) {
             System.out.println("Not Enough Money!");
-            buyFoodHandler(restaurant,customer);
+            buyFoodHandler(restaurant, customer);
         } else {
             customer.getCreditCard().useBalance(food.getPrice());
-            makeNewCustomerOrder(food,customer,restaurant);
+            makeNewCustomerOrder(food, customer, restaurant);
         }
     }
 
-    public void makeNewCustomerOrder(Food food,Customer customer,Restaurant restaurant){
+    public void makeNewCustomerOrder(Food food, Customer customer, Restaurant restaurant) {
         Delivery delivery = restaurant.getFreeDelivery(customer.getUserSetting().getCurrentDay());
-        if (delivery == null){
+        if (delivery == null) {
             System.out.println("There is no Delivery available");
             customer.getWallet().addBalance(food.getPrice());
         } else {
-            Comment comment = inputObjectHandler.scanCommentFields(viewCustomer,customer,food,restaurant,delivery);
-            Order order = new Order(customer,restaurant,food,delivery, LocalDateTime.now());
+            Comment comment = inputObjectHandler.scanCommentFields(viewCustomer, customer, food, restaurant, delivery);
+            Order order = new Order(customer, restaurant, food, delivery, LocalDateTime.now());
             restaurant.addOrder(order);
             restaurant.addComment(comment);
             customer.addOrder(order);
@@ -367,9 +368,8 @@ public class CustomerService {
     }
 
 
-
-    public void setRestaurantSort(Customer customer){
-        switch (customer.getUserSetting().getRestaurantSortOption()){
+    public void setRestaurantSort(Customer customer) {
+        switch (customer.getUserSetting().getRestaurantSortOption()) {
             case LOW_RATE:
                 sortRestaurantLowRating();
                 break;
@@ -384,6 +384,8 @@ public class CustomerService {
             case RISING:
                 sortRestaurantByRising();
                 break;
+            default:
+                setRestaurantSort(customer);
         }
     }
 
@@ -426,19 +428,20 @@ public class CustomerService {
             }
         }
     }
+
     public void sortRestaurantByRising() {
         for (int i = 0; i < restaurants.size(); i++) {
             for (int j = i + 1; j < restaurants.size(); j++) {
                 if (restaurants.get(i).getOrders().size() > restaurants.get(j).getOrders().size() &&
-                        restaurants.get(j).getAverageRate() >= 3 ) {
+                        restaurants.get(j).getAverageRate() >= 3) {
                     Collections.swap(restaurants, i, j);
                 }
             }
         }
     }
 
-    public void setFoodRestaurantSort(Restaurant restaurant,Customer customer){
-        switch (customer.getUserSetting().getFoodSortOption()){
+    public void setFoodRestaurantSort(Restaurant restaurant, Customer customer) {
+        switch (customer.getUserSetting().getFoodSortOption()) {
             case LOW_PRICE:
                 restaurant.sortFoodLowPrice();
                 break;
@@ -449,6 +452,8 @@ public class CustomerService {
                 break;
             case LOW_RATE:
                 restaurant.sortFoodLowRating();
+            default:
+                setFoodRestaurantSort(restaurant,customer);
         }
     }
 

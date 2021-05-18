@@ -3,8 +3,8 @@ package ir.ac.kntu.restaurant;
 import ir.ac.kntu.WeekDays;
 
 public enum RestaurantSchedule {
-    SATURDAY(7),SUNDAY(1),MONDAY(2),TUESDAY(3),WEDNESDAY(4),
-    THURSDAY(5),FRIDAY(6),DEFAULT(8);
+    SATURDAY(7), SUNDAY(1), MONDAY(2), TUESDAY(3), WEDNESDAY(4),
+    THURSDAY(5), FRIDAY(6), DEFAULT(8);
 
     private int rate;
 
@@ -31,7 +31,7 @@ public enum RestaurantSchedule {
         this.availability = availability;
     }
 
-    public RestaurantSchedule findTheSameDay(WeekDays day){
+    public RestaurantSchedule findTheSameDay(WeekDays day) {
         RestaurantSchedule[] restaurantDays = RestaurantSchedule.values();
         for (RestaurantSchedule restaurantDay : restaurantDays) {
             if (restaurantDay.getRate() == day.getRate()) {

@@ -1,7 +1,7 @@
 package ir.ac.kntu.delivery;
 
 public enum DeliveryVehicle {
-    CAR(0),BIKE(1);
+    CAR(0), BIKE(1);
 
     private int rate;
 

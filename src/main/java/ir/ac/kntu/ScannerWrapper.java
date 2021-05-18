@@ -3,32 +3,32 @@ package ir.ac.kntu;
 import java.util.Scanner;
 
 public class ScannerWrapper {
-    private static ScannerWrapper instance = new ScannerWrapper();
-    private Scanner scanner;
+    private static final ScannerWrapper INSTANCE = new ScannerWrapper();
+    private final Scanner scanner;
 
-    public static ScannerWrapper getInstance(){
-        return instance;
+    public static ScannerWrapper getInstance() {
+        return INSTANCE;
     }
 
-    private ScannerWrapper(){
+    private ScannerWrapper() {
         scanner = new Scanner(System.in);
     }
 
-    public int nextInt(){
+    public int nextInt() {
         int n = scanner.nextInt();
         scanner.skip("\n");
         return n;
     }
 
-    public double nextDouble(){
+    public double nextDouble() {
         return scanner.nextDouble();
     }
 
-    public String nextLine(){
+    public String nextLine() {
         return scanner.nextLine();
     }
 
-    public void close(){
+    public void close() {
         scanner.close();
     }
 }

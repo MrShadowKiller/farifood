@@ -37,13 +37,13 @@ public class Management {
         customers = new ArrayList<>();
         customers.add(admin);
         orders = new ArrayList<>();
-        customerService = new CustomerService(restaurants,foods,orders,this);
-        adminService = new AdminService(admin,admins,restaurants,foods,deliveries,customers,orders,this);
+        customerService = new CustomerService(restaurants, foods, orders, this);
+        adminService = new AdminService(admin, admins, restaurants, foods, deliveries, customers, orders, this);
         inputObjectHandler = new InputObjectHandler();
     }
 
-    public Management(Admin admin,ArrayList<Admin> admins,ArrayList<Restaurant> restaurants,ArrayList<Delivery> deliveries,
-                      ArrayList<Customer> customers,ArrayList<Food> foods) {
+    public Management(Admin admin, ArrayList<Admin> admins, ArrayList<Restaurant> restaurants, ArrayList<Delivery> deliveries,
+                      ArrayList<Customer> customers, ArrayList<Food> foods) {
         this.admins = admins;
         this.restaurants = restaurants;
         this.foods = new ArrayList<>();
@@ -52,8 +52,8 @@ public class Management {
         customers.add(admins.get(0));
         orders = new ArrayList<>();
 
-        customerService = new CustomerService(restaurants,foods,orders,this);
-        adminService = new AdminService(admin,admins,restaurants,foods,deliveries,customers,orders,this);
+        customerService = new CustomerService(restaurants, foods, orders, this);
+        adminService = new AdminService(admin, admins, restaurants, foods, deliveries, customers, orders, this);
         inputObjectHandler = new InputObjectHandler();
     }
 
@@ -129,7 +129,7 @@ public class Management {
         this.inputObjectHandler = inputObjectHandler;
     }
 
-    public void startMenu(){
+    public void startMenu() {
         printStartMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         StartMenuOptions userChoice = StartMenuOptions.DEFAULT;
@@ -152,7 +152,7 @@ public class Management {
     public void adminLoginVerify() {
         String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
         boolean foundAdmin = false;
-        for (Admin admin : admins){
+        for (Admin admin : admins) {
             if (admin.getUsername().equals(adminLoginDetails[0]) &&
                     admin.getPassword().equals(adminLoginDetails[1])) {
                 foundAdmin = true;
@@ -170,7 +170,7 @@ public class Management {
     public void customerLoginVerify() {
         String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
         boolean foundCustomer = false;
-        for (Customer customer : customers){
+        for (Customer customer : customers) {
             if (customer.getUsername().equals(customerLoginDetails[0]) &&
                     customer.getPassword().equals(customerLoginDetails[1])) {
                 foundCustomer = true;

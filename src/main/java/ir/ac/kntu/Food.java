@@ -26,11 +26,11 @@ public class Food {
         price = food.getPrice();
     }
 
-    public Food(Food food,double Price) {
+    public Food(Food food, double price) {
         this.name = food.name;
         this.timeForCooking = food.timeForCooking;
         foodrates = new ArrayList<>();
-        price = food.getPrice();
+        this.price = price;
     }
 
     public String getName() {
@@ -71,12 +71,12 @@ public class Food {
 
     @Override
     public String toString() {
-        return name +"\t" + timeForCooking + "min\t" + price
-                +"$\t" + getAverageRate();
+        return name + "\t" + timeForCooking + "min\t" + price
+                + "$\t" + getAverageRate();
     }
 
     public double getAverageRate() {
-        if (foodrates.size()==0){
+        if (foodrates.size() == 0) {
             return 5;
         }
         double average = 0;

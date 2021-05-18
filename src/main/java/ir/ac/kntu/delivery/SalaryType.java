@@ -1,7 +1,7 @@
 package ir.ac.kntu.delivery;
 
 public enum SalaryType {
-    HOURLY(0),PER_ORDER(1);
+    HOURLY(0), PER_ORDER(1);
 
     private int rate;
 

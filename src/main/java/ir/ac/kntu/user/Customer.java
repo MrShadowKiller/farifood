@@ -35,7 +35,7 @@ public class Customer extends Person {
         wallet = new Wallet();
         comments = new ArrayList<>();
         userSetting = new UserSetting();
-        if (this instanceof Admin){
+        if (this instanceof Admin) {
             wallet.setBalance(99999999);
         }
     }
@@ -61,14 +61,14 @@ public class Customer extends Person {
     }
 
     public boolean setPassword(String password) {
-        if (checkPasswordValidation(password)){
+        if (checkPasswordValidation(password)) {
             this.password = password;
             return true;
         }
         return false;
     }
 
-    public boolean checkPasswordValidation(String password){
+    public boolean checkPasswordValidation(String password) {
         String passwordValidation = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=." +
                 "*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 
@@ -116,23 +116,23 @@ public class Customer extends Person {
         this.userSetting = userSetting;
     }
 
-    public String briefInformation(){
+    public String briefInformation() {
         return "Full Name : " + getFirstName() + " " + getLastName()
                 + "\n\tAddress : " + address;
     }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         orders.add(order);
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
-    public void changePassword(){
+    public void changePassword() {
         System.out.print("New Password : ");
         String newPassword = ScannerWrapper.getInstance().nextLine().trim();
-        if (checkPasswordValidation(newPassword)){
+        if (checkPasswordValidation(newPassword)) {
             this.password = newPassword;
             return;
         }
@@ -148,7 +148,7 @@ public class Customer extends Person {
                 "\tLastName : " + getLastName() + '\n' +
                 "\tPhoneNumber :" + getPhoneNumber() + '\n' +
                 "\tAddress :" + address + '\n' +
-                "\tWallet balance : "  + wallet.getBalance() + "$\n}";
+                "\tWallet balance : " + wallet.getBalance() + "$\n}";
     }
 
     @Override

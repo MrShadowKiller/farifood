@@ -37,11 +37,11 @@ public class CreditCard {
         this.balance = balance;
     }
 
-    public void useBalance(double balance){
+    public void useBalance(double balance) {
         this.balance -= balance;
     }
 
-    public void addBalance(double balance){
+    public void addBalance(double balance) {
         this.balance += balance;
     }
 

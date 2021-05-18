@@ -1,13 +1,13 @@
 package ir.ac.kntu.order;
 
 public enum OrderStatus {
-    IN_PROGRESS(0,"In progress"),DELIVERING(1,"Delivering"),COMPLETED(2,"Completed");
+    IN_PROGRESS(0, "In progress"), DELIVERING(1, "Delivering"), COMPLETED(2, "Completed");
 
     private int rate;
 
     private String name;
 
-    OrderStatus(int rate,String name){
+    OrderStatus(int rate, String name) {
         this.rate = rate;
         this.name = name;
     }

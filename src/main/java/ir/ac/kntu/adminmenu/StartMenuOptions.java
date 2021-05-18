@@ -1,6 +1,7 @@
 package ir.ac.kntu.adminmenu;
+
 public enum StartMenuOptions {
-    ADMIN_LOGIN(0),CUSTOMER_LOGIN(1),EXIT(2),DEFAULT(3);
+    ADMIN_LOGIN(0), CUSTOMER_LOGIN(1), EXIT(2), DEFAULT(3);
 
     private int rate;
 
@@ -16,7 +17,7 @@ public enum StartMenuOptions {
         this.rate = rate;
     }
 
-    public StartMenuOptions findOption(int userInput){
+    public StartMenuOptions findOption(int userInput) {
         StartMenuOptions[] options = StartMenuOptions.values();
         for (StartMenuOptions option : options) {
             if (option.getRate() == userInput - 1) {
