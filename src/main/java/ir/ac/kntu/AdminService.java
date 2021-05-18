@@ -1,7 +1,5 @@
 package ir.ac.kntu;
-
 import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.adminmenu.*;
 import ir.ac.kntu.order.Order;
@@ -9,9 +7,7 @@ import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
-
 import java.util.ArrayList;
-
 public class AdminService {
     private final ArrayList<Admin> admins;
 
@@ -50,7 +46,6 @@ public class AdminService {
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminMenuOptions adminOptionChoice = AdminMenuOptions.DEFAULT;
         adminOptionChoice = adminOptionChoice.findOption(adminOptionInput);
-
         switch (adminOptionChoice) {
             case ADMINS: adminsTabHandler(admin);
                 break;
@@ -98,7 +93,6 @@ public class AdminService {
         int adminTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         AdminsTabOptions adminTabChoice = AdminsTabOptions.DEFAULT;
         adminTabChoice = adminTabChoice.findOption(adminTabInput);
-
         switch (adminTabChoice) {
             case ADD_ADMIN: addAdminHandler();
                 break;
@@ -120,24 +114,7 @@ public class AdminService {
     }
 
     public void removeAdminHandler() {
-        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
-        for (int i = 0; i < admins.size(); i++) {
-            if (admins.get(i).getUsername().equals(adminLoginDetails[0])
-                    && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
-                admins.remove(i);
-                System.out.println("Done!");
-                break;
-            }
-        }
-
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getUsername().equals(adminLoginDetails[0])
-                    && customers.get(i).getPassword().equals(adminLoginDetails[1])) {
-                customers.remove(i);
-                return;
-            }
-        }
-        System.out.println("Cant find the admin!");
+        inputObjectHandler.findAndRemoveAdmin(admins,customers);
     }
 
     public void viewAndEditAdmins(Admin admin) {
@@ -357,10 +334,7 @@ public class AdminService {
     }
 
     public void changeRestaurantWorkHours(Restaurant restaurant) {
-        System.out.println("Work Opens at : ");
-        restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
-        System.out.println("Work Closes at : ");
-        restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
+        inputObjectHandler.selectRestaurantWorkHours(restaurant);
     }
 
     public void changeRestaurantSchedule(Restaurant restaurant) {
@@ -419,7 +393,6 @@ public class AdminService {
                 break;
             default: deliveriesTabHandler(admin);
         }
-
         deliveriesTabHandler(admin);
     }
 
@@ -428,11 +401,7 @@ public class AdminService {
     }
 
     public void removeDeliveryHandler() {
-        System.out.println("Choose one of the deliveries : ");
-        viewAdmin.printDeliveries(deliveries);
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        deliveries.remove(userInput - 1);
-        System.out.println("Done!");
+        deliveries.remove(inputObjectHandler.selectToRemoveDelivery(deliveries,viewAdmin));
     }
 
     public void viewDeliveryOrders(Admin admin) {
@@ -483,19 +452,11 @@ public class AdminService {
     }
 
     public void changeDeliveryVehicle(Delivery delivery) {
-        DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
-        System.out.println("Which vehicle ?");
-        viewAdmin.printDeliveryVehicles();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        delivery.setVehicleType(deliveryVehicles[userInput - 1]);
+        delivery.setVehicleType(inputObjectHandler.selectDeliveryVehicle());
     }
 
     public void changeDeliverySalaryType(Delivery delivery) {
-        SalaryType[] salaryTypes = SalaryType.values();
-        System.out.println("Which Salary ?");
-        viewAdmin.printSalaryTypes();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        delivery.setSalaryType(salaryTypes[userInput - 1]);
+        delivery.setSalaryType(inputObjectHandler.selectDeliverySalaryType());
     }
 
     public void foodTabHandler(Admin admin) {

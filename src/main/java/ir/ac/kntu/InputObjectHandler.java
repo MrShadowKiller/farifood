@@ -379,5 +379,39 @@ public class InputObjectHandler {
         return new Comment(customer, food, restaurant, delivery, foodRate, deliveryRate, restaurantRate, messege);
     }
 
+    public Delivery selectToRemoveDelivery(ArrayList<Delivery>deliveries,ViewAdmin viewAdmin){
+        System.out.println("Choose one of the deliveries : ");
+        viewAdmin.printDeliveries(deliveries);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return deliveries.get(userInput-1);
+    }
 
+
+    public void findAndRemoveAdmin(ArrayList<Admin> admins,ArrayList<Customer> customers){
+        String[] adminLoginDetails = scanCustomerLogin();
+        for (int i = 0; i < admins.size(); i++) {
+            if (admins.get(i).getUsername().equals(adminLoginDetails[0])
+                    && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
+                admins.remove(i);
+                System.out.println("Done!");
+                break;
+            }
+        }
+
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getUsername().equals(adminLoginDetails[0])
+                    && customers.get(i).getPassword().equals(adminLoginDetails[1])) {
+                customers.remove(i);
+                return;
+            }
+        }
+        System.out.println("Cant find the admin!");
+    }
+
+    public void selectRestaurantWorkHours(Restaurant restaurant){
+        System.out.println("Work Opens at : ");
+        restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
+        System.out.println("Work Closes at : ");
+        restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
+    }
 }
