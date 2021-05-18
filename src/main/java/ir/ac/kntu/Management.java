@@ -186,7 +186,7 @@ public class Management {
     }
 
     public void printStartMenu() {
-        System.out.println("Welcome to Farifood Food Service");
+        System.out.println(" ------- Welcome to Farifood Food Service ------- ");
         System.out.println("[1].Admin login");
         System.out.println("[2].Customer login");
         System.out.println("[3].Exit");

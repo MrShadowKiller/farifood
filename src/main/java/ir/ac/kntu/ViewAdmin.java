@@ -137,7 +137,7 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Change Salary");
         System.out.println("[2].Change Vehicle Type");
-        System.out.println("[3].Change Restaurants of Delivery");
+        System.out.println("[3].Change Salary Type");
         System.out.println("[4].Exit");
     }
 

@@ -144,7 +144,10 @@ public class Restaurant {
     }
 
     public void addFood(Food food) {
-        if (food != null && !foods.contains(food)){
+        if (foods.contains(food)){
+            foods.remove(food);
+        }
+        if (food != null){
             foods.add(food);
         }
     }

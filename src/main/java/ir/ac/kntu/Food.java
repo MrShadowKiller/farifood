@@ -19,10 +19,18 @@ public class Food {
         price = 0;
     }
 
-    public Food(Food food,double price) {
+    public Food(Food food) {
         this.name = food.name;
         this.timeForCooking = food.timeForCooking;
-        this.price = price;
+        foodrates = new ArrayList<>();
+        price = food.getPrice();
+    }
+
+    public Food(Food food,double Price) {
+        this.name = food.name;
+        this.timeForCooking = food.timeForCooking;
+        foodrates = new ArrayList<>();
+        price = food.getPrice();
     }
 
     public String getName() {

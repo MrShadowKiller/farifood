@@ -366,10 +366,13 @@ public class InputObjectHandler {
         viewCustomer.printUserRate();
         int foodRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate foodRate =  UserRate.values()[foodRateChoice-1] ;
+        food.addFoodRate(foodRate);
         System.out.println("How was the delivery rate ?");
+        viewCustomer.printUserRate();
         int deliveryRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate deliveryRate =  UserRate.values()[deliveryRateChoice-1] ;
         System.out.println("How was the restaurant rate ?");
+        viewCustomer.printUserRate();
         int restaurantRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate restaurantRate =  UserRate.values()[restaurantRateChoice-1] ;
 

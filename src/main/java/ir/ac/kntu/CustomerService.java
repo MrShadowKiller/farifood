@@ -188,11 +188,27 @@ public class CustomerService {
                 break;
             case SEARCH_BY_TYPE:
                 searchByRestaurantType(customer);
+            case SEARCH_BY_NEIGHBOR:
+                searchByNeighbor(customer);
+                break;
+            case SHOW_FOOD_COMMENTS:
+                showFoodCommentsHandler();
                 break;
             case EXIT: customerMenuHandler(customer);
                 break;
             default:
                 restaurantsFoodsTabHandler(customer);
+        }
+    }
+
+    public void showFoodCommentsHandler(){
+        System.out.println("Which Food ?");
+        viewCustomer.printFoodsWithPrice(foods);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        for (Order order : orders){
+            if (order.getFood().equals(foods.get(userInput-1))){
+                System.out.println(order.getComment());
+            }
         }
     }
 
@@ -248,7 +264,17 @@ public class CustomerService {
         }
     }
 
+    public void searchByNeighbor(Customer customer){
+        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(restaurants,customer,viewCustomer);
+        if (selectedRestaurant == null){
+            restaurantsFoodsTabHandler(customer);
+        } else {
+            restaurantMenu(selectedRestaurant,customer);
+        }
+    }
+
     public void restaurantMenu(Restaurant restaurant,Customer customer){
+        setFoodRestaurantSort(restaurant,customer);
         viewCustomer.printRestaurantMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantMenuOptions userChoice = RestaurantMenuOptions.DEFAULT;
@@ -334,7 +360,9 @@ public class CustomerService {
             restaurant.addComment(comment);
             customer.addOrder(order);
             customer.addComment(comment);
+            delivery.addOrder(order);
             orders.add(order);
+            order.setComment(comment);
         }
     }
 
@@ -352,6 +380,9 @@ public class CustomerService {
                 break;
             case LOW_COMMENTS:
                 sortRestaurantLowComments();
+                break;
+            case RISING:
+                sortRestaurantByRising();
                 break;
         }
     }
@@ -393,6 +424,31 @@ public class CustomerService {
                     Collections.swap(restaurants, i, j);
                 }
             }
+        }
+    }
+    public void sortRestaurantByRising() {
+        for (int i = 0; i < restaurants.size(); i++) {
+            for (int j = i + 1; j < restaurants.size(); j++) {
+                if (restaurants.get(i).getOrders().size() > restaurants.get(j).getOrders().size() &&
+                        restaurants.get(j).getAverageRate() >= 3 ) {
+                    Collections.swap(restaurants, i, j);
+                }
+            }
+        }
+    }
+
+    public void setFoodRestaurantSort(Restaurant restaurant,Customer customer){
+        switch (customer.getUserSetting().getFoodSortOption()){
+            case LOW_PRICE:
+                restaurant.sortFoodLowPrice();
+                break;
+            case HIGH_PRICE:
+                restaurant.sortFoodHighPrice();
+            case HIGH_RATE:
+                restaurant.sortFoodHighRating();
+                break;
+            case LOW_RATE:
+                restaurant.sortFoodLowRating();
         }
     }
 

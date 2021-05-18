@@ -421,7 +421,11 @@ public class AdminService {
     }
 
     public void addFoodRestaurant(Restaurant restaurant) {
-        restaurant.addFood(inputObjectHandler.selectFood(viewAdmin, foods));
+        Food food = new Food(inputObjectHandler.selectFood(viewAdmin, foods));
+        System.out.print("price : ");
+        double userChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        food.setPrice(userChoice);
+        restaurant.addFood(food);
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
@@ -449,7 +453,6 @@ public class AdminService {
         }
         return null;
     }
-
 
     public void deliveriesTabHandler(Admin admin) {
         viewAdmin.printDeliveriesTab();

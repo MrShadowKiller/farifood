@@ -28,7 +28,9 @@ public class ViewCustomer {
         System.out.println("[3].Show Restaurants with the best Food");
         System.out.println("[4].Search Restaurant By Name");
         System.out.println("[5].Search Restaurant By Type");
-        System.out.println("[6].Exit");
+        System.out.println("[6].Search Near Restaurants");
+        System.out.println("[7].Show Food Comments");
+        System.out.println("[8].Exit");
     }
 
     public void printRestaurants(ArrayList<Restaurant> restaurants){
@@ -114,7 +116,7 @@ public class ViewCustomer {
         System.out.println("\t\tName\tRate\tPrice\tTime For Cooking");
         for (int i=1;i<=restaurant.getFoods().size();i++){
             System.out.println("[" + i + "]. " + restaurant.getFoods().get(i-1).getName() + "\t" +
-                    restaurant.getFoods().get(i-1).getAverageRate() + "\t" + restaurant.getFoods().get(i-1).getPrice() +
+                    restaurant.getFoods().get(i-1).getAverageRate() + "\t\t" + restaurant.getFoods().get(i-1).getPrice() +
                     "$\t" + restaurant.getFoods().get(i-1).getTimeForCooking() +"min");
         }
         System.out.println("[" + (restaurant.getFoods().size()+1) + "]. " + "Exit");
@@ -123,7 +125,7 @@ public class ViewCustomer {
     public void printUserRate(){
         UserRate[] userRates = UserRate.values();
         for (int i=1;i<=userRates.length;i++){
-            System.out.println("[" + i + "]. " + userRates[i].name());
+            System.out.println("[" + i + "]. " + userRates[i-1].name());
         }
     }
 
@@ -154,5 +156,16 @@ public class ViewCustomer {
         System.out.println("[2].Add Wallet Balance");
         System.out.println("[3].Add Credit Card Balance");
         System.out.println("[4].Exit");
+    }
+
+    public void printFoodsWithPrice(ArrayList<Food> foods){
+        for (int i=1;i<=foods.size();i++){
+            System.out.println("["+ i +"]. " + foods.get(i-1).getName() +
+                    "  " + foods.get(i-1).getTimeForCooking() + "min " +
+                    "  " + foods.get(i-1).getPrice() + "$"  );
+        }
+        if (foods.size()==0){
+            System.out.println("EMPTY!");
+        }
     }
 }
