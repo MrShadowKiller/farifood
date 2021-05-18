@@ -29,9 +29,11 @@ public class AdminService {
 
     private InputObjectHandler inputObjectHandler;
 
-    public AdminService(Admin admin, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders) {
-        admins = new ArrayList<>();
+    private Management management;
+
+    public AdminService(Admin admin, ArrayList<Admin> admins ,ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
+                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,Management management) {
+        this.admins = admins;
         admins.add(admin);
         this.restaurants = restaurants;
         this.foods = foods;
@@ -40,6 +42,7 @@ public class AdminService {
         this.orders = orders;
         viewAdmin = new ViewAdmin();
         inputObjectHandler = new InputObjectHandler();
+        this.management = management;
     }
 
     public void adminMenuHandler(Admin admin) {
@@ -67,7 +70,8 @@ public class AdminService {
             case ORDERS:
                 ordersTabHandler(admin);
                 break;
-
+            case EXIT:
+                management.startMenu();
             default:
                 adminMenuHandler(admin);
         }
@@ -83,7 +87,7 @@ public class AdminService {
         System.out.println("[" + (orders.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == orders.size() + 1) {
-            adminsTabHandler(admin);
+            adminMenuHandler(admin);
         } else {
             changeOrderStatus(orders.get(userChoice - 1));
         }
@@ -153,7 +157,7 @@ public class AdminService {
         viewAdmin.printAdmins(admins);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == admins.size() + 1) {
-            adminsTabHandler(admin);
+            return;
         } else {
             editAdminHandler(admins.get(userChoice - 1));
         }

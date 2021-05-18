@@ -18,8 +18,6 @@ public class Order {
 
     private Delivery delivery;
 
-    private RestaurantSchedule day;
-
     private Comment comment;
 
     private OrderStatus orderStatus = OrderStatus.IN_PROGRESS;
@@ -29,12 +27,11 @@ public class Order {
 
 
     public Order(Customer customer, Restaurant restaurant, Food food,
-                 Delivery delivery, RestaurantSchedule day, LocalDateTime dateTime) {
+                 Delivery delivery,  LocalDateTime dateTime) {
         this.customer = customer;
         this.restaurant = restaurant;
         this.food = food;
         this.delivery = delivery;
-        this.day = day;
         this.dateTime = dateTime;
     }
 
@@ -68,14 +65,6 @@ public class Order {
 
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
-    }
-
-    public RestaurantSchedule getDay() {
-        return day;
-    }
-
-    public void setDay(RestaurantSchedule day) {
-        this.day = day;
     }
 
     public LocalDateTime getDateTime() {

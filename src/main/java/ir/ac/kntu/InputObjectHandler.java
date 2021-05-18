@@ -4,6 +4,7 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
@@ -32,7 +33,6 @@ public class InputObjectHandler {
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
         Address address = scanAddressInfo();
-        String zipcode = ScannerWrapper.getInstance().nextLine().trim();
 
         return new Admin(firstname, lastname, phoneNumber,
                 username, password, address);
@@ -351,6 +351,24 @@ public class InputObjectHandler {
             return null;
         }
         return restaurant.getDeliveries().get(userDeliveryChoice-1);
+    }
+
+    public Comment scanCommentFields(ViewCustomer viewCustomer,Customer customer,Food food,
+                                     Restaurant restaurant,Delivery delivery){
+        System.out.print("Enter your message : ");
+        String messege = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("How was the food rate ?");
+        viewCustomer.printUserRate();
+        int foodRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        UserRate foodRate =  UserRate.values()[foodRateChoice-1] ;
+        System.out.println("How was the delivery rate ?");
+        int deliveryRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        UserRate deliveryRate =  UserRate.values()[deliveryRateChoice-1] ;
+        System.out.println("How was the restaurant rate ?");
+        int restaurantRateChoice =Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        UserRate restaurantRate =  UserRate.values()[restaurantRateChoice-1] ;
+
+        return new Comment(customer,food,restaurant,delivery,foodRate,deliveryRate,restaurantRate,messege);
     }
 
 

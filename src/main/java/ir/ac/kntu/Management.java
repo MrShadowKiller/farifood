@@ -37,8 +37,8 @@ public class Management {
         customers = new ArrayList<>();
         customers.add(admin);
         orders = new ArrayList<>();
-        customerService = new CustomerService(restaurants,foods,orders);
-        adminService = new AdminService(admin,restaurants,foods,deliveries,customers,orders);
+        customerService = new CustomerService(restaurants,foods,orders,this);
+        adminService = new AdminService(admin,admins,restaurants,foods,deliveries,customers,orders,this);
         inputObjectHandler = new InputObjectHandler();
     }
 
@@ -52,8 +52,8 @@ public class Management {
         customers.add(admins.get(0));
         orders = new ArrayList<>();
 
-        customerService = new CustomerService(restaurants,foods,orders);
-        adminService = new AdminService(admin,restaurants,foods,deliveries,customers,orders);
+        customerService = new CustomerService(restaurants,foods,orders,this);
+        adminService = new AdminService(admin,admins,restaurants,foods,deliveries,customers,orders,this);
         inputObjectHandler = new InputObjectHandler();
     }
 

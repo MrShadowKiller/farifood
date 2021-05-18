@@ -2,11 +2,15 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.customermenu.BuyFoodTabOptions;
 import ir.ac.kntu.customermenu.CustomerMenuOptions;
+import ir.ac.kntu.customermenu.RestaurantMenuOptions;
+import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.SelectRestaurantManager;
 import ir.ac.kntu.user.Customer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -25,9 +29,10 @@ public class CustomerService {
 
     private SelectRestaurantManager selectRestaurantManager;
 
-    public CustomerService(ArrayList<Restaurant> restaurants,
-                           ArrayList<Food> foods, ArrayList<Order> orders
-                           ) {
+    private Management management;
+
+    public CustomerService(ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
+                           ArrayList<Order> orders ,Management management) {
         customers = new ArrayList<>();
         this.restaurants = restaurants;
         this.foods = foods;
@@ -35,6 +40,7 @@ public class CustomerService {
         viewCustomer = new ViewCustomer();
         inputObjectHandler = new InputObjectHandler();
         selectRestaurantManager = new SelectRestaurantManager();
+        this.management = management;
     }
 
 
@@ -60,10 +66,11 @@ public class CustomerService {
             case SETTING:
                 break;
             case EXIT:
-                return;
+                management.startMenu();
             default:
                 customerMenuHandler(customer);
         }
+        customerMenuHandler(customer);
     }
 
     public void setUserSetting(Customer customer) {
@@ -90,6 +97,7 @@ public class CustomerService {
                 searchByRestaurantName(customer);
                 break;
             case SEARCH_BY_TYPE:
+                searchByRestaurantType(customer);
                 break;
             case EXIT: customerMenuHandler(customer);
                 break;
@@ -151,8 +159,96 @@ public class CustomerService {
     }
 
     public void restaurantMenu(Restaurant restaurant,Customer customer){
-
+        viewCustomer.printRestaurantMenu();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        RestaurantMenuOptions userChoice = RestaurantMenuOptions.DEFAULT;
+        userChoice = userChoice.findOption(userInput);
+        switch (userChoice){
+            case SHOW_INFORMATION:
+                showRestaurantInformationHandler(restaurant);
+                break;
+            case BUY_FOOD:
+                buyFoodHandler(restaurant,customer);
+                break;
+            case SHOW_COMMENTS:
+                showRestaurantComments(restaurant);
+                break;
+            case EXIT:
+                restaurantsFoodsTabHandler(customer);
+                break;
+            default:
+                restaurantMenu(restaurant,customer);
+        }
+        restaurantMenu(restaurant,customer);
     }
+
+    public void showRestaurantInformationHandler(Restaurant restaurant){
+        viewCustomer.printRestaurantInformation(restaurant);
+    }
+
+    public void showRestaurantComments(Restaurant restaurant){
+        viewCustomer.printComments(restaurant.getComments());
+    }
+
+    public void buyFoodHandler(Restaurant restaurant,Customer customer){
+        viewCustomer.printRestaurantFoodMenu(restaurant);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userInput == restaurant.getFoods().size() + 1){
+            restaurantMenu(restaurant,customer);
+        } else {
+            processTheOrderCost(restaurant.getFoods().get(userInput-1),customer,restaurant);
+        }
+    }
+
+    public void processTheOrderCost(Food food,Customer customer,Restaurant restaurant){
+        System.out.println("Buy With : ");
+        System.out.println("[1].Wallet");
+        System.out.println("[2].Credit Card");
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userInput == 1){
+            checkCustomerWallet(food,customer,restaurant);
+        } else if (userInput == 2){
+            checkCustomerCreditCard(food,customer,restaurant);
+        }
+    }
+
+    public void checkCustomerWallet(Food food,Customer customer,Restaurant restaurant){
+        if (customer.getWallet().getBalance() < food.getPrice()){
+            System.out.println("Not Enough Money!");
+            buyFoodHandler(restaurant,customer);
+        } else {
+            customer.getWallet().useBalance(food.getPrice());
+            makeNewCustomerOrder(food,customer,restaurant);
+        }
+    }
+
+    public void checkCustomerCreditCard(Food food,Customer customer,Restaurant restaurant){
+        if (customer.getCreditCard().getBalance() < food.getPrice()){
+            System.out.println("Not Enough Money!");
+            buyFoodHandler(restaurant,customer);
+        } else {
+            customer.getCreditCard().useBalance(food.getPrice());
+            makeNewCustomerOrder(food,customer,restaurant);
+        }
+    }
+
+    public void makeNewCustomerOrder(Food food,Customer customer,Restaurant restaurant){
+        Delivery delivery = restaurant.getFreeDelivery(customer.getUserSetting().getCurrentDay());
+        if (delivery == null){
+            System.out.println("There is no Delivery available");
+            customer.getWallet().addBalance(food.getPrice());
+        } else {
+            Comment comment = inputObjectHandler.scanCommentFields(viewCustomer,customer,food,restaurant,delivery);
+            Order order = new Order(customer,restaurant,food,delivery, LocalDateTime.now());
+            restaurant.addOrder(order);
+            restaurant.addComment(comment);
+            customer.addOrder(order);
+            customer.addComment(comment);
+            orders.add(order);
+        }
+    }
+
+
 
     public void setRestaurantSort(Customer customer){
         switch (customer.getUserSetting().getRestaurantSortOption()){

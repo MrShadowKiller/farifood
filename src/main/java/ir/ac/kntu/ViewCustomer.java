@@ -1,5 +1,6 @@
 package ir.ac.kntu;
 
+import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
@@ -82,7 +83,6 @@ public class ViewCustomer {
         }
         if (foods.size()==0){
             System.out.println("EMPTY!");
-            return;
         }
     }
 
@@ -90,6 +90,45 @@ public class ViewCustomer {
         RestaurantType[] restaurantType = RestaurantType.values();
         for (int i = 1; i <= restaurantType.length; i++) {
             System.out.println("[" + i + "]. " + restaurantType[i-1].toString());
+        }
+    }
+
+    public void printRestaurantMenu(){
+        System.out.println("[1].Show Information");
+        System.out.println("[2].Buy Food");
+        System.out.println("[3].Show Comments History");
+        System.out.println("[4].Exit");
+    }
+
+    public void printRestaurantInformation(Restaurant restaurant){
+        System.out.println("Name : " + restaurant.getName());
+        System.out.println("Address : " + restaurant.getAddress());
+        System.out.println("Restaurant Type : " + restaurant.getRestaurantType().toString() +
+                "\tRate : " + restaurant.getAverageRate());
+        System.out.println("Number of active deliveries : " + restaurant.getDeliveries().size() +
+                "\t WorkHours : " + restaurant.getWorkHoursOpen() +"-" + restaurant.getWorkHoursClose());
+    }
+
+    public void printRestaurantFoodMenu(Restaurant restaurant){
+        System.out.println("\t\tName\tRate\tPrice\tTime For Cooking");
+        for (int i=1;i<=restaurant.getFoods().size();i++){
+            System.out.println("[" + i + "]. " + restaurant.getFoods().get(i-1).getName() + "\t" +
+                    restaurant.getFoods().get(i-1).getAverageRate() + "\t" + restaurant.getFoods().get(i-1).getPrice() +
+                    "$\t" + restaurant.getFoods().get(i-1).getTimeForCooking() +"min");
+        }
+        System.out.println("[" + (restaurant.getFoods().size()+1) + "]. " + "Exit");
+    }
+
+    public void printUserRate(){
+        UserRate[] userRates = UserRate.values();
+        for (int i=1;i<=userRates.length;i++){
+            System.out.println("[" + i + "]. " + userRates[i].name());
+        }
+    }
+
+    public void printComments(ArrayList<Comment> comments){
+        for (int i = 1; i <= comments.size(); i++) {
+            System.out.println("[" + i + "]. " + comments.get(i-1));
         }
     }
 

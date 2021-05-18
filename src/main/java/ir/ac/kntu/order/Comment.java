@@ -106,6 +106,15 @@ public class Comment {
                 deliveryRate.getRate())/6.0;
     }
 
+    public String toString(){
+        return "Customer Details :\n\t" + customer.briefInformation() +
+                "\nRestaurant : \n\t" + restaurant.getName()  +
+                "\nFood :\n\t" + food.getName() + food.getPrice() +
+                "\nDelivery : \n\t" + delivery.getBriefInformation() +
+                "\nMessage : \n\t" + message + "\nFood rate : " + foodRate +
+                "\tDelivery Rate : " + deliveryRate + "\tRestaurant Rate : " + restaurantRate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

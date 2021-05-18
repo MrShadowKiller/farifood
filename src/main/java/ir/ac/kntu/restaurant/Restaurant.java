@@ -1,6 +1,8 @@
 package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Address;
+import ir.ac.kntu.WeekDays;
+import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.Food;
 import ir.ac.kntu.delivery.Delivery;
@@ -196,6 +198,17 @@ public class Restaurant {
             }
         }
         return false;
+    }
+
+    public Delivery getFreeDelivery(WeekDays day){
+        for (Delivery delivery : deliveries){
+            for (DeliverySchedule deliverySchedule : delivery.getSchedule()) {
+                if (deliverySchedule.getRestaurant() == this) {
+                    return delivery;
+                }
+            }
+        }
+        return null;
     }
 
     public void sortFoodHighRating() {
