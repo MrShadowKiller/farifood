@@ -1,13 +1,13 @@
 package ir.ac.kntu.restaurant;
 
-import ir.ac.kntu.Address;
-import ir.ac.kntu.WeekDays;
+import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.user.WeekDays;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.order.Comment;
-import ir.ac.kntu.Food;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.order.Order;
-import ir.ac.kntu.user.UserSetting;
+import ir.ac.kntu.setting.UserSetting;
 
 import java.util.ArrayList;
 import java.util.Collections;

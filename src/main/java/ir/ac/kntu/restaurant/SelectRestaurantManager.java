@@ -1,11 +1,10 @@
 package ir.ac.kntu.restaurant;
 
-import ir.ac.kntu.Food;
-import ir.ac.kntu.ScannerWrapper;
-import ir.ac.kntu.ViewCustomer;
+import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.management.ScannerWrapper;
+import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Customer;
 
-import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 
 public class SelectRestaurantManager {

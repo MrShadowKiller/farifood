@@ -1,6 +1,5 @@
 package ir.ac.kntu.delivery;
 
-import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Person;

@@ -1,6 +1,6 @@
 package ir.ac.kntu.user;
 
-import ir.ac.kntu.Address;
+import ir.ac.kntu.objects.Address;
 
 public class Admin extends Customer {
 

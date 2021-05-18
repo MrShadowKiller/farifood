@@ -1,8 +1,8 @@
-package ir.ac.kntu.user;
+package ir.ac.kntu.setting;
 
-import ir.ac.kntu.WeekDays;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
+import ir.ac.kntu.user.WeekDays;
 
 public class UserSetting {
     private FoodSortOption foodSortOption;

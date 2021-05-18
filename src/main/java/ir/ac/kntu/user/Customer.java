@@ -1,9 +1,10 @@
 package ir.ac.kntu.user;
 
-import ir.ac.kntu.Address;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.management.ScannerWrapper;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.setting.UserSetting;
 
 import java.util.ArrayList;
 import java.util.Objects;

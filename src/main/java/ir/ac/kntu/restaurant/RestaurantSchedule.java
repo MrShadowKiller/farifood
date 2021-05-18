@@ -1,6 +1,6 @@
 package ir.ac.kntu.restaurant;
 
-import ir.ac.kntu.WeekDays;
+import ir.ac.kntu.user.WeekDays;
 
 public enum RestaurantSchedule {
     SATURDAY(7), SUNDAY(1), MONDAY(2), TUESDAY(3), WEDNESDAY(4),

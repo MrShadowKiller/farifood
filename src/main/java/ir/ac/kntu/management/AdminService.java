@@ -1,10 +1,11 @@
-package ir.ac.kntu;
+package ir.ac.kntu.management;
 import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.adminmenu.*;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import java.util.ArrayList;

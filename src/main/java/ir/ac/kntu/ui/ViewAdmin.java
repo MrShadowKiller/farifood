@@ -1,5 +1,6 @@
-package ir.ac.kntu;
+package ir.ac.kntu.ui;
 
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
@@ -10,10 +11,9 @@ import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
-import ir.ac.kntu.setting.FoodSortOption;
-import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.WeekDays;
 
 import java.util.ArrayList;
 

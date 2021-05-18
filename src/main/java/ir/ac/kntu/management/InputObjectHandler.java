@@ -1,19 +1,21 @@
-package ir.ac.kntu;
+package ir.ac.kntu.management;
 
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
-import ir.ac.kntu.user.Admin;
-import ir.ac.kntu.user.CreditCard;
-import ir.ac.kntu.user.Customer;
-import ir.ac.kntu.user.UserSetting;
+import ir.ac.kntu.setting.UserSetting;
+import ir.ac.kntu.ui.ViewAdmin;
+import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.user.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

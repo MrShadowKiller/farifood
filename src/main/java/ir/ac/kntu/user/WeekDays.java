@@ -1,11 +1,12 @@
-package ir.ac.kntu;
+package ir.ac.kntu.user;
 
-public enum UserRate {
-    VERY_BAD(1), BAD(2), AVERAGE(3), GOOD(4), GREAT(5);
+public enum WeekDays {
+    SATURDAY(7), SUNDAY(1), MONDAY(2), TUESDAY(3), WEDNESDAY(4),
+    THURSDAY(5), FRIDAY(6), DEFAULT(8);
 
     private int rate;
 
-    UserRate(int rate) {
+    WeekDays(int rate) {
         this.rate = rate;
     }
 
@@ -16,4 +17,5 @@ public enum UserRate {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
 }

@@ -1,4 +1,6 @@
-package ir.ac.kntu;
+package ir.ac.kntu.objects;
+
+import ir.ac.kntu.user.UserRate;
 
 import java.util.ArrayList;
 import java.util.Objects;

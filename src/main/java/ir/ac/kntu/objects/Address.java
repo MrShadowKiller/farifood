@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.objects;
 
 import java.util.Objects;
 

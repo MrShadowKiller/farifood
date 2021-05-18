@@ -1,12 +1,14 @@
-package ir.ac.kntu;
+package ir.ac.kntu.ui;
 
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
-import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.UserRate;
+import ir.ac.kntu.user.WeekDays;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,7 @@
-package ir.ac.kntu;
+package ir.ac.kntu.management;
 
+import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
