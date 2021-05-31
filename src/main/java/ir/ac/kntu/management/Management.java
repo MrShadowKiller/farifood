@@ -58,69 +58,6 @@ public class Management {
         inputObjectHandler = new InputObjectHandler();
     }
 
-    public CustomerService getCustomerService() {
-        return customerService;
-    }
-
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
-    public AdminService getAdminService() {
-        return adminService;
-    }
-
-    public void setAdminService(AdminService adminService) {
-        this.adminService = adminService;
-    }
-
-    public ArrayList<Admin> getAdmins() {
-        return admins;
-    }
-
-    public void setAdmins(ArrayList<Admin> admins) {
-        this.admins = admins;
-    }
-
-    public ArrayList<Restaurant> getRestaurants() {
-        return restaurants;
-    }
-
-    public void setRestaurants(ArrayList<Restaurant> restaurants) {
-        this.restaurants = restaurants;
-    }
-
-    public ArrayList<Food> getFoods() {
-        return foods;
-    }
-
-    public void setFoods(ArrayList<Food> foods) {
-        this.foods = foods;
-    }
-
-    public ArrayList<Delivery> getDeliveries() {
-        return deliveries;
-    }
-
-    public void setDeliveries(ArrayList<Delivery> deliveries) {
-        this.deliveries = deliveries;
-    }
-
-    public ArrayList<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(ArrayList<Order> orders) {
-        this.orders = orders;
-    }
 
     public InputObjectHandler getInputObjectHandler() {
         return inputObjectHandler;
@@ -148,6 +85,7 @@ public class Management {
             default:
                 startMenu();
         }
+        startMenu();
     }
 
     public void adminLoginVerify() {
@@ -165,7 +103,6 @@ public class Management {
         if (!foundAdmin) {
             System.out.println("Wrong username or password!");
         }
-        startMenu();
     }
 
     public void customerLoginVerify() {

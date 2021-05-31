@@ -66,8 +66,15 @@ public class Main {
         for (int i = 0; i <= deliverySchedules1.length - 3; i++) {
             deliverySchedules1[i].setAvailability(true);
         }
+
+        DeliverySchedule[] deliverySchedules2 = DeliverySchedule.values();
+        for (int i = 0; i <= deliverySchedules2.length - 3; i++) {
+            deliverySchedules2[i].setAvailability(true);
+        }
+
+
         deliveries.add(new Delivery("Mamad", "esfahani", "09455555", DeliveryVehicle.CAR, SalaryType.HOURLY, 5000, deliverySchedules1));
-        deliveries.add(new Delivery("Ali", "esfahani", "09455555", DeliveryVehicle.BIKE, SalaryType.HOURLY, 6000, deliverySchedules1));
+        deliveries.add(new Delivery("Ali", "esfahani", "09455555", DeliveryVehicle.BIKE, SalaryType.HOURLY, 6000, deliverySchedules2));
         RestaurantSchedule[] schedule1 = RestaurantSchedule.values();
         for (int i = 0; i <= schedule1.length - 3; i++) {
             schedule1[i].setAvailability(true);

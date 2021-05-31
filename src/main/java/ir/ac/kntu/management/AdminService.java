@@ -60,10 +60,10 @@ public class AdminService {
                 break;
             case ORDERS: ordersTabHandler(admin);
                 break;
-            case EXIT: management.startMenu();
+            case EXIT: return;
             default: adminMenuHandler(admin);
         }
-
+        adminMenuHandler(admin);
     }
 
     public void ordersTabHandler(Admin admin) {
@@ -75,7 +75,7 @@ public class AdminService {
         System.out.println("[" + (orders.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == orders.size() + 1) {
-            adminMenuHandler(admin);
+            return;
         } else {
             changeOrderStatus(orders.get(userChoice - 1));
         }
@@ -101,8 +101,7 @@ public class AdminService {
                 break;
             case VIEW_EDIT_ADMIN: viewAndEditAdmins(admin);
                 break;
-            case EXIT: adminMenuHandler(admin);
-                break;
+            case EXIT: return;
             default: adminsTabHandler(admin);
         }
         adminsTabHandler(admin);
@@ -140,8 +139,7 @@ public class AdminService {
                 break;
             case CHANGE_BALANCE: changeCustomerBalance(admin);
                 break;
-            case EXIT: adminsTabHandler(admin);
-                break;
+            case EXIT: return;
             default: editAdminHandler(admin);
         }
         editAdminHandler(admin);
@@ -163,8 +161,7 @@ public class AdminService {
                 break;
             case VIEW_COMMENTS: viewCustomerComments(admin);
                 break;
-            case EXIT: adminMenuHandler(admin);
-                break;
+            case EXIT: return;
             default: customersTabHandler(admin);
         }
         customersTabHandler(admin);
@@ -218,8 +215,7 @@ public class AdminService {
                 break;
             case CHANGE_BALANCE: changeCustomerBalance(customer);
                 break;
-            case EXIT: customersTabHandler(admin);
-                break;
+            case EXIT: return;
             default: editCustomerHandler(customer, admin);
         }
         editCustomerHandler(customer, admin);
@@ -270,8 +266,7 @@ public class AdminService {
             case VIEW_COMMENTS: viewRestaurantComments(admin);
             case VIEW_DELIVERIES: viewRestaurantDeliveries(admin);
                 break;
-            case EXIT: adminMenuHandler(admin);
-                break;
+            case EXIT: return;
             default: restaurantsTabHandler(admin);
         }
         restaurantsTabHandler(admin);
@@ -322,8 +317,7 @@ public class AdminService {
                 break;
             case REMOVE_DELIVERY: removeDeliveryRestaurant(selectedRestaurant);
                 break;
-            case EXIT: restaurantsTabHandler(admin);
-                break;
+            case EXIT: return;
             default: viewAndEditRestaurantHandler(admin);
         }
         viewAndEditRestaurantHandler(admin);
@@ -390,8 +384,7 @@ public class AdminService {
             case VIEW_EDIT_DELIVERIES: viewAndEditDeliveries(admin);
                 break;
             case VIEW_ORDERS: viewDeliveryOrders(admin);
-            case EXIT: adminMenuHandler(admin);
-                break;
+            case EXIT: return;
             default: deliveriesTabHandler(admin);
         }
         deliveriesTabHandler(admin);
@@ -422,7 +415,7 @@ public class AdminService {
         System.out.println("[" + (deliveries.size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == deliveries.size() + 1) {
-            deliveriesTabHandler(admin);
+            return;
         } else {
             editDeliveryHandler(deliveries.get(userChoice - 1), admin);
         }
@@ -474,8 +467,7 @@ public class AdminService {
                 break;
             case VIEW_FOOD_COMMENTS: viewFoodCommentsHandler();
                 break;
-            case EXIT: adminMenuHandler(admin);
-                break;
+            case EXIT: return;
             default: foodTabHandler(admin);
         }
         foodTabHandler(admin);
