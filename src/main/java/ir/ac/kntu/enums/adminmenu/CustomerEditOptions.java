@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum CustomerEditOptions {
     CHANGE_PERSONAL_INFO(0), CHANGE_PASSWORD(1), CHANGE_BALANCE(2),
@@ -18,7 +18,7 @@ public enum CustomerEditOptions {
         this.rate = rate;
     }
 
-    public CustomerEditOptions findOption(int userInput) {
+    static public CustomerEditOptions findOption(int userInput) {
         CustomerEditOptions[] options = CustomerEditOptions.values();
         for (CustomerEditOptions option : options) {
             if (option.getRate() == userInput - 1) {

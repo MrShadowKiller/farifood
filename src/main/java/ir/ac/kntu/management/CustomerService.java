@@ -1,6 +1,6 @@
 package ir.ac.kntu.management;
 
-import ir.ac.kntu.customermenu.*;
+import ir.ac.kntu.enums.customermenu.*;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
@@ -50,10 +50,7 @@ public class CustomerService {
         }
         viewCustomer.printCustomerMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        CustomerMenuOptions userChoice = CustomerMenuOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-
-        switch (userChoice) {
+        switch (CustomerMenuOptions.findOption(userInput)) {
             case RESTAURANTS_FOODS:
                 restaurantsFoodsTabHandler(customer);
                 break;
@@ -84,10 +81,7 @@ public class CustomerService {
     public void showCustomerInformationHandler(Customer customer) {
         viewCustomer.printShowCustomerTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        ShowCustomerOptions userChoice = ShowCustomerOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-
-        switch (userChoice) {
+        switch (ShowCustomerOptions.findOption(userInput)) {
             case SHOW_INFO:
                 showCustomerInfo(customer);
                 break;
@@ -122,10 +116,7 @@ public class CustomerService {
     public void addBalanceHandler(Customer customer) {
         viewCustomer.printAddBalanceTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        AddBalanceOptions userChoice = AddBalanceOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-
-        switch (userChoice) {
+        switch (AddBalanceOptions.findOption(userInput)) {
             case ADD_CREDIT_CARD:
                 addCreditCardHandler(customer);
                 break;
@@ -173,9 +164,7 @@ public class CustomerService {
     public void restaurantsFoodsTabHandler(Customer customer) {
         viewCustomer.printRestaurantFoodTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        BuyFoodTabOptions userChoice = BuyFoodTabOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-        switch (userChoice) {
+        switch (BuyFoodTabOptions.findOption(userInput)) {
             case SHOW_RESTAURANTS:
                 showDefaultRestaurants(customer);
                 break;
@@ -280,9 +269,7 @@ public class CustomerService {
         setFoodRestaurantSort(restaurant, customer);
         viewCustomer.printRestaurantMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        RestaurantMenuOptions userChoice = RestaurantMenuOptions.DEFAULT;
-        userChoice = userChoice.findOption(userInput);
-        switch (userChoice) {
+        switch (RestaurantMenuOptions.findOption(userInput)) {
             case SHOW_INFORMATION:
                 showRestaurantInformationHandler(restaurant);
                 break;

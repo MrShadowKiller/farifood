@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum AdminMenuOptions {
     ADMINS(0), CUSTOMERS(1), RESTAURANTS(2), FOOD(3), ORDERS(4),
@@ -18,7 +18,7 @@ public enum AdminMenuOptions {
         this.rate = rate;
     }
 
-    public AdminMenuOptions findOption(int userInput) {
+    static public AdminMenuOptions findOption(int userInput) {
         AdminMenuOptions[] options = AdminMenuOptions.values();
         for (AdminMenuOptions option : options) {
             if (option.getRate() == userInput - 1) {

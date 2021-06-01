@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum DeliveriesTabOptions {
     ADD_DELIVERY(0), REMOVE_DELIVERY(1), VIEW_EDIT_DELIVERIES(2),
@@ -18,7 +18,7 @@ public enum DeliveriesTabOptions {
         this.rate = rate;
     }
 
-    public DeliveriesTabOptions findOption(int userInput) {
+    static public DeliveriesTabOptions findOption(int userInput) {
         DeliveriesTabOptions[] options = DeliveriesTabOptions.values();
         for (DeliveriesTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

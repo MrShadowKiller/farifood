@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum AdminsTabOptions {
     ADD_ADMIN(0), REMOVE_ADMIN(1), VIEW_EDIT_ADMIN(2), EXIT(3),
@@ -18,7 +18,7 @@ public enum AdminsTabOptions {
         this.rate = rate;
     }
 
-    public AdminsTabOptions findOption(int userInput) {
+    static public AdminsTabOptions findOption(int userInput) {
         AdminsTabOptions[] options = AdminsTabOptions.values();
         for (AdminsTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

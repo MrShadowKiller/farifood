@@ -1,6 +1,4 @@
-package ir.ac.kntu.customermenu;
-
-import ir.ac.kntu.adminmenu.AdminEditOptions;
+package ir.ac.kntu.enums.customermenu;
 
 public enum CustomerMenuOptions {
     RESTAURANTS_FOODS(0), EDIT_INFORMATION(1), SHOW_INFORMATION(2), ADD_BALANCE(3),
@@ -20,7 +18,7 @@ public enum CustomerMenuOptions {
         this.rate = rate;
     }
 
-    public CustomerMenuOptions findOption(int userInput) {
+    static public CustomerMenuOptions findOption(int userInput) {
         CustomerMenuOptions[] options = CustomerMenuOptions.values();
         for (CustomerMenuOptions option : options) {
             if (option.getRate() == userInput - 1) {

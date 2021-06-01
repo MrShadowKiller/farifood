@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum RestaurantsTabOptions {
     ADD_RESTAURANT(0), REMOVE_RESTAURANT(1), VIEW_EDIT_RESTAURANT(2),
@@ -19,7 +19,7 @@ public enum RestaurantsTabOptions {
         this.rate = rate;
     }
 
-    public RestaurantsTabOptions findOption(int userInput) {
+    static public RestaurantsTabOptions findOption(int userInput) {
         RestaurantsTabOptions[] options = RestaurantsTabOptions.values();
         for (RestaurantsTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

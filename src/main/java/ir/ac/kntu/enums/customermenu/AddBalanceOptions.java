@@ -1,4 +1,4 @@
-package ir.ac.kntu.customermenu;
+package ir.ac.kntu.enums.customermenu;
 
 public enum AddBalanceOptions {
     ADD_CREDIT_CARD(0), ADD_WALLET_BALANCE(1), ADD_CREDIT_CARD_BALANCE(2),
@@ -18,7 +18,7 @@ public enum AddBalanceOptions {
         this.rate = rate;
     }
 
-    public AddBalanceOptions findOption(int userInput) {
+    static public AddBalanceOptions findOption(int userInput) {
         AddBalanceOptions[] options = AddBalanceOptions.values();
         for (AddBalanceOptions option : options) {
             if (option.getRate() == userInput - 1) {

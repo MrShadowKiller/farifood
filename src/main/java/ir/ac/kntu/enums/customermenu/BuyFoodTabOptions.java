@@ -1,4 +1,4 @@
-package ir.ac.kntu.customermenu;
+package ir.ac.kntu.enums.customermenu;
 
 public enum BuyFoodTabOptions {
     SHOW_RESTAURANTS(0), SHOW_BEST_THREE(1), SHOW_WITH_BEST_FOOD(2),
@@ -19,7 +19,7 @@ public enum BuyFoodTabOptions {
         this.rate = rate;
     }
 
-    public BuyFoodTabOptions findOption(int userInput) {
+    static public BuyFoodTabOptions findOption(int userInput) {
         BuyFoodTabOptions[] options = BuyFoodTabOptions.values();
         for (BuyFoodTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

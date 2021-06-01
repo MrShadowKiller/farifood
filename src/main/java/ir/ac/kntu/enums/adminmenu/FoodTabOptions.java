@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum FoodTabOptions {
     ADD_FOOD(0), REMOVE_FOOD(1), VIEW_FOODS(2), VIEW_FOOD_COMMENTS(3),
@@ -18,7 +18,7 @@ public enum FoodTabOptions {
         this.rate = rate;
     }
 
-    public FoodTabOptions findOption(int userInput) {
+    static public FoodTabOptions findOption(int userInput) {
         FoodTabOptions[] options = FoodTabOptions.values();
         for (FoodTabOptions option : options) {
             if (option.getRate() == userInput - 1) {

@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum DeliveryEditOptions {
     CHANGE_SALARY(0), CHANGE_VEHICLE(1), CHANGE_SALARY_TYPE(2), EXIT(3),
@@ -18,7 +18,7 @@ public enum DeliveryEditOptions {
         this.rate = rate;
     }
 
-    public DeliveryEditOptions findOption(int userInput) {
+    static public DeliveryEditOptions findOption(int userInput) {
         DeliveryEditOptions[] options = DeliveryEditOptions.values();
         for (DeliveryEditOptions option : options) {
             if (option.getRate() == userInput - 1) {

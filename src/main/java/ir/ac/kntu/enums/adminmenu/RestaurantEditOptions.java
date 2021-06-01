@@ -1,4 +1,4 @@
-package ir.ac.kntu.adminmenu;
+package ir.ac.kntu.enums.adminmenu;
 
 public enum RestaurantEditOptions {
     CHANGE_NAME(0), CHANGE_WORK_HOURS(1),
@@ -19,7 +19,7 @@ public enum RestaurantEditOptions {
         this.rate = rate;
     }
 
-    public RestaurantEditOptions findOption(int userInput) {
+    static public RestaurantEditOptions findOption(int userInput) {
         RestaurantEditOptions[] options = RestaurantEditOptions.values();
         for (RestaurantEditOptions option : options) {
             if (option.getRate() == userInput - 1) {
