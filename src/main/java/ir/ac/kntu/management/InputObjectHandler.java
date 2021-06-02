@@ -1,5 +1,6 @@
 package ir.ac.kntu.management;
 
+import ir.ac.kntu.Database;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
@@ -21,6 +22,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InputObjectHandler {
+    private Database database;
+
+    public InputObjectHandler(Database database){
+        this.database = database;
+    }
+
+
     public Admin scanAdminInfo() {
         System.out.println("\tPlease enter the required information");
         System.out.print("username: ");
@@ -228,18 +236,18 @@ public class InputObjectHandler {
         return new Food(foodName, foodCookTime);
     }
 
-    public Food selectFood(ViewAdmin viewAdmin, ArrayList<Food> foods) {
-        if (foods.size() == 0) {
+    public Food selectFood(ViewAdmin viewAdmin) {
+        if (database.getFoods().size() == 0) {
             System.out.println("NO FOOD AVAILABLE");
             return null;
         }
         System.out.println("Which Food ?");
-        viewAdmin.printFoods(foods);
+        viewAdmin.printFoods(database.getFoods());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return foods.get(userInput - 1);
+        return database.getFoods().get(userInput - 1);
     }
 
-    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin, ArrayList<Food> foods) {
+    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin) {
         System.out.print("Restaurant Name : ");
         String restaurantName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
@@ -255,7 +263,7 @@ public class InputObjectHandler {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantType restaurantType = RestaurantType.values()[userChoice - 1];
         System.out.println("Which foods restaurant have ? ");
-        ArrayList<Food> restaurantFoods = setRestaurantFoods(viewAdmin, foods);
+        ArrayList<Food> restaurantFoods = setRestaurantFoods(viewAdmin);
 
         return new Restaurant(restaurantName, address, workHoursOpen,
                 workHoursClose, restaurantSchedules, restaurantType, restaurantFoods);
@@ -275,36 +283,36 @@ public class InputObjectHandler {
         return schedule;
     }
 
-    public ArrayList<Food> setRestaurantFoods(ViewAdmin viewAdmin, ArrayList<Food> foods) {
+    public ArrayList<Food> setRestaurantFoods(ViewAdmin viewAdmin) {
         ArrayList<Food> result = new ArrayList<>();
-        if (foods.size() == 0) {
+        if (database.getFoods().size() == 0) {
             System.out.println("Food list is empty!");
             return null;
         }
         while (true) {
-            viewAdmin.printFoods(foods);
-            System.out.println("[" + (foods.size() + 1) + "]. Exit");
+            viewAdmin.printFoods(database.getFoods());
+            System.out.println("[" + (database.getFoods().size() + 1) + "]. Exit");
             int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-            if (userChoice == foods.size() + 1) {
+            if (userChoice == database.getFoods().size() + 1) {
                 break;
             }
-            if (result.contains(foods.get(userChoice - 1))) {
+            if (result.contains(database.getFoods().get(userChoice - 1))) {
                 System.out.println("Food already exist !");
             } else {
                 System.out.print("Price : ");
                 double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
-                result.add(new Food(foods.get(userChoice - 1), price));
+                result.add(new Food(database.getFoods().get(userChoice - 1), price));
             }
         }
         return result;
     }
 
-    public Restaurant findRestaurant(ArrayList<Restaurant> restaurants) {
+    public Restaurant findRestaurant() {
         System.out.print("Restaurant name : ");
         String name = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Restaurant neighbor : ");
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        for (Restaurant restaurant : restaurants) {
+        for (Restaurant restaurant : database.getRestaurants()) {
             if (restaurant.getAddress().getNeighbor().equals(neighbor)) {
                 if (restaurant.getName().equals(name)) {
                     return restaurant;
@@ -315,11 +323,11 @@ public class InputObjectHandler {
         return null;
     }
 
-    public Delivery selectRestaurantDelivery(ViewAdmin viewAdmin, ArrayList<Delivery> deliveries, Restaurant restaurant) {
+    public Delivery selectRestaurantDelivery(ViewAdmin viewAdmin,Restaurant restaurant) {
         System.out.println("Which Delivery ?");
-        viewAdmin.printDeliveries(deliveries);
+        viewAdmin.printDeliveries(database.getDeliveries());
         int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (deliveries.get(userDeliveryChoice - 1).isFull(restaurant)) {
+        if (database.getDeliveries().get(userDeliveryChoice - 1).isFull(restaurant)) {
             System.out.println("Delivery is full!");
             return null;
 
@@ -336,12 +344,12 @@ public class InputObjectHandler {
                 break;
             }
 
-            if (deliveries.get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].getAvailability()
+            if (database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].getAvailability()
                     && restaurant.getSchedule()[userRestScheChoice - 1].getAvailability()) {
 
-                deliveries.get(userDeliveryChoice - 1).addRestaurant(restaurant);
-                deliveries.get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setRestaurant(restaurant);
-                return deliveries.get(userDeliveryChoice - 1);
+                database.getDeliveries().get(userDeliveryChoice - 1).addRestaurant(restaurant);
+                database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setRestaurant(restaurant);
+                return database.getDeliveries().get(userDeliveryChoice - 1);
             } else {
                 System.out.println("No empty schedule for delivery or restaurant!");
             }
@@ -381,33 +389,11 @@ public class InputObjectHandler {
         return new Comment(customer, food, restaurant, delivery, foodRate, deliveryRate, restaurantRate, messege);
     }
 
-    public Delivery selectToRemoveDelivery(ArrayList<Delivery>deliveries,ViewAdmin viewAdmin){
+    public Delivery selectToRemoveDelivery(ViewAdmin viewAdmin){
         System.out.println("Choose one of the deliveries : ");
-        viewAdmin.printDeliveries(deliveries);
+        viewAdmin.printDeliveries(database.getDeliveries());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return deliveries.get(userInput-1);
-    }
-
-
-    public void findAndRemoveAdmin(ArrayList<Admin> admins,ArrayList<Customer> customers){
-        String[] adminLoginDetails = scanCustomerLogin();
-        for (int i = 0; i < admins.size(); i++) {
-            if (admins.get(i).getUsername().equals(adminLoginDetails[0])
-                    && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
-                admins.remove(i);
-                System.out.println("Done!");
-                break;
-            }
-        }
-
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getUsername().equals(adminLoginDetails[0])
-                    && customers.get(i).getPassword().equals(adminLoginDetails[1])) {
-                customers.remove(i);
-                return;
-            }
-        }
-        System.out.println("Cant find the admin!");
+        return database.getDeliveries().get(userInput-1);
     }
 
     public void selectRestaurantWorkHours(Restaurant restaurant){
@@ -415,5 +401,26 @@ public class InputObjectHandler {
         restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
         System.out.println("Work Closes at : ");
         restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
+    }
+
+    public Customer selectCustomerHandler(ViewAdmin viewAdmin,Admin admin) {
+        viewAdmin.printCustomers(database.getCustomers());
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getCustomers().size() + 1) {
+            return null;
+        } else {
+            return database.getCustomers().get(userChoice - 1);
+        }
+    }
+
+    public Restaurant selectRestaurantHandler(Admin admin,ViewAdmin viewAdmin) {
+        viewAdmin.printRestaurants(database.getRestaurants());
+        System.out.println("[" + (database.getRestaurants().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getRestaurants().size() + 1) {
+            return null;
+        } else {
+            return database.getRestaurants().get(userChoice - 1);
+        }
     }
 }

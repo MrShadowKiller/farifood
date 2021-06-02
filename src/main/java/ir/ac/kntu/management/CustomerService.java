@@ -1,5 +1,6 @@
 package ir.ac.kntu.management;
 
+import ir.ac.kntu.Database;
 import ir.ac.kntu.enums.customermenu.*;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
@@ -9,20 +10,11 @@ import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.SelectRestaurantManager;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Customer;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class CustomerService {
-    private final ArrayList<Restaurant> restaurants;
-
-    private final ArrayList<Food> foods;
-
-    private final ArrayList<Customer> customers;
-
-    private final ArrayList<Order> orders;
-
     private final ViewCustomer viewCustomer;
 
     private final InputObjectHandler inputObjectHandler;
@@ -31,18 +23,15 @@ public class CustomerService {
 
     private final Management management;
 
-    public CustomerService(ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                           ArrayList<Order> orders, Management management) {
-        customers = new ArrayList<>();
-        this.restaurants = restaurants;
-        this.foods = foods;
-        this.orders = orders;
+    private Database database;
+
+    public CustomerService(Database database, Management management) {
+        this.database = database;
         viewCustomer = new ViewCustomer();
-        inputObjectHandler = new InputObjectHandler();
+        inputObjectHandler = new InputObjectHandler(database);
         selectRestaurantManager = new SelectRestaurantManager();
         this.management = management;
     }
-
 
     public void customerMenuHandler(Customer customer) {
         if (!customer.getUserSetting().isAlreadyCreated()) {
@@ -195,10 +184,10 @@ public class CustomerService {
 
     public void showFoodCommentsHandler() {
         System.out.println("Which Food ?");
-        viewCustomer.printFoodsWithPrice(foods);
+        viewCustomer.printFoodsWithPrice(database.getFoods());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        for (Order order : orders) {
-            if (order.getFood().equals(foods.get(userInput - 1))) {
+        for (Order order : database.getOrders()) {
+            if (order.getFood().equals(database.getFoods().get(userInput - 1))) {
                 System.out.println(order.getComment());
             }
         }
@@ -206,7 +195,7 @@ public class CustomerService {
 
     public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
-        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(restaurants, customer, viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -216,11 +205,11 @@ public class CustomerService {
 
     public void showBestThreeRestaurants(Customer customer) {
         sortRestaurantHighRating();
-        if (restaurants.size() < 3) {
+        if (database.getRestaurants().size() < 3) {
             System.out.println("Not enough Restaurants!");
             restaurantsFoodsTabHandler(customer);
         }
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(restaurants, customer, viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -230,7 +219,7 @@ public class CustomerService {
 
     public void showBestRestaurantsForFood(Customer customer) {
         sortRestaurantHighRating();
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(restaurants, foods, viewCustomer, customer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewCustomer, customer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -239,7 +228,7 @@ public class CustomerService {
     }
 
     public void searchByRestaurantName(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(restaurants, customer);
+        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(database.getRestaurants(), customer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -248,7 +237,7 @@ public class CustomerService {
     }
 
     public void searchByRestaurantType(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(restaurants, customer, viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -257,7 +246,7 @@ public class CustomerService {
     }
 
     public void searchByNeighbor(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(restaurants, customer, viewCustomer);
+        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
         } else {
@@ -351,7 +340,7 @@ public class CustomerService {
             customer.addOrder(order);
             customer.addComment(comment);
             delivery.addOrder(order);
-            orders.add(order);
+            database.getOrders().add(order);
             order.setComment(comment);
         }
     }
@@ -379,51 +368,51 @@ public class CustomerService {
     }
 
     public void sortRestaurantHighRating() {
-        for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j < restaurants.size(); j++) {
-                if (restaurants.get(i).getAverageRate() < restaurants.get(j).getAverageRate()) {
-                    Collections.swap(restaurants, i, j);
+        for (int i = 0; i < database.getRestaurants().size(); i++) {
+            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
+                if (database.getRestaurants().get(i).getAverageRate() < database.getRestaurants().get(j).getAverageRate()) {
+                    Collections.swap(database.getRestaurants(), i, j);
                 }
             }
         }
     }
 
     public void sortRestaurantLowRating() {
-        for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j < restaurants.size(); j++) {
-                if (restaurants.get(i).getAverageRate() > restaurants.get(j).getAverageRate()) {
-                    Collections.swap(restaurants, i, j);
+        for (int i = 0; i < database.getRestaurants().size(); i++) {
+            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
+                if (database.getRestaurants().get(i).getAverageRate() > database.getRestaurants().get(j).getAverageRate()) {
+                    Collections.swap(database.getRestaurants(), i, j);
                 }
             }
         }
     }
 
     public void sortRestaurantHighComments() {
-        for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j < restaurants.size(); j++) {
-                if (restaurants.get(i).getComments().size() < restaurants.get(j).getComments().size()) {
-                    Collections.swap(restaurants, i, j);
+        for (int i = 0; i < database.getRestaurants().size(); i++) {
+            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
+                if (database.getRestaurants().get(i).getComments().size() < database.getRestaurants().get(j).getComments().size()) {
+                    Collections.swap(database.getRestaurants(), i, j);
                 }
             }
         }
     }
 
     public void sortRestaurantLowComments() {
-        for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j < restaurants.size(); j++) {
-                if (restaurants.get(i).getComments().size() > restaurants.get(j).getComments().size()) {
-                    Collections.swap(restaurants, i, j);
+        for (int i = 0; i < database.getRestaurants().size(); i++) {
+            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
+                if (database.getRestaurants().get(i).getComments().size() > database.getRestaurants().get(j).getComments().size()) {
+                    Collections.swap(database.getRestaurants(), i, j);
                 }
             }
         }
     }
 
     public void sortRestaurantByRising() {
-        for (int i = 0; i < restaurants.size(); i++) {
-            for (int j = i + 1; j < restaurants.size(); j++) {
-                if (restaurants.get(i).getOrders().size() > restaurants.get(j).getOrders().size() &&
-                        restaurants.get(j).getAverageRate() >= 3) {
-                    Collections.swap(restaurants, i, j);
+        for (int i = 0; i < database.getRestaurants().size(); i++) {
+            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
+                if (database.getRestaurants().get(i).getOrders().size() > database.getRestaurants().get(j).getOrders().size() &&
+                        database.getRestaurants().get(j).getAverageRate() >= 3) {
+                    Collections.swap(database.getRestaurants(), i, j);
                 }
             }
         }

@@ -9,19 +9,10 @@ import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 public class AdminService {
-    private final ArrayList<Admin> admins;
-
-    private final ArrayList<Restaurant> restaurants;
-
-    private final ArrayList<Food> foods;
-
-    private final ArrayList<Delivery> deliveries;
-
-    private final ArrayList<Customer> customers;
-
-    private final ArrayList<Order> orders;
 
     private final ViewAdmin viewAdmin;
 
@@ -31,19 +22,11 @@ public class AdminService {
 
     private final Database database;
 
-    public AdminService(Admin admin, ArrayList<Admin> admins, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                        ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders, Management management) {
-        this.admins = admins;
-        admins.add(admin);
-        this.restaurants = restaurants;
-        this.foods = foods;
-        this.deliveries = deliveries;
-        this.customers = customers;
-        this.orders = orders;
+    public AdminService(Database database,Management management){
+        this.database = database;
         viewAdmin = new ViewAdmin();
-        inputObjectHandler = new InputObjectHandler();
         this.management = management;
-        database = new Database();
+        inputObjectHandler = new InputObjectHandler(database);
     }
 
     public void adminMenuHandler(Admin admin) {
@@ -73,13 +56,13 @@ public class AdminService {
         System.out.println("Which Status ?");
         viewAdmin.printOrderStatus();
         int orderStatusChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        viewAdmin.printOrdersByStatus(orders, orderStatuses[orderStatusChoice - 1]);
-        System.out.println("[" + (orders.size() + 1) + "]. " + "Exit");
+        viewAdmin.printOrdersByStatus(database.getOrders(), orderStatuses[orderStatusChoice - 1]);
+        System.out.println("[" + (database.getOrders().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == orders.size() + 1) {
+        if (userChoice == database.getOrders().size() + 1) {
             return;
         } else {
-            changeOrderStatus(orders.get(userChoice - 1));
+            changeOrderStatus(database.getOrders().get(userChoice - 1));
         }
     }
 
@@ -97,7 +80,7 @@ public class AdminService {
         switch (AdminsTabOptions.findOption(adminTabInput)) {
             case ADD_ADMIN: database.addAdmin();
                 break;
-            case REMOVE_ADMIN: database
+            case REMOVE_ADMIN: database.removeAdmin();
                 break;
             case VIEW_EDIT_ADMIN: viewAndEditAdmins(admin);
                 break;
@@ -107,40 +90,13 @@ public class AdminService {
         adminsTabHandler(admin);
     }
 
-    public void addAdminHandler() {
-        Admin newAdmin = inputObjectHandler.scanAdminInfo();
-        admins.add(newAdmin);
-        customers.add(newAdmin);
-    }
-
-    public void removeAdminHandler() {
-        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
-        for (int i = 0; i < admins.size(); i++) {
-            if (admins.get(i).getUsername().equals(adminLoginDetails[0])
-                    && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
-                admins.remove(i);
-                System.out.println("Done!");
-                break;
-            }
-        }
-
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getUsername().equals(adminLoginDetails[0])
-                    && customers.get(i).getPassword().equals(adminLoginDetails[1])) {
-                customers.remove(i);
-                return;
-            }
-        }
-        System.out.println("Cant find the admin!");
-    }
-
     public void viewAndEditAdmins(Admin admin) {
-        viewAdmin.printAdmins(admins);
+        viewAdmin.printAdmins(database.getAdmins());
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == admins.size() + 1) {
+        if (userChoice == database.getAdmins().size() + 1) {
             return;
         } else {
-            editAdminHandler(admins.get(userChoice - 1));
+            editAdminHandler(database.getAdmins().get(userChoice - 1));
         }
     }
 
@@ -148,11 +104,11 @@ public class AdminService {
         viewAdmin.printAdminEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: changeCustomerInfo(admin);
+            case CHANGE_PERSONAL_INFO: inputObjectHandler.changeCustomerInformation(admin);
                 break;
-            case CHANGE_PASSWORD: changeCustomerPassword(admin);
+            case CHANGE_PASSWORD: database.changeUserPassword(admin);
                 break;
-            case CHANGE_BALANCE: changeCustomerBalance(admin);
+            case CHANGE_BALANCE: database.changeCustomerBalance(admin);
                 break;
             case EXIT: return;
             default: editAdminHandler(admin);
@@ -164,9 +120,9 @@ public class AdminService {
         viewAdmin.printCustomersTab();
         int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomersTabOptions.findOption(customerTabInput)) {
-            case ADD_CUSTOMER: addCustomerHandler();
+            case ADD_CUSTOMER: database.addCustomer();
                 break;
-            case REMOVE_CUSTOMER: removeCustomerHandler();
+            case REMOVE_CUSTOMER: database.removeCustomer();
                 break;
             case VIEW_EDIT_CUSTOMER: viewAndEditCustomers(admin);
                 break;
@@ -180,55 +136,24 @@ public class AdminService {
         customersTabHandler(admin);
     }
 
-    public void addCustomerHandler() {
-        customers.add(inputObjectHandler.scanCustomerInfo());
-    }
-
-    public void removeCustomerHandler() {
-        String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getUsername().equals(customerLoginDetails[0])
-                    && customers.get(i).getPassword().equals(customerLoginDetails[1])) {
-                customers.remove(i);
-                System.out.println("Done!");
-                return;
-            }
-        }
-        System.out.println("Cant find the Customer!");
-    }
-
     public void viewAndEditCustomers(Admin admin) {
-        Customer selectedCustomer = selectCustomerHandler(admin);
+        Customer selectedCustomer = inputObjectHandler.selectCustomerHandler(viewAdmin,admin);
         if (selectedCustomer == null){
-            System.out.println("Hello");
             return;
         }
         editCustomerHandler(selectedCustomer, admin);
     }
 
-    public void viewCustomerComments(Admin admin) {
-        viewAdmin.printComments(selectCustomerHandler(admin).getComments());
-    }
-
-    public Customer selectCustomerHandler(Admin admin) {
-        viewAdmin.printCustomers(customers);
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == customers.size() + 1) {
-            return null;
-        } else {
-            return customers.get(userChoice - 1);
-        }
-    }
 
     public void editCustomerHandler(Customer customer, Admin admin) {
         viewAdmin.printCustomerEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomerEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: changeCustomerInfo(customer);
+            case CHANGE_PERSONAL_INFO: inputObjectHandler.changeCustomerInformation(customer);
                 break;
-            case CHANGE_PASSWORD: changeCustomerPassword(customer);
+            case CHANGE_PASSWORD: database.changeUserPassword(customer);
                 break;
-            case CHANGE_BALANCE: changeCustomerBalance(customer);
+            case CHANGE_BALANCE: database.changeCustomerBalance(customer);
                 break;
             case EXIT: return;
             default: editCustomerHandler(customer, admin);
@@ -236,39 +161,24 @@ public class AdminService {
         editCustomerHandler(customer, admin);
     }
 
-    public void changeCustomerInfo(Customer customer) {
-        inputObjectHandler.changeCustomerInformation(customer);
-    }
-
-    public void changeCustomerPassword(Customer customer) {
-        System.out.print("New Password : ");
-        String newPassword = ScannerWrapper.getInstance().nextLine().trim();
-        if (customer.checkPasswordValidation(newPassword)) {
-            customer.setPassword(newPassword);
-        } else {
-            System.out.println("Invalid Password!");
-        }
-    }
-
-    public void changeCustomerBalance(Customer customer) {
-        System.out.print("New Balance : ");
-        customer.getWallet().setBalance(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
-    }
-
     public void viewCustomerOrders(Admin admin) {
         System.out.println("Which Customer ?");
         viewAndEditCustomers(admin);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        viewAdmin.printOrders(customers.get(userChoice - 1).getOrders());
+        viewAdmin.printOrders(database.getCustomers().get(userChoice - 1).getOrders());
+    }
+
+    public void viewCustomerComments(Admin admin) {
+        viewAdmin.printComments(inputObjectHandler.selectCustomerHandler(viewAdmin,admin).getComments());
     }
 
     public void restaurantsTabHandler(Admin admin) {
         viewAdmin.printRestaurantsTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantsTabOptions.findOption(userInput)) {
-            case ADD_RESTAURANT: addRestaurantHandler();
+            case ADD_RESTAURANT: database.addRestaurant();
                 break;
-            case REMOVE_RESTAURANT: removeRestaurantHandler();
+            case REMOVE_RESTAURANT: database.removeRestaurant();
                 break;
             case VIEW_EDIT_RESTAURANT: viewAndEditRestaurantHandler(admin);
                 break;
@@ -277,6 +187,7 @@ public class AdminService {
             case VIEW_FOODS: viewRestaurantFoods(admin);
                 break;
             case VIEW_COMMENTS: viewRestaurantComments(admin);
+                break;
             case VIEW_DELIVERIES: viewRestaurantDeliveries(admin);
                 break;
             case EXIT: return;
@@ -285,43 +196,35 @@ public class AdminService {
         restaurantsTabHandler(admin);
     }
 
-    public void addRestaurantHandler() {
-        restaurants.add(inputObjectHandler.scanRestaurantInfo(viewAdmin, foods));
-    }
-
-    public void removeRestaurantHandler() {
-        restaurants.remove(inputObjectHandler.findRestaurant(restaurants));
-    }
-
     public void viewRestaurantOrders(Admin admin) {
-        viewAdmin.printOrders(selectRestaurantHandler(admin).getOrders());
+        viewAdmin.printOrders(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getOrders());
     }
 
     public void viewRestaurantFoods(Admin admin) {
-        viewAdmin.printFoods(selectRestaurantHandler(admin).getFoods());
+        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getFoods());
     }
 
     public void viewRestaurantComments(Admin admin) {
-        viewAdmin.printComments(selectRestaurantHandler(admin).getComments());
+        viewAdmin.printComments(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getComments());
     }
 
     public void viewRestaurantDeliveries(Admin admin) {
-        viewAdmin.printDeliveries(selectRestaurantHandler(admin).getDeliveries());
+        viewAdmin.printDeliveries(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getDeliveries());
     }
 
     public void viewAndEditRestaurantHandler(Admin admin) {
-        Restaurant selectedRestaurant = selectRestaurantHandler(admin);
+        Restaurant selectedRestaurant = inputObjectHandler.selectRestaurantHandler(admin,viewAdmin);
         if (selectedRestaurant == null){
             return;
         }
         viewAdmin.printEditRestaurantTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantEditOptions.findOption(userInput)) {
-            case CHANGE_NAME: changeRestaurantName(selectedRestaurant);
+            case CHANGE_NAME: database.changeRestaurantName(selectedRestaurant);
                 break;
-            case CHANGE_WORK_HOURS: changeRestaurantWorkHours(selectedRestaurant);
+            case CHANGE_WORK_HOURS: database.changeRestaurantWorkHours(selectedRestaurant);
                 break;
-            case CHANGE_SCHEDULE: changeRestaurantSchedule(selectedRestaurant);
+            case CHANGE_SCHEDULE: database.changeRestaurantSchedule(selectedRestaurant);
                 break;
             case ADD_FOOD: addFoodRestaurant(selectedRestaurant);
                 break;
@@ -337,22 +240,8 @@ public class AdminService {
         viewAndEditRestaurantHandler(admin);
     }
 
-    public void changeRestaurantName(Restaurant restaurant) {
-        System.out.print("New Name : ");
-        restaurant.setName(ScannerWrapper.getInstance().nextLine().trim());
-    }
-
-    public void changeRestaurantWorkHours(Restaurant restaurant) {
-        inputObjectHandler.selectRestaurantWorkHours(restaurant);
-    }
-
-    public void changeRestaurantSchedule(Restaurant restaurant) {
-        System.out.println("Which days restaurant is available ? ");
-        restaurant.setSchedule(inputObjectHandler.selectRestaurantSchedule(viewAdmin));
-    }
-
     public void addFoodRestaurant(Restaurant restaurant) {
-        Food food = new Food(inputObjectHandler.selectFood(viewAdmin, foods));
+        Food food = new Food(inputObjectHandler.selectFood(viewAdmin));
         System.out.print("price : ");
         double userChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         food.setPrice(userChoice);
@@ -360,11 +249,11 @@ public class AdminService {
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
-        restaurant.getFoods().remove(inputObjectHandler.selectFood(viewAdmin, restaurant.getFoods()));
+        restaurant.getFoods().remove(inputObjectHandler.selectFood(viewAdmin));
     }
 
     public void addDeliveryRestaurant(Restaurant restaurant) {
-        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(viewAdmin, deliveries, restaurant));
+        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(viewAdmin, restaurant));
     }
 
     public void removeDeliveryRestaurant(Restaurant restaurant) {
@@ -373,24 +262,14 @@ public class AdminService {
         restaurant.getDeliveries().remove(delivery);
     }
 
-    public Restaurant selectRestaurantHandler(Admin admin) {
-        viewAdmin.printRestaurants(restaurants);
-        System.out.println("[" + (restaurants.size() + 1) + "]. " + "Exit");
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == restaurants.size() + 1) {
-            return null;
-        } else {
-            return restaurants.get(userChoice - 1);
-        }
-    }
 
     public void deliveriesTabHandler(Admin admin) {
         viewAdmin.printDeliveriesTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (DeliveriesTabOptions.findOption(userInput)) {
-            case ADD_DELIVERY: addDeliveryHandler();
+            case ADD_DELIVERY: database.addDelivery();
                 break;
-            case REMOVE_DELIVERY: removeDeliveryHandler();
+            case REMOVE_DELIVERY: database.removeDelivery();
                 break;
             case VIEW_EDIT_DELIVERIES: viewAndEditDeliveries(admin);
                 break;
@@ -401,34 +280,26 @@ public class AdminService {
         deliveriesTabHandler(admin);
     }
 
-    public void addDeliveryHandler() {
-        deliveries.add(inputObjectHandler.scanDeliveryInfo(viewAdmin));
-    }
-
-    public void removeDeliveryHandler() {
-        deliveries.remove(inputObjectHandler.selectToRemoveDelivery(deliveries,viewAdmin));
-    }
-
     public void viewDeliveryOrders(Admin admin) {
         System.out.println("Which Delivery ?");
-        viewAdmin.printDeliveries(deliveries);
-        System.out.println("[" + (deliveries.size() + 1) + "]. " + "Exit");
+        viewAdmin.printDeliveries(database.getDeliveries());
+        System.out.println("[" + (database.getDeliveries().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == deliveries.size() + 1) {
-            deliveriesTabHandler(admin);
+        if (userChoice == database.getDeliveries().size() + 1) {
+            return;
         } else {
-            viewAdmin.printOrders(deliveries.get(userChoice - 1).getOrders());
+            viewAdmin.printOrders(database.getDeliveries().get(userChoice - 1).getOrders());
         }
     }
 
     public void viewAndEditDeliveries(Admin admin) {
-        viewAdmin.printDeliveries(deliveries);
-        System.out.println("[" + (deliveries.size() + 1) + "]. " + "Exit");
+        viewAdmin.printDeliveries(database.getDeliveries());
+        System.out.println("[" + (database.getDeliveries().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == deliveries.size() + 1) {
+        if (userChoice == database.getDeliveries().size() + 1) {
             return;
         } else {
-            editDeliveryHandler(deliveries.get(userChoice - 1), admin);
+            editDeliveryHandler(database.getDeliveries().get(userChoice - 1), admin);
         }
     }
 
@@ -436,11 +307,11 @@ public class AdminService {
         viewAdmin.printDeliveryEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (DeliveryEditOptions.findOption(userInput)) {
-            case CHANGE_SALARY: changeDeliverySalary(delivery);
+            case CHANGE_SALARY: database.changeDeliverySalary(delivery);
                 break;
-            case CHANGE_VEHICLE: changeDeliveryVehicle(delivery);
+            case CHANGE_VEHICLE: database.changeDeliveryVehicle(delivery);
                 break;
-            case CHANGE_SALARY_TYPE: changeDeliverySalaryType(delivery);
+            case CHANGE_SALARY_TYPE: database.changeDeliverySalaryType(delivery);
                 break;
             case EXIT: deliveriesTabHandler(admin);
                 break;
@@ -449,26 +320,13 @@ public class AdminService {
         editDeliveryHandler(delivery, admin);
     }
 
-    public void changeDeliverySalary(Delivery delivery) {
-        System.out.println("How Much ? ");
-        delivery.setSalary(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
-    }
-
-    public void changeDeliveryVehicle(Delivery delivery) {
-        delivery.setVehicleType(inputObjectHandler.selectDeliveryVehicle());
-    }
-
-    public void changeDeliverySalaryType(Delivery delivery) {
-        delivery.setSalaryType(inputObjectHandler.selectDeliverySalaryType());
-    }
-
     public void foodTabHandler(Admin admin) {
         viewAdmin.printFoodTab();
         int foodTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (FoodTabOptions.findOption(foodTabInput)) {
-            case ADD_FOOD: addFoodHandler();
+            case ADD_FOOD: database.addFood();
                 break;
-            case REMOVE_FOOD: removeFoodHandler();
+            case REMOVE_FOOD: database.removeFood();
                 break;
             case VIEW_FOODS: viewFoodsHandler();
                 break;
@@ -480,19 +338,11 @@ public class AdminService {
         foodTabHandler(admin);
     }
 
-    public void addFoodHandler() {
-        foods.add(inputObjectHandler.scanFoodInfo());
-    }
-
-    public void removeFoodHandler() {
-        foods.remove(inputObjectHandler.scanFoodInfo());
-    }
-
     public void viewFoodsHandler() {
-        viewAdmin.printFoods(foods);
+        viewAdmin.printFoods(database.getFoods());
     }
 
     public void viewFoodCommentsHandler() {
-        viewAdmin.printFoodComments(inputObjectHandler.selectFood(viewAdmin, foods), restaurants);
+        viewAdmin.printFoodComments(inputObjectHandler.selectFood(viewAdmin), database.getRestaurants());
     }
 }

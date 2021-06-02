@@ -1,5 +1,6 @@
 package ir.ac.kntu.management;
 
+import ir.ac.kntu.Database;
 import ir.ac.kntu.objects.Address;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
@@ -92,7 +93,7 @@ public class Main {
         restaurants.get(1).addFood(foods.get(2));
         restaurants.get(2).addFood(foods.get(2));
 
-        return new Management(admin1, admins, restaurants, deliveries, customers, foods);
+        return new Database(admins,restaurants,foods,deliveries,customers,orders,)
     }
 
 }
