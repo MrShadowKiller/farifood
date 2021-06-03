@@ -26,7 +26,8 @@ public class AdminService {
         this.database = database;
         viewAdmin = new ViewAdmin();
         this.management = management;
-        inputObjectHandler = new InputObjectHandler(database);
+        inputObjectHandler = new InputObjectHandler();
+        inputObjectHandler.setDatabase(database);
     }
 
     public void adminMenuHandler(Admin admin) {

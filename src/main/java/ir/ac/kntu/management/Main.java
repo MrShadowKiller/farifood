@@ -7,9 +7,12 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
+import ir.ac.kntu.ui.ViewAdmin;
+import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
@@ -21,7 +24,16 @@ public class Main {
         Admin admin1 = new Admin("Mohammad", "Shahabadi",
                 "09216272515", "1", "1", address1);
 
-        Management management = new Management(admin1);
+        InputObjectHandler inputObjectHandler = new InputObjectHandler();
+        Database database = new Database(new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()
+                ,new ArrayList<>(),new ArrayList<>(),new ViewAdmin(),inputObjectHandler,new ViewCustomer());
+
+        inputObjectHandler.setDatabase(database);
+        database.getAdmins().add(admin1);
+        database.getCustomers().add(admin1);
+
+        Management management = new Management(database,inputObjectHandler);
+
 
         while (true) {
             System.out.println("[1].Open Software");
@@ -31,7 +43,9 @@ public class Main {
             if (userChoice == 1) {
                 management.startMenu();
             } else if (userChoice == 2) {
-                management = getTest(admin1,address1);
+                InputObjectHandler inputObjectHandler1 = new InputObjectHandler();
+                Database database1 = getTest(admin1,address1);
+                management = new Management(database1,inputObjectHandler1);
             } else {
                 break;
             }
@@ -41,18 +55,21 @@ public class Main {
 
     }
 
-    public static Management getTest(Admin admin1,Address address1){
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+    public static Database getTest(Admin admin1,Address address1){
+        ArrayList<Customer> customers = new ArrayList<>();
         ArrayList<Food> foods = new ArrayList<>();
         ArrayList<Delivery> deliveries = new ArrayList<>();
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         ArrayList<Admin> admins = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
+
         Address address2 = new Address("Baharestan", "Shakoori St , P8", "20500");
         Address address3 = new Address("Valiasr", "Shakoori St , P8", "20500");
 
         Admin admin2 = new Admin("Ali", "Akbari",
                 "09216272515", "1", "1", address1);
         admins.add(admin2);
+        customers.add(admin2);
 
         foods.add(new Food("Kale pache", 20));
         foods.add(new Food("Kabab", 15));
@@ -83,17 +100,43 @@ public class Main {
         restaurants.add(new Restaurant("Mamad Kababi", address1, 9, 22, schedule1, RestaurantType.ECONOMY));
         restaurants.add(new Restaurant("Ali Kababi", address2, 12, 20, schedule1, RestaurantType.HIGH_CLASS));
         restaurants.add(new Restaurant("Hassan Kababi", address3, 14, 20, schedule1, RestaurantType.LUXURY));
-        restaurants.get(0).addFood(foods.get(0));
-        restaurants.get(1).addFood(foods.get(0));
-        restaurants.get(2).addFood(foods.get(0));
-        restaurants.get(0).addFood(foods.get(1));
-        restaurants.get(1).addFood(foods.get(1));
-        restaurants.get(2).addFood(foods.get(1));
-        restaurants.get(0).addFood(foods.get(2));
-        restaurants.get(1).addFood(foods.get(2));
-        restaurants.get(2).addFood(foods.get(2));
 
-        return new Database(admins,restaurants,foods,deliveries,customers,orders,)
+        restaurants.get(0).addFood(new Food(foods.get(0)));
+        restaurants.get(1).addFood(new Food(foods.get(0)));
+        restaurants.get(2).addFood(new Food(foods.get(0)));
+        restaurants.get(0).addFood(new Food(foods.get(1)));
+        restaurants.get(1).addFood(new Food(foods.get(1)));
+        restaurants.get(2).addFood(new Food(foods.get(1)));
+        restaurants.get(0).addFood(new Food(foods.get(2)));
+        restaurants.get(1).addFood(new Food(foods.get(2)));
+        restaurants.get(2).addFood(new Food(foods.get(2)));
+
+        restaurants.get(0).getFoods().get(0).setPrice(100);
+        restaurants.get(1).getFoods().get(0).setPrice(80);
+        restaurants.get(2).getFoods().get(0).setPrice(70);
+
+        restaurants.get(0).getFoods().get(1).setPrice(150);
+        restaurants.get(1).getFoods().get(1).setPrice(20);
+        restaurants.get(2).getFoods().get(1).setPrice(40);
+
+        restaurants.get(0).addDelivery(deliveries.get(0));
+        restaurants.get(0).addDelivery(deliveries.get(1));
+        restaurants.get(1).addDelivery(deliveries.get(0));
+        restaurants.get(1).addDelivery(deliveries.get(1));
+
+        deliveries.get(0).getSchedule()[0].setRestaurant(restaurants.get(0));
+        deliveries.get(0).getSchedule()[0].setRestaurant(restaurants.get(1));
+        deliveries.get(0).addRestaurant(restaurants.get(0));
+        deliveries.get(0).addRestaurant(restaurants.get(1));
+
+        deliveries.get(1).getSchedule()[0].setRestaurant(restaurants.get(0));
+        deliveries.get(1).getSchedule()[1].setRestaurant(restaurants.get(1));
+        deliveries.get(1).addRestaurant(restaurants.get(0));
+        deliveries.get(1).addRestaurant(restaurants.get(1));
+
+
+        return new Database(admins,restaurants,foods,deliveries,customers,orders,new ViewAdmin()
+                ,new InputObjectHandler(),new ViewCustomer());
     }
 
 }

@@ -28,7 +28,8 @@ public class CustomerService {
     public CustomerService(Database database, Management management) {
         this.database = database;
         viewCustomer = new ViewCustomer();
-        inputObjectHandler = new InputObjectHandler(database);
+        inputObjectHandler = new InputObjectHandler();
+        inputObjectHandler.setDatabase(database);
         selectRestaurantManager = new SelectRestaurantManager();
         this.management = management;
     }
@@ -195,6 +196,11 @@ public class CustomerService {
 
     public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
+
+        for (int i=0;i<database.getRestaurants().size();i++){
+            System.out.println(database.getRestaurants().get(i));
+        }
+
         Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
@@ -266,7 +272,7 @@ public class CustomerService {
                 buyFoodHandler(restaurant, customer);
                 break;
             case SHOW_COMMENTS:
-                showRestaurantComments(restaurant);
+                viewCustomer.printComments(restaurant.getComments());
                 break;
             case EXIT:
                 restaurantsFoodsTabHandler(customer);
@@ -279,10 +285,6 @@ public class CustomerService {
 
     public void showRestaurantInformationHandler(Restaurant restaurant) {
         viewCustomer.printRestaurantInformation(restaurant);
-    }
-
-    public void showRestaurantComments(Restaurant restaurant) {
-        viewCustomer.printComments(restaurant.getComments());
     }
 
     public void buyFoodHandler(Restaurant restaurant, Customer customer) {
@@ -347,12 +349,14 @@ public class CustomerService {
 
 
     public void setRestaurantSort(Customer customer) {
+
         switch (customer.getUserSetting().getRestaurantSortOption()) {
             case LOW_RATE:
                 sortRestaurantLowRating();
                 break;
             case HIGH_RATE:
                 sortRestaurantHighRating();
+                break;
             case HIGH_COMMENTS:
                 sortRestaurantHighComments();
                 break;

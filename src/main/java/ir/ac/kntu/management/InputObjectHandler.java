@@ -24,7 +24,10 @@ import java.util.ArrayList;
 public class InputObjectHandler {
     private Database database;
 
-    public InputObjectHandler(Database database){
+    public InputObjectHandler(){
+    }
+
+    public void setDatabase(Database database){
         this.database = database;
     }
 

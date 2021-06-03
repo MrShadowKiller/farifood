@@ -20,17 +20,15 @@ public class Management {
 
     private AdminService adminService ;
 
-    public Management(Database database) {
+    public Management(Database database,InputObjectHandler inputObjectHandler) {
         this.database = database;
         customerService = new CustomerService(database,this);
-    }
-
-    public InputObjectHandler getInputObjectHandler() {
-        return inputObjectHandler;
-    }
-
-    public void setInputObjectHandler(InputObjectHandler inputObjectHandler) {
+        adminService = new AdminService(database,this);
         this.inputObjectHandler = inputObjectHandler;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
     }
 
     public void startMenu() {
@@ -92,6 +90,7 @@ public class Management {
         System.out.println("[2].Customer login");
         System.out.println("[3].Exit");
     }
+
 
 
 }

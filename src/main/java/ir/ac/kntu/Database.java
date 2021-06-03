@@ -11,6 +11,7 @@ import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class Database {
@@ -45,11 +46,6 @@ public class Database {
         this.inputObjectHandler = inputObjectHandler;
         this.viewCustomer = viewCustomer;
     }
-
-    public Database(ViewAdmin viewAdmin, InputObjectHandler inputObjectHandler, ViewCustomer viewCustomer) {
-
-    }
-
 
     public ArrayList<Admin> getAdmins() {
         return admins;
@@ -147,9 +143,7 @@ public class Database {
     public void changeUserPassword(Customer user) {
         System.out.print("New Password : ");
         String newPassword = ScannerWrapper.getInstance().nextLine().trim();
-        if (user.checkPasswordValidation(newPassword)) {
-            user.setPassword(newPassword);
-        } else {
+        if (!user.setPassword(newPassword)){
             System.out.println("Invalid Password!");
         }
     }
