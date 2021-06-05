@@ -6,13 +6,11 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
-import ir.ac.kntu.restaurant.Restaurant;
-import ir.ac.kntu.restaurant.SelectRestaurantManager;
+import ir.ac.kntu.restaurant.*;
+import ir.ac.kntu.restaurant.sort.*;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Customer;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class CustomerService {
     private final ViewCustomer viewCustomer;
@@ -196,11 +194,6 @@ public class CustomerService {
 
     public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
-
-        for (int i=0;i<database.getRestaurants().size();i++){
-            System.out.println(database.getRestaurants().get(i));
-        }
-
         Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant == null) {
             restaurantsFoodsTabHandler(customer);
@@ -372,54 +365,23 @@ public class CustomerService {
     }
 
     public void sortRestaurantHighRating() {
-        for (int i = 0; i < database.getRestaurants().size(); i++) {
-            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
-                if (database.getRestaurants().get(i).getAverageRate() < database.getRestaurants().get(j).getAverageRate()) {
-                    Collections.swap(database.getRestaurants(), i, j);
-                }
-            }
-        }
+        database.getRestaurants().sort(new RestaurantCompareHighRate());
     }
 
     public void sortRestaurantLowRating() {
-        for (int i = 0; i < database.getRestaurants().size(); i++) {
-            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
-                if (database.getRestaurants().get(i).getAverageRate() > database.getRestaurants().get(j).getAverageRate()) {
-                    Collections.swap(database.getRestaurants(), i, j);
-                }
-            }
-        }
+        database.getRestaurants().sort(new RestaurantCompareLowRate());
     }
 
     public void sortRestaurantHighComments() {
-        for (int i = 0; i < database.getRestaurants().size(); i++) {
-            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
-                if (database.getRestaurants().get(i).getComments().size() < database.getRestaurants().get(j).getComments().size()) {
-                    Collections.swap(database.getRestaurants(), i, j);
-                }
-            }
-        }
+        database.getRestaurants().sort(new RestaurantCompareHighComments());
     }
 
     public void sortRestaurantLowComments() {
-        for (int i = 0; i < database.getRestaurants().size(); i++) {
-            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
-                if (database.getRestaurants().get(i).getComments().size() > database.getRestaurants().get(j).getComments().size()) {
-                    Collections.swap(database.getRestaurants(), i, j);
-                }
-            }
-        }
+        database.getRestaurants().sort(new RestaurantCompareLowComments());
     }
 
     public void sortRestaurantByRising() {
-        for (int i = 0; i < database.getRestaurants().size(); i++) {
-            for (int j = i + 1; j < database.getRestaurants().size(); j++) {
-                if (database.getRestaurants().get(i).getOrders().size() > database.getRestaurants().get(j).getOrders().size() &&
-                        database.getRestaurants().get(j).getAverageRate() >= 3) {
-                    Collections.swap(database.getRestaurants(), i, j);
-                }
-            }
-        }
+        database.getRestaurants().sort(new RestaurantCompareRising());
     }
 
     public void setFoodRestaurantSort(Restaurant restaurant, Customer customer) {
