@@ -22,8 +22,8 @@ public class Management {
 
     public Management(Database database,InputObjectHandler inputObjectHandler) {
         this.database = database;
-        customerService = new CustomerService(database,this);
-        adminService = new AdminService(database,this);
+        customerService = new CustomerService(database);
+        adminService = new AdminService(database);
         this.inputObjectHandler = inputObjectHandler;
     }
 
@@ -81,7 +81,6 @@ public class Management {
         if (!foundCustomer) {
             System.out.println("Wrong username or password!");
         }
-        startMenu();
     }
 
     public void printStartMenu() {

@@ -130,6 +130,9 @@ public class SelectRestaurantManager {
         }
         viewCustomer.printRestaurants(nearRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == nearRestaurants.size() + 1){
+            return null;
+        }
         return nearRestaurants.get(userChoice - 1);
     }
 

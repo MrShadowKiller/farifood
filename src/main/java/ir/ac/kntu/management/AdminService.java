@@ -18,14 +18,11 @@ public class AdminService {
 
     private final InputObjectHandler inputObjectHandler;
 
-    private final Management management;
-
     private final Database database;
 
-    public AdminService(Database database,Management management){
+    public AdminService(Database database){
         this.database = database;
         viewAdmin = new ViewAdmin();
-        this.management = management;
         inputObjectHandler = new InputObjectHandler();
         inputObjectHandler.setDatabase(database);
     }
@@ -60,9 +57,7 @@ public class AdminService {
         viewAdmin.printOrdersByStatus(database.getOrders(), orderStatuses[orderStatusChoice - 1]);
         System.out.println("[" + (database.getOrders().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getOrders().size() + 1) {
-            return;
-        } else {
+        if (userChoice != database.getOrders().size() + 1) {
             changeOrderStatus(database.getOrders().get(userChoice - 1));
         }
     }
@@ -94,9 +89,7 @@ public class AdminService {
     public void viewAndEditAdmins(Admin admin) {
         viewAdmin.printAdmins(database.getAdmins());
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getAdmins().size() + 1) {
-            return;
-        } else {
+        if (userChoice != database.getAdmins().size() + 1) {
             editAdminHandler(database.getAdmins().get(userChoice - 1));
         }
     }
@@ -139,10 +132,9 @@ public class AdminService {
 
     public void viewAndEditCustomers(Admin admin) {
         Customer selectedCustomer = inputObjectHandler.selectCustomerHandler(viewAdmin,admin);
-        if (selectedCustomer == null){
-            return;
+        if (selectedCustomer != null){
+            editCustomerHandler(selectedCustomer, admin);
         }
-        editCustomerHandler(selectedCustomer, admin);
     }
 
 
@@ -286,9 +278,7 @@ public class AdminService {
         viewAdmin.printDeliveries(database.getDeliveries());
         System.out.println("[" + (database.getDeliveries().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getDeliveries().size() + 1) {
-            return;
-        } else {
+        if (userChoice != database.getDeliveries().size() + 1) {
             viewAdmin.printOrders(database.getDeliveries().get(userChoice - 1).getOrders());
         }
     }
@@ -297,9 +287,7 @@ public class AdminService {
         viewAdmin.printDeliveries(database.getDeliveries());
         System.out.println("[" + (database.getDeliveries().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getDeliveries().size() + 1) {
-            return;
-        } else {
+        if (userChoice != database.getDeliveries().size() + 1) {
             editDeliveryHandler(database.getDeliveries().get(userChoice - 1), admin);
         }
     }

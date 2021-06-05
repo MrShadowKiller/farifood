@@ -19,17 +19,14 @@ public class CustomerService {
 
     private final SelectRestaurantManager selectRestaurantManager;
 
-    private final Management management;
-
     private Database database;
 
-    public CustomerService(Database database, Management management) {
+    public CustomerService(Database database) {
         this.database = database;
         viewCustomer = new ViewCustomer();
         inputObjectHandler = new InputObjectHandler();
         inputObjectHandler.setDatabase(database);
         selectRestaurantManager = new SelectRestaurantManager();
-        this.management = management;
     }
 
     public void customerMenuHandler(Customer customer) {
@@ -55,7 +52,7 @@ public class CustomerService {
                 setUserSetting(customer);
                 break;
             case EXIT:
-                management.startMenu();
+                return;
             default:
                 customerMenuHandler(customer);
         }
@@ -80,8 +77,7 @@ public class CustomerService {
                 showCustomerComments(customer);
                 break;
             case EXIT:
-                customerMenuHandler(customer);
-                break;
+                return;
             default:
                 showCustomerInformationHandler(customer);
                 break;
@@ -115,8 +111,7 @@ public class CustomerService {
                 addCreditCardBalanceHandler(customer);
                 break;
             case EXIT:
-                customerMenuHandler(customer);
-                break;
+                return;
             default:
                 addBalanceHandler(customer);
         }
@@ -174,11 +169,11 @@ public class CustomerService {
                 showFoodCommentsHandler();
                 break;
             case EXIT:
-                customerMenuHandler(customer);
-                break;
+                return;
             default:
                 restaurantsFoodsTabHandler(customer);
         }
+        restaurantsFoodsTabHandler(customer);
     }
 
     public void showFoodCommentsHandler() {
@@ -195,9 +190,7 @@ public class CustomerService {
     public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
         Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
@@ -209,9 +202,7 @@ public class CustomerService {
             restaurantsFoodsTabHandler(customer);
         }
         Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(database.getRestaurants(), customer, viewCustomer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
@@ -219,36 +210,28 @@ public class CustomerService {
     public void showBestRestaurantsForFood(Customer customer) {
         sortRestaurantHighRating();
         Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewCustomer, customer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantName(Customer customer) {
         Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(database.getRestaurants(), customer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantType(Customer customer) {
         Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(database.getRestaurants(), customer, viewCustomer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByNeighbor(Customer customer) {
         Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(database.getRestaurants(), customer, viewCustomer);
-        if (selectedRestaurant == null) {
-            restaurantsFoodsTabHandler(customer);
-        } else {
+        if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
@@ -268,8 +251,7 @@ public class CustomerService {
                 viewCustomer.printComments(restaurant.getComments());
                 break;
             case EXIT:
-                restaurantsFoodsTabHandler(customer);
-                break;
+                return;
             default:
                 restaurantMenu(restaurant, customer);
         }
@@ -283,9 +265,7 @@ public class CustomerService {
     public void buyFoodHandler(Restaurant restaurant, Customer customer) {
         viewCustomer.printRestaurantFoodMenu(restaurant);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput == restaurant.getFoods().size() + 1) {
-            restaurantMenu(restaurant, customer);
-        } else {
+        if (userInput != restaurant.getFoods().size() + 1) {
             processTheOrderCost(restaurant.getFoods().get(userInput - 1), customer, restaurant);
         }
     }
