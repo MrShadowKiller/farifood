@@ -5,75 +5,31 @@ import ir.ac.kntu.user.UserRate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Food {
-    private String name;
-
-    private double price;
-
+public class Food extends Item {
     private int timeForCooking;
 
-    private ArrayList<UserRate> foodrates;
-
     public Food(String name, int timeForCooking) {
-        this.name = name;
+        super(name,0);
         this.timeForCooking = timeForCooking;
-        foodrates = new ArrayList<>();
-        price = 0;
     }
 
     public Food(Food food) {
-        this.name = food.name;
+        super(food.getName(),food.getPrice());
         this.timeForCooking = food.timeForCooking;
-        foodrates = new ArrayList<>();
-        price = food.getPrice();
     }
 
     public Food(Food food, double price) {
-        this.name = food.name;
+        super(food.getName(),price);
         this.timeForCooking = food.timeForCooking;
-        foodrates = new ArrayList<>();
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public int getTimeForCooking() {
         return timeForCooking;
     }
 
-    public void setTimeForCooking(int timeForCooking) {
-        this.timeForCooking = timeForCooking;
-    }
-
-    public ArrayList<UserRate> getFoodrates() {
-        return foodrates;
-    }
-
-    public void setFoodrates(ArrayList<UserRate> foodrates) {
-        this.foodrates = foodrates;
-    }
-
-    public void addFoodRate(UserRate foodrate) {
-        foodrates.add(foodrate);
-    }
-
     @Override
     public String toString() {
-        return name + "\t" + timeForCooking + "min\t" + price
+        return getName() + "\t" + timeForCooking + "min\t" + getPrice()
                 + "$\t" + getAverageRate();
     }
 
@@ -97,11 +53,11 @@ public class Food {
             return false;
         }
         Food food = (Food) o;
-        return name.equals(food.name) && timeForCooking == food.timeForCooking;
+        return getName().equals(food.getName()) && timeForCooking == food.timeForCooking;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price);
+        return Objects.hash(getName(), getPrice());
     }
 }

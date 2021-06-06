@@ -10,8 +10,6 @@ import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
-
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class Database {
