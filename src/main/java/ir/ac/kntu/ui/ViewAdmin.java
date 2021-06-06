@@ -5,6 +5,7 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
@@ -180,10 +181,11 @@ public class ViewAdmin {
         System.out.println("[5].Exit");
     }
 
-    public void printFoods(ArrayList<Food> foods) {
+    public void printFoods(ArrayList<Item> foods) {
         for (int i = 1; i <= foods.size(); i++) {
+
             System.out.println("[" + i + "]. " + foods.get(i - 1).getName() +
-                    "  " + foods.get(i - 1).getTimeForCooking() + "min " +
+                    "  " + ((Food)foods.get(i - 1)).getTimeForCooking() + "min " +
                     "  " + foods.get(i - 1).getPrice() + "$");
         }
         if (foods.size() == 0) {

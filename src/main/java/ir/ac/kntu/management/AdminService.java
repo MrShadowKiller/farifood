@@ -10,8 +10,6 @@ import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 public class AdminService {
 
     private final ViewAdmin viewAdmin;
@@ -194,7 +192,7 @@ public class AdminService {
     }
 
     public void viewRestaurantFoods(Admin admin) {
-        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getFoods());
+        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getItems());
     }
 
     public void viewRestaurantComments(Admin admin) {
@@ -238,11 +236,11 @@ public class AdminService {
         System.out.print("price : ");
         double userChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         food.setPrice(userChoice);
-        restaurant.addFood(food);
+        restaurant.addItem(food);
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
-        restaurant.getFoods().remove(inputObjectHandler.selectFood(viewAdmin));
+        restaurant.getItems().remove(inputObjectHandler.selectFood(viewAdmin));
     }
 
     public void addDeliveryRestaurant(Restaurant restaurant) {

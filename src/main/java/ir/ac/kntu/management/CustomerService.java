@@ -7,10 +7,11 @@ import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.*;
-import ir.ac.kntu.restaurant.sort.*;
+import ir.ac.kntu.sort.*;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Customer;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 public class CustomerService {
     private final ViewCustomer viewCustomer;
@@ -196,7 +197,7 @@ public class CustomerService {
     }
 
     public void showBestThreeRestaurants(Customer customer) {
-        sortRestaurantHighRating();
+        database.sortRestaurantHighRating();
         if (database.getRestaurants().size() < 3) {
             System.out.println("Not enough Restaurants!");
             restaurantsFoodsTabHandler(customer);
@@ -208,7 +209,7 @@ public class CustomerService {
     }
 
     public void showBestRestaurantsForFood(Customer customer) {
-        sortRestaurantHighRating();
+        database.sortRestaurantHighRating();
         Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewCustomer, customer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
@@ -265,7 +266,7 @@ public class CustomerService {
     public void buyFoodHandler(Restaurant restaurant, Customer customer) {
         viewCustomer.printRestaurantFoodMenu(restaurant);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput != restaurant.getFoods().size() + 1) {
+        if (userInput != restaurant.getItems().size() + 1) {
             processTheOrderCost(restaurant.getFoods().get(userInput - 1), customer, restaurant);
         }
     }
@@ -325,43 +326,23 @@ public class CustomerService {
 
         switch (customer.getUserSetting().getRestaurantSortOption()) {
             case LOW_RATE:
-                sortRestaurantLowRating();
+                database.sortRestaurantLowRating();
                 break;
             case HIGH_RATE:
-                sortRestaurantHighRating();
+                database.sortRestaurantHighRating();
                 break;
             case HIGH_COMMENTS:
-                sortRestaurantHighComments();
+                database.sortRestaurantHighComments();
                 break;
             case LOW_COMMENTS:
-                sortRestaurantLowComments();
+                database.sortRestaurantLowComments();
                 break;
             case RISING:
-                sortRestaurantByRising();
+                database.sortRestaurantByRising();
                 break;
             default:
                 setRestaurantSort(customer);
         }
-    }
-
-    public void sortRestaurantHighRating() {
-        database.getRestaurants().sort(new RestaurantCompareHighRate());
-    }
-
-    public void sortRestaurantLowRating() {
-        database.getRestaurants().sort(new RestaurantCompareLowRate());
-    }
-
-    public void sortRestaurantHighComments() {
-        database.getRestaurants().sort(new RestaurantCompareHighComments());
-    }
-
-    public void sortRestaurantLowComments() {
-        database.getRestaurants().sort(new RestaurantCompareLowComments());
-    }
-
-    public void sortRestaurantByRising() {
-        database.getRestaurants().sort(new RestaurantCompareRising());
     }
 
     public void setFoodRestaurantSort(Restaurant restaurant, Customer customer) {
