@@ -214,6 +214,8 @@ public class Restaurant {
     }
 
     public void sortFoodHighRating() {
+        foods.sort((x, y) -> (int) (Math.ceil(y.getAverageRate() - x.getAverageRate())));
+
         for (int i = 0; i < foods.size(); i++) {
             for (int j = i + 1; j < foods.size(); j++) {
                 if (foods.get(i).getAverageRate() < foods.get(j).getAverageRate()) {
