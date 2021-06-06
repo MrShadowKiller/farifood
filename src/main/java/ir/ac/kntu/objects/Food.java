@@ -33,17 +33,6 @@ public class Food extends Item {
                 + "$\t" + getAverageRate();
     }
 
-    public double getAverageRate() {
-        if (foodrates.size() == 0) {
-            return 5;
-        }
-        double average = 0;
-        for (UserRate f : foodrates) {
-            average += f.getRate();
-        }
-        return average / foodrates.size();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

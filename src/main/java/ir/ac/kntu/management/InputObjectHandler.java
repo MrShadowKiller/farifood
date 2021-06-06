@@ -7,6 +7,7 @@ import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Address;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
@@ -266,7 +267,7 @@ public class InputObjectHandler {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantType restaurantType = RestaurantType.values()[userChoice - 1];
         System.out.println("Which foods restaurant have ? ");
-        ArrayList<Food> restaurantFoods = setRestaurantFoods(viewAdmin);
+        ArrayList<Item> restaurantFoods = setRestaurantFoods(viewAdmin);
 
         return new Restaurant(restaurantName, address, workHoursOpen,
                 workHoursClose, restaurantSchedules, restaurantType, restaurantFoods);
@@ -286,8 +287,8 @@ public class InputObjectHandler {
         return schedule;
     }
 
-    public ArrayList<Food> setRestaurantFoods(ViewAdmin viewAdmin) {
-        ArrayList<Food> result = new ArrayList<>();
+    public ArrayList<Item> setRestaurantFoods(ViewAdmin viewAdmin) {
+        ArrayList<Item> result = new ArrayList<>();
         if (database.getFoods().size() == 0) {
             System.out.println("Food list is empty!");
             return null;

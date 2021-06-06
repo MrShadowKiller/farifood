@@ -6,6 +6,7 @@ import ir.ac.kntu.management.ScannerWrapper;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.sort.*;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
@@ -176,6 +177,26 @@ public class Database {
 
     public void changeDeliverySalaryType(Delivery delivery) {
         delivery.setSalaryType(inputObjectHandler.selectDeliverySalaryType());
+    }
+
+    public void sortRestaurantHighRating() {
+        restaurants.sort(new DepartmentCompareHighRate());
+    }
+
+    public void sortRestaurantLowRating() {
+        restaurants.sort(new DepartmentCompareLowRate());
+    }
+
+    public void sortRestaurantHighComments() {
+        restaurants.sort(new DepartmentCompareHighComments());
+    }
+
+    public void sortRestaurantLowComments() {
+        restaurants.sort(new DepartmentCompareLowComments());
+    }
+
+    public void sortRestaurantByRising() {
+        restaurants.sort(new DepartmentCompareRising());
     }
 
 

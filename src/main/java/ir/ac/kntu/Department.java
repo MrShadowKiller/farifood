@@ -2,11 +2,18 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.sort.ItemCompareHighPrice;
+import ir.ac.kntu.sort.ItemCompareHighRate;
+import ir.ac.kntu.sort.ItemCompareLowPrice;
+import ir.ac.kntu.sort.ItemCompareLowRate;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public abstract class Department {
     private String name;
@@ -31,6 +38,8 @@ public abstract class Department {
         this.workHoursOpen = workHoursOpen;
         this.workHoursClose = workHoursClose;
     }
+
+
 
     public String getName() {
         return name;
@@ -105,5 +114,47 @@ public abstract class Department {
             averageRate += comment.getAverageRate();
         }
         return averageRate / comments.size();
+    }
+
+    public void addItem(Item item) {
+        items.remove(item);
+        if (item != null) {
+            items.add(item);
+        }
+    }
+
+    public void addDelivery(Delivery delivery) {
+        if (delivery != null && !deliveries.contains(delivery)) {
+            deliveries.add(delivery);
+        }
+    }
+
+    public void addComment(Comment comment) {
+        if (comment != null) {
+            comments.add(comment);
+        }
+
+    }
+
+    public void addOrder(Order order) {
+        if (order != null) {
+            orders.add(order);
+        }
+    }
+
+    public void sortItemHighRating() {
+        items.sort(new ItemCompareHighRate());
+    }
+
+    public void sortItemLowRating() {
+        items.sort(new ItemCompareLowRate());
+    }
+
+    public void sortItemHighPrice() {
+        items.sort(new ItemCompareHighPrice());
+    }
+
+    public void sortItemLowPrice() {
+        items.sort(new ItemCompareLowPrice());
     }
 }

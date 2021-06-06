@@ -1,12 +1,12 @@
-package ir.ac.kntu.restaurant.sort;
+package ir.ac.kntu.sort;
 
-import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.Department;
 
 import java.util.Comparator;
 
-public class RestaurantCompareRising implements Comparator<Restaurant> {
+public class DepartmentCompareRising implements Comparator<Department> {
     @Override
-    public int compare(Restaurant o1, Restaurant o2) {
+    public int compare(Department o1, Department o2) {
         if (o1.getOrders().size() >= o2.getOrders().size() && o2.getAverageRate() >=3 ){
             return 1;
         } else {

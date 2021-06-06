@@ -42,4 +42,16 @@ public abstract class Item {
         itemRates.add(itemRate);
     }
 
+    public double getAverageRate() {
+        if (itemRates.size() == 0) {
+            return 5;
+        }
+        double average = 0;
+        for (UserRate f : itemRates) {
+            average += f.getRate();
+        }
+        return average / itemRates.size();
+    }
+
+
 }
