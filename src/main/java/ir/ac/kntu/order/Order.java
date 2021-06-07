@@ -1,19 +1,22 @@
 package ir.ac.kntu.order;
 
+import ir.ac.kntu.Department;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.user.Customer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Order {
     private Customer customer;
 
-    private Restaurant restaurant;
+    private Department department;
 
-    private Food food;
+    private ArrayList<Item> items;
 
     private Delivery delivery;
 
@@ -24,11 +27,11 @@ public class Order {
     private LocalDateTime dateTime;
 
 
-    public Order(Customer customer, Restaurant restaurant, Food food,
+    public Order(Customer customer, Department department,ArrayList<Item> items,
                  Delivery delivery, LocalDateTime dateTime) {
         this.customer = customer;
-        this.restaurant = restaurant;
-        this.food = food;
+        this.department = department;
+        this.items = items;
         this.delivery = delivery;
         this.dateTime = dateTime;
     }
@@ -41,20 +44,28 @@ public class Order {
         this.customer = customer;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
-    public Food getFood() {
-        return food;
+    public ArrayList<Item> getItems() {
+        return new ArrayList<>(items);
     }
 
-    public void setFood(Food food) {
-        this.food = food;
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public double getOrderCost(){
+        double cost = 0;
+        for (Item item : items){
+            cost += item.getPrice();
+        }
+        return cost;
     }
 
     public Delivery getDelivery() {
@@ -93,10 +104,13 @@ public class Order {
     public String toString() {
         DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = dateTime.format(dateformat);
-
+        String result = "";
+        for (Item item : items){
+            result += item.getName() + " : " + item.getPrice() + "$\n\t";
+        }
         return "Customer Details :\n\t" + customer.briefInformation() +
-                "\nRestaurant : \n\t" + restaurant.getName() +
-                "\nFood :\n\t" + food.getName() + food.getPrice() +
+                "\nRestaurant : \n\t" + department.getName() +
+                "\nItems :\n\t" + result +
                 "\nDelivery : \n\t" + delivery.getBriefInformation() +
                 "\n Time : \n\t" + formattedDate;
     }

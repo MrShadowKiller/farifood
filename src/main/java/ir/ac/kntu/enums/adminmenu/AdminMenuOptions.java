@@ -1,8 +1,8 @@
 package ir.ac.kntu.enums.adminmenu;
 
 public enum AdminMenuOptions {
-    ADMINS(0), CUSTOMERS(1), RESTAURANTS(2), FOOD(3), ORDERS(4),
-    DELIVERIES(5), EXIT(6), DEFAULT(7);
+    ADMINS(0), CUSTOMERS(1), RESTAURANTS(2),SUPERMARKET(3), FOOD(4), ORDERS(5),
+    DELIVERIES(6), EXIT(7), DEFAULT(8);
 
     private int rate;
 

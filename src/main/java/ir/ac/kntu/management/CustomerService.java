@@ -182,7 +182,7 @@ public class CustomerService {
         viewCustomer.printFoodsWithPrice(database.getFoods());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         for (Order order : database.getOrders()) {
-            if (order.getFood().equals(database.getFoods().get(userInput - 1))) {
+            if (order.getItems().contains(database.getFoods().get(userInput - 1))){
                 System.out.println(order.getComment());
             }
         }

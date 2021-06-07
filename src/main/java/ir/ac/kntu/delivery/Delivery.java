@@ -1,5 +1,6 @@
 package ir.ac.kntu.delivery;
 
+import ir.ac.kntu.Department;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Person;
@@ -16,7 +17,7 @@ public class Delivery extends Person {
 
     private DeliverySchedule[] schedule;
 
-    private Restaurant[] restaurants = new Restaurant[2];
+    private Department[] departments = new Department[2];
 
     private ArrayList<Order> orders;
 
@@ -70,13 +71,13 @@ public class Delivery extends Person {
         this.orders = orders;
     }
 
-    public Restaurant[] getRestaurants() {
-        return restaurants;
+    public Department[] getDepartments() {
+        return departments;
     }
 
-    public boolean isFull(Restaurant restaurant) {
-        if ((restaurants[0] != restaurant && restaurants[1] != restaurant) &&
-                (restaurants[0] != null && restaurants[1] != null)) {
+    public boolean isFull(Department department) {
+        if ((departments[0] != department && departments[1] != department) &&
+                (departments[0] != null && departments[1] != null)) {
             return true;
         }
         boolean status = true;
@@ -88,30 +89,30 @@ public class Delivery extends Person {
         return status;
     }
 
-    public void setRestaurants(Restaurant[] restaurants) {
-        this.restaurants = restaurants;
+    public void setRestaurants(Department[] departments) {
+        this.departments = departments;
     }
 
     public void addRestaurant(Restaurant restaurant) {
-        if (restaurants[0] == restaurant || restaurants[1] == restaurant) {
+        if (departments[0] == restaurant || departments[1] == restaurant) {
             return;
         }
 
-        if (restaurants[0] == null) {
-            restaurants[0] = restaurant;
+        if (departments[0] == null) {
+            departments[0] = restaurant;
         }
 
-        if (restaurants[1] == null) {
-            restaurants[1] = restaurant;
+        if (departments[1] == null) {
+            departments[1] = restaurant;
         }
 
     }
 
     public void removeRestaurant(Restaurant restaurant) {
-        if (restaurants[0] == restaurant) {
-            restaurants[0] = null;
-        } else if (restaurants[1] == restaurant) {
-            restaurants[1] = null;
+        if (departments[0] == restaurant) {
+            departments[0] = null;
+        } else if (departments[1] == restaurant) {
+            departments[1] = null;
         }
         for (DeliverySchedule deliverySchedule : schedule) {
             if (deliverySchedule.getRestaurant() == restaurant) {

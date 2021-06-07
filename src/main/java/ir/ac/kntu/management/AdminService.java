@@ -39,6 +39,8 @@ public class AdminService {
                 break;
             case RESTAURANTS: restaurantsTabHandler(admin);
                 break;
+            case SUPERMARKET:
+
             case ORDERS: ordersTabHandler(admin);
                 break;
             case EXIT: return;
@@ -251,6 +253,10 @@ public class AdminService {
         Delivery delivery = inputObjectHandler.findRestaurantDelivery(viewAdmin, restaurant);
         delivery.removeRestaurant(restaurant);
         restaurant.getDeliveries().remove(delivery);
+    }
+
+    public void supermarketTabHandler(Admin admin){
+
     }
 
 

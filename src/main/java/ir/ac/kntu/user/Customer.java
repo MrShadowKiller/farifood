@@ -2,6 +2,7 @@ package ir.ac.kntu.user;
 
 import ir.ac.kntu.objects.Address;
 import ir.ac.kntu.management.ScannerWrapper;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.setting.UserSetting;
@@ -26,6 +27,8 @@ public class Customer extends Person {
 
     private UserSetting userSetting;
 
+    private ArrayList<Item> basket;
+
     public Customer(String firstName, String lastName, String phoneNumber,
                     String username, String password, Address address) {
         super(firstName, lastName, phoneNumber);
@@ -35,6 +38,7 @@ public class Customer extends Person {
         orders = new ArrayList<>();
         wallet = new Wallet();
         comments = new ArrayList<>();
+        basket = new ArrayList<>();
         userSetting = new UserSetting();
         if (this instanceof Admin) {
             wallet.setBalance(99999999);
@@ -139,6 +143,23 @@ public class Customer extends Person {
         }
         System.out.println("Invalid Password!");
     }
+
+    public void addItemToBasket(Item item){
+        basket.add(item);
+    }
+
+    public void emptyBasket(){
+        basket.clear();
+    }
+
+    public double getBasketCost(){
+        double cost = 0;
+        for (Item item : basket){
+            cost += item.getPrice();
+        }
+        return cost;
+    }
+
 
     @Override
     public String toString() {

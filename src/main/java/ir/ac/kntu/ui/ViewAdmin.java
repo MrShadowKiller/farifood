@@ -144,9 +144,9 @@ public class ViewAdmin {
     }
 
 
-    public void printDeliveryRestaurants(Delivery delivery) {
-        for (int i = 1; i <= delivery.getRestaurants().length; i++) {
-            System.out.println("[" + i + "]. " + delivery.getRestaurants()[i - 1].getName());
+    public void printDeliveryDepartments(Delivery delivery) {
+        for (int i = 1; i <= delivery.getDepartments().length; i++) {
+            System.out.println("[" + i + "]. " + delivery.getDepartments()[i - 1].getName());
         }
     }
 
