@@ -1,5 +1,6 @@
 package ir.ac.kntu.delivery;
 
+import ir.ac.kntu.Department;
 import ir.ac.kntu.restaurant.Restaurant;
 
 public enum DeliverySchedule {
@@ -8,7 +9,7 @@ public enum DeliverySchedule {
 
     private int rate;
 
-    private Restaurant restaurant;
+    private Department department;
 
     private boolean availability;
 
@@ -25,12 +26,12 @@ public enum DeliverySchedule {
         this.rate = rate;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setRestaurant(Restaurant restaurantIndex) {
-        this.restaurant = restaurantIndex;
+    public void setDepartment(Department departmentIndex) {
+        this.department = departmentIndex;
     }
 
     public boolean getAvailability() {

@@ -1,6 +1,7 @@
 package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Department;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
@@ -212,31 +213,32 @@ public class InputObjectHandler {
         return result;
     }
 
-    public Restaurant findRestaurant(Database database) {
-        System.out.print("Restaurant name : ");
+    public Department findDepartment(Database database) {
+        System.out.print("Department name : ");
         String name = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.print("Restaurant neighbor : ");
+        System.out.print("Department neighbor : ");
         String neighbor = ScannerWrapper.getInstance().nextLine().trim();
-        for (Restaurant restaurant : database.getRestaurants()) {
-            if (restaurant.getAddress().getNeighbor().equals(neighbor)) {
-                if (restaurant.getName().equals(name)) {
-                    return restaurant;
+        for (Department department : database.getDepartments()) {
+            if (department.getAddress().getNeighbor().equals(neighbor)) {
+                if (department.getName().equals(name)) {
+                    return department;
                 }
             }
         }
-        System.out.println("Cant Find Restaurant");
+        System.out.println("Cant Find Department");
         return null;
     }
 
-    public Delivery findRestaurantDelivery(ViewAdmin viewAdmin, Restaurant restaurant) {
+
+    public Delivery findDepartmentDelivery(ViewAdmin viewAdmin, Department department) {
         System.out.println("Which one ?");
-        viewAdmin.printDeliveries(restaurant.getDeliveries());
-        System.out.println("[" + (restaurant.getDeliveries().size() + 1) + "]. Exit");
+        viewAdmin.printDeliveries(department.getDeliveries());
+        System.out.println("[" + (department.getDeliveries().size() + 1) + "]. Exit");
         int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userDeliveryChoice == restaurant.getDeliveries().size() + 1) {
+        if (userDeliveryChoice == department.getDeliveries().size() + 1) {
             return null;
         }
-        return restaurant.getDeliveries().get(userDeliveryChoice - 1);
+        return department.getDeliveries().get(userDeliveryChoice - 1);
     }
 
     public Comment scanCommentFields(ViewCustomer viewCustomer, Customer customer, Food food,
@@ -283,7 +285,7 @@ public class InputObjectHandler {
             return null;
         }
         while (true) {
-            viewAdmin.printProducts(database.getProducts());
+            viewAdmin.printProductsWithSize(database.getProducts());
             System.out.println("[" + (database.getProducts().size() + 1) + "]. Exit");
             int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
             if (userChoice == database.getProducts().size() + 1) {

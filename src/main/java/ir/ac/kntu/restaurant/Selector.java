@@ -1,12 +1,15 @@
 package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Department;
+import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.management.ScannerWrapper;
+import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.ui.ViewAdmin;
@@ -259,7 +262,6 @@ public class Selector {
             return null;
 
         }
-
         while (true) {
             System.out.println("Which day delivery will work ? ");
             viewAdmin.printRestaurantSchedule(restaurant);
@@ -275,10 +277,19 @@ public class Selector {
                     && restaurant.getSchedule()[userRestScheChoice - 1].getAvailability()) {
 
                 database.getDeliveries().get(userDeliveryChoice - 1).addRestaurant(restaurant);
-                database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setRestaurant(restaurant);
+                database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setDepartment(restaurant);
                 return database.getDeliveries().get(userDeliveryChoice - 1);
             } else {
                 System.out.println("No empty schedule for delivery or restaurant!");
+            }
+        }
+        return null;
+    }
+
+    public Delivery selectFreeDelivery(Database database, Department department){
+        for (Delivery delivery : database.getDeliveries()){
+            if(!delivery.isFull(department)){
+                return delivery;
             }
         }
         return null;
@@ -320,14 +331,36 @@ public class Selector {
         }
     }
 
-    public Food selectFood(ViewAdmin viewAdmin,Database database) {
-        if (database.getFoods().size() == 0) {
+    public Supermarket selectSuperMarketHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
+        viewAdmin.printSuperMarkets(database.getSuperMarkets());
+        System.out.println("[" + (database.getSuperMarkets().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getSuperMarkets().size() + 1) {
+            return null;
+        } else {
+            return database.getSuperMarkets().get(userChoice - 1);
+        }
+    }
+
+    public Food selectFood(ViewAdmin viewAdmin,ArrayList<Food> foods) {
+        if (foods.size() == 0) {
             System.out.println("NO FOOD AVAILABLE");
             return null;
         }
         System.out.println("Which Food ?");
-        viewAdmin.printFoods(database.getFoods());
+        viewAdmin.printFoods(foods);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return database.getFoods().get(userInput - 1);
+        return foods.get(userInput - 1);
+    }
+
+    public Product selectProduct(ViewAdmin viewAdmin, ArrayList<Product> products) {
+        if (products.size() == 0) {
+            System.out.println("NO Product AVAILABLE");
+            return null;
+        }
+        System.out.println("Which Product ?");
+        viewAdmin.printProductsWithSize(products);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return products.get(userInput - 1);
     }
 }

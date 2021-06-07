@@ -1,5 +1,6 @@
 package ir.ac.kntu.ui;
 
+import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
@@ -25,6 +26,7 @@ public class ViewAdmin {
         System.out.println("[1].Admins");
         System.out.println("[2].Customers");
         System.out.println("[3].Restaurants");
+        System.out.println("[4].SuperMarkets");
         System.out.println("[4].Food");
         System.out.println("[5].Orders");
         System.out.println("[6].Deliveries");
@@ -60,6 +62,19 @@ public class ViewAdmin {
         System.out.println("[7].View Restaurant Deliveries");
         System.out.println("[8].Exit");
     }
+
+    public void printSuperMarketTab() {
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Add SuperMarket");
+        System.out.println("[2].Remove SuperMarket");
+        System.out.println("[3].View and Edit SuperMarket");
+        System.out.println("[4].View Restaurant orders");
+        System.out.println("[5].View Restaurant foods");
+        System.out.println("[6].View Restaurant comments");
+        System.out.println("[7].View Restaurant Deliveries");
+        System.out.println("[8].Exit");
+    }
+
 
     public void printWeekDays() {
         WeekDays[] weekDays = WeekDays.values();
@@ -154,8 +169,8 @@ public class ViewAdmin {
     public void printDeliverySchedule(Delivery delivery) {
         System.out.println("Weekly Schedule : ");
         for (DeliverySchedule day : delivery.getSchedule()) {
-            if (day.getRestaurant() != null) {
-                System.out.println(day.toString() + ": " + day.getRestaurant() + "\n");
+            if (day.getDepartment() != null) {
+                System.out.println(day.toString() + ": " + day.getDepartment() + "\n");
             } else {
                 if (day.getAvailability()) {
                     System.out.println(day.toString() + ": IS FREE" + "\n");
@@ -190,6 +205,16 @@ public class ViewAdmin {
                     "  " + foods.get(i - 1).getPrice() + "$");
         }
         if (foods.size() == 0) {
+            System.out.println("EMPTY!");
+        }
+    }
+
+    public void printItems(ArrayList<Item> items){
+        for (int i = 1; i <= items.size(); i++) {
+            System.out.println("[" + i + "]. " + items.get(i - 1).getName() +
+                    "  " + items.get(i - 1).getPrice() + "$");
+        }
+        if (items.size() == 0) {
             System.out.println("EMPTY!");
         }
     }
@@ -237,6 +262,16 @@ public class ViewAdmin {
         System.out.println("[8].Exit");
     }
 
+    public void printEditSuperMarketTab() {
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Change name");
+        System.out.println("[4].Add Product");
+        System.out.println("[5].Remove Product");
+        System.out.println("[6].Add Delivery");
+        System.out.println("[7].Remove Delivery");
+        System.out.println("[8].Exit");
+    }
+
     public void printRestaurantSchedule(Restaurant restaurant) {
         RestaurantSchedule[] restaurantSchedules = restaurant.getSchedule();
         for (int i = 1; i <= restaurantSchedules.length; i++) {
@@ -265,16 +300,6 @@ public class ViewAdmin {
         }
     }
 
-    public void printProducts(ArrayList<Product> products){
-        for (int i = 1; i <= products.size(); i++) {
-
-            System.out.println("[" + i + "]. " + products.get(i - 1).getName() +
-                    "  "+ products.get(i - 1).getPrice() + "$");
-        }
-        if (products.size() == 0) {
-            System.out.println("EMPTY!");
-        }
-    }
 
     public void printProductsWithSize(ArrayList<Product> products){
         for (int i = 1; i <= products.size(); i++) {
@@ -284,6 +309,12 @@ public class ViewAdmin {
         }
         if (products.size() == 0) {
             System.out.println("EMPTY!");
+        }
+    }
+
+    public void printSuperMarkets(ArrayList<Supermarket> supermarkets){
+        for (int i = 1; i <= supermarkets.size(); i++) {
+            System.out.println("[" + i + "]. " + supermarkets.get(i - 1).getName());
         }
     }
 

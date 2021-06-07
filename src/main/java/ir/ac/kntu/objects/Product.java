@@ -11,10 +11,15 @@ public class Product extends Item implements Stackable {
         super(name);
     }
 
+    public Product(Product product) {
+        super(product.getName(),product.getPrice());
+    }
+
     public Product(Product product, double price,int stock) {
         super(product.getName(),price);
         this.stock = stock;
     }
+
 
     public int getStock() {
         return stock;

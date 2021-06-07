@@ -65,6 +65,26 @@ public class Database {
         return restaurants;
     }
 
+    public ArrayList<Supermarket> getSuperMarkets(){
+        ArrayList<Supermarket> supermarkets = new ArrayList<>();
+        for (Department department : departments){
+            if (department instanceof Supermarket){
+                supermarkets.add((Supermarket) department);
+            }
+        }
+        return supermarkets;
+    }
+
+    public ArrayList<FruitMarket> getFruitMarket(){
+        ArrayList<FruitMarket> fruitMarkets = new ArrayList<>();
+        for (Department department : departments){
+            if (department instanceof FruitMarket){
+                fruitMarkets.add((FruitMarket) department);
+            }
+        }
+        return fruitMarkets;
+    }
+
     public ArrayList<Item> getItems() {
         return new ArrayList<>(items);
     }
@@ -159,12 +179,12 @@ public class Database {
         departments.add(InputObjectHandler.getInstance().scanRestaurantInfo(viewAdmin,this));
     }
 
-    public void removeRestaurant() {
-        departments.remove(InputObjectHandler.getInstance().findRestaurant(this));
+    public void addSuperMarket(){
+        departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
     }
 
-    public void addSuperMarket(){
-
+    public void removeDepartment(){
+        departments.remove(InputObjectHandler.getInstance().findDepartment(this));
     }
 
     public void addDelivery() {

@@ -1,8 +1,12 @@
 package ir.ac.kntu.management;
+
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Department;
+import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.enums.adminmenu.*;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
@@ -17,7 +21,7 @@ public class AdminService {
 
     private final Database database;
 
-    public AdminService(Database database){
+    public AdminService(Database database) {
         this.database = database;
         viewAdmin = new ViewAdmin();
     }
@@ -26,22 +30,31 @@ public class AdminService {
         viewAdmin.printAdminStartMenu();
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminMenuOptions.findOption(adminOptionInput)) {
-            case ADMINS: adminsTabHandler(admin);
+            case ADMINS:
+                adminsTabHandler(admin);
                 break;
-            case CUSTOMERS: customersTabHandler(admin);
+            case CUSTOMERS:
+                customersTabHandler(admin);
                 break;
-            case DELIVERIES: deliveriesTabHandler(admin);
+            case DELIVERIES:
+                deliveriesTabHandler(admin);
                 break;
-            case FOOD: foodTabHandler(admin);
+            case FOOD:
+                foodTabHandler(admin);
                 break;
-            case RESTAURANTS: restaurantsTabHandler(admin);
+            case RESTAURANTS:
+                restaurantsTabHandler(admin);
                 break;
             case SUPERMARKET:
-
-            case ORDERS: ordersTabHandler(admin);
+                superMarketTabHandler(admin);
                 break;
-            case EXIT: return;
-            default: adminMenuHandler(admin);
+            case ORDERS:
+                ordersTabHandler(admin);
+                break;
+            case EXIT:
+                return;
+            default:
+                adminMenuHandler(admin);
         }
         adminMenuHandler(admin);
     }
@@ -71,14 +84,19 @@ public class AdminService {
         viewAdmin.printAdminsTab();
         int adminTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminsTabOptions.findOption(adminTabInput)) {
-            case ADD_ADMIN: database.addAdmin();
+            case ADD_ADMIN:
+                database.addAdmin();
                 break;
-            case REMOVE_ADMIN: database.removeAdmin();
+            case REMOVE_ADMIN:
+                database.removeAdmin();
                 break;
-            case VIEW_EDIT_ADMIN: viewAndEditAdmins(admin);
+            case VIEW_EDIT_ADMIN:
+                viewAndEditAdmins(admin);
                 break;
-            case EXIT: return;
-            default: adminsTabHandler(admin);
+            case EXIT:
+                return;
+            default:
+                adminsTabHandler(admin);
         }
         adminsTabHandler(admin);
     }
@@ -95,14 +113,19 @@ public class AdminService {
         viewAdmin.printAdminEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: InputObjectHandler.getInstance().changeCustomerInformation(admin);
+            case CHANGE_PERSONAL_INFO:
+                InputObjectHandler.getInstance().changeCustomerInformation(admin);
                 break;
-            case CHANGE_PASSWORD: database.changeUserPassword(admin);
+            case CHANGE_PASSWORD:
+                database.changeUserPassword(admin);
                 break;
-            case CHANGE_BALANCE: database.changeCustomerBalance(admin);
+            case CHANGE_BALANCE:
+                database.changeCustomerBalance(admin);
                 break;
-            case EXIT: return;
-            default: editAdminHandler(admin);
+            case EXIT:
+                return;
+            default:
+                editAdminHandler(admin);
         }
         editAdminHandler(admin);
     }
@@ -111,25 +134,32 @@ public class AdminService {
         viewAdmin.printCustomersTab();
         int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomersTabOptions.findOption(customerTabInput)) {
-            case ADD_CUSTOMER: database.addCustomer();
+            case ADD_CUSTOMER:
+                database.addCustomer();
                 break;
-            case REMOVE_CUSTOMER: database.removeCustomer();
+            case REMOVE_CUSTOMER:
+                database.removeCustomer();
                 break;
-            case VIEW_EDIT_CUSTOMER: viewAndEditCustomers(admin);
+            case VIEW_EDIT_CUSTOMER:
+                viewAndEditCustomers(admin);
                 break;
-            case VIEW_CUSTOMER_ORDERS: viewCustomerOrders(admin);
+            case VIEW_CUSTOMER_ORDERS:
+                viewCustomerOrders(admin);
                 break;
-            case VIEW_COMMENTS: viewCustomerComments(admin);
+            case VIEW_COMMENTS:
+                viewCustomerComments(admin);
                 break;
-            case EXIT: return;
-            default: customersTabHandler(admin);
+            case EXIT:
+                return;
+            default:
+                customersTabHandler(admin);
         }
         customersTabHandler(admin);
     }
 
     public void viewAndEditCustomers(Admin admin) {
-        Customer selectedCustomer = Selector.getInstance().selectCustomerHandler(viewAdmin,admin,database);
-        if (selectedCustomer != null){
+        Customer selectedCustomer = Selector.getInstance().selectCustomerHandler(viewAdmin, admin, database);
+        if (selectedCustomer != null) {
             editCustomerHandler(selectedCustomer, admin);
         }
     }
@@ -139,14 +169,19 @@ public class AdminService {
         viewAdmin.printCustomerEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomerEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: InputObjectHandler.getInstance().changeCustomerInformation(customer);
+            case CHANGE_PERSONAL_INFO:
+                InputObjectHandler.getInstance().changeCustomerInformation(customer);
                 break;
-            case CHANGE_PASSWORD: database.changeUserPassword(customer);
+            case CHANGE_PASSWORD:
+                database.changeUserPassword(customer);
                 break;
-            case CHANGE_BALANCE: database.changeCustomerBalance(customer);
+            case CHANGE_BALANCE:
+                database.changeCustomerBalance(customer);
                 break;
-            case EXIT: return;
-            default: editCustomerHandler(customer, admin);
+            case EXIT:
+                return;
+            default:
+                editCustomerHandler(customer, admin);
         }
         editCustomerHandler(customer, admin);
     }
@@ -159,79 +194,97 @@ public class AdminService {
     }
 
     public void viewCustomerComments(Admin admin) {
-        viewAdmin.printComments(Selector.getInstance().selectCustomerHandler(viewAdmin,admin,database).getComments());
+        viewAdmin.printComments(Selector.getInstance().selectCustomerHandler(viewAdmin, admin, database).getComments());
     }
 
     public void restaurantsTabHandler(Admin admin) {
         viewAdmin.printRestaurantsTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantsTabOptions.findOption(userInput)) {
-            case ADD_RESTAURANT: database.addRestaurant();
+            case ADD_RESTAURANT:
+                database.addRestaurant();
                 break;
-            case REMOVE_RESTAURANT: database.removeRestaurant();
+            case REMOVE_RESTAURANT:
+                database.removeDepartment();
                 break;
-            case VIEW_EDIT_RESTAURANT: viewAndEditRestaurantHandler(admin);
+            case VIEW_EDIT_RESTAURANT:
+                viewAndEditRestaurantHandler(admin);
                 break;
-            case VIEW_ORDERS: viewRestaurantOrders(admin);
+            case VIEW_ORDERS:
+                viewDepartmentOrders(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
-            case VIEW_FOODS: viewRestaurantFoods(admin);
+            case VIEW_FOODS:
+                viewDepartmentItems(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
-            case VIEW_COMMENTS: viewRestaurantComments(admin);
+            case VIEW_COMMENTS:
+                viewDepartmentComments(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
-            case VIEW_DELIVERIES: viewRestaurantDeliveries(admin);
+            case VIEW_DELIVERIES:
+                viewDepartmentDeliveries(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
-            case EXIT: return;
-            default: restaurantsTabHandler(admin);
+            case EXIT:
+                return;
+            default:
+                restaurantsTabHandler(admin);
         }
         restaurantsTabHandler(admin);
     }
 
-    public void viewRestaurantOrders(Admin admin) {
-        viewAdmin.printOrders(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getOrders());
+    public void viewDepartmentOrders(Department department) {
+        viewAdmin.printOrders(department.getOrders());
     }
 
-    public void viewRestaurantFoods(Admin admin) {
-        viewAdmin.printFoods(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getFoods());
+    public void viewDepartmentItems(Department department) {
+        viewAdmin.printItems(department.getItems());
     }
 
-    public void viewRestaurantComments(Admin admin) {
-        viewAdmin.printComments(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getComments());
+    public void viewDepartmentComments(Department department) {
+        viewAdmin.printComments(department.getComments());
     }
 
-    public void viewRestaurantDeliveries(Admin admin) {
-        viewAdmin.printDeliveries(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getDeliveries());
+    public void viewDepartmentDeliveries(Department department) {
+        viewAdmin.printDeliveries(department.getDeliveries());
     }
 
     public void viewAndEditRestaurantHandler(Admin admin) {
-        Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database);
-        if (selectedRestaurant == null){
+        Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database);
+        if (selectedRestaurant == null) {
             return;
         }
         viewAdmin.printEditRestaurantTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantEditOptions.findOption(userInput)) {
-            case CHANGE_NAME: database.changeDepartmentName(selectedRestaurant);
+            case CHANGE_NAME:
+                database.changeDepartmentName(selectedRestaurant);
                 break;
-            case CHANGE_WORK_HOURS: database.changeRestaurantWorkHours(selectedRestaurant);
+            case CHANGE_WORK_HOURS:
+                database.changeRestaurantWorkHours(selectedRestaurant);
                 break;
-            case CHANGE_SCHEDULE: database.changeRestaurantSchedule(selectedRestaurant);
+            case CHANGE_SCHEDULE:
+                database.changeRestaurantSchedule(selectedRestaurant);
                 break;
-            case ADD_FOOD: addFoodRestaurant(selectedRestaurant);
+            case ADD_FOOD:
+                addFoodRestaurant(selectedRestaurant);
                 break;
-            case REMOVE_FOOD: removeFoodRestaurant(selectedRestaurant);
+            case REMOVE_FOOD:
+                removeFoodRestaurant(selectedRestaurant);
                 break;
-            case ADD_DELIVERY: addDeliveryRestaurant(selectedRestaurant);
+            case ADD_DELIVERY:
+                addDeliveryRestaurant(selectedRestaurant);
                 break;
-            case REMOVE_DELIVERY: removeDeliveryRestaurant(selectedRestaurant);
+            case REMOVE_DELIVERY:
+                removeDeliveryDepartment(selectedRestaurant);
                 break;
-            case EXIT: return;
-            default: viewAndEditRestaurantHandler(admin);
+            case EXIT:
+                return;
+            default:
+                viewAndEditRestaurantHandler(admin);
         }
         viewAndEditRestaurantHandler(admin);
     }
 
     public void addFoodRestaurant(Restaurant restaurant) {
-        Food food = new Food(Selector.getInstance().selectFood(viewAdmin,database));
+        Food food = new Food(Selector.getInstance().selectFood(viewAdmin, database.getFoods()));
         System.out.print("price : ");
         double userChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         food.setPrice(userChoice);
@@ -239,37 +292,121 @@ public class AdminService {
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
-        restaurant.getItems().remove(Selector.getInstance().selectFood(viewAdmin,database));
+        restaurant.getItems().remove(Selector.getInstance().selectFood(viewAdmin, restaurant.getFoods()));
     }
 
     public void addDeliveryRestaurant(Restaurant restaurant) {
-        restaurant.addDelivery(Selector.getInstance().selectRestaurantDelivery(viewAdmin, restaurant,database));
+        restaurant.addDelivery(Selector.getInstance().selectRestaurantDelivery(viewAdmin, restaurant, database));
     }
 
-    public void removeDeliveryRestaurant(Restaurant restaurant) {
-        Delivery delivery = InputObjectHandler.getInstance().findRestaurantDelivery(viewAdmin, restaurant);
-        delivery.removeRestaurant(restaurant);
-        restaurant.getDeliveries().remove(delivery);
+    public void removeDeliveryDepartment(Department department) {
+        Delivery delivery = InputObjectHandler.getInstance().findDepartmentDelivery(viewAdmin, department);
+        delivery.removeDepartment(department);
+        department.getDeliveries().remove(delivery);
     }
 
-    public void supermarketTabHandler(Admin admin){
-
+    public void superMarketTabHandler(Admin admin) {
+        viewAdmin.printSuperMarketTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        switch (SuperMarketTabOptions.findOption(userInput)) {
+            case ADD_SUPERMARKET:
+                database.addSuperMarket();
+                break;
+            case REMOVE_SUPERMARKET:
+                database.removeDepartment();
+                break;
+            case VIEW_EDIT_SUPERMARKET:
+                viewAndEditSuperMarketHandler(admin);
+                break;
+            case VIEW_ORDERS:
+                viewDepartmentOrders(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                break;
+            case VIEW_PRODUCTS:
+                viewDepartmentItems(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                break;
+            case VIEW_COMMENTS:
+                viewDepartmentComments(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                break;
+            case VIEW_DELIVERIES:
+                viewDepartmentDeliveries(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                break;
+            case EXIT:
+                return;
+            default:
+                superMarketTabHandler(admin);
+        }
+        superMarketTabHandler(admin);
     }
 
+    public void viewAndEditSuperMarketHandler(Admin admin) {
+        Supermarket selectedSuperMarket = Selector.getInstance().selectSuperMarketHandler(admin, viewAdmin, database);
+        if (selectedSuperMarket == null) {
+            return;
+        }
+        viewAdmin.printEditSuperMarketTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        switch (SuperMarketEditOptions.findOption(userInput)) {
+            case CHANGE_NAME:
+                database.changeDepartmentName(selectedSuperMarket);
+                break;
+            case ADD_PRODUCT:
+                addProductSuperMarket(selectedSuperMarket);
+                break;
+            case REMOVE_PRODUCT:
+                removeProductSuperMarket(selectedSuperMarket);
+                break;
+            case ADD_DELIVERY:
+                addDeliveryDepartment(selectedSuperMarket);
+                break;
+            case REMOVE_DELIVERY:
+                removeDeliveryDepartment(selectedSuperMarket);
+                break;
+            case EXIT:
+                return;
+            default:
+                viewAndEditSuperMarketHandler(admin);
+        }
+        viewAndEditSuperMarketHandler(admin);
+    }
+
+    public void addProductSuperMarket(Supermarket supermarket) {
+        Product product = new Product(Selector.getInstance().selectProduct(viewAdmin, database.getProducts()));
+        System.out.print("price : ");
+        double priceChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("Stock : ");
+        int stockChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        product.setPrice(priceChoice);
+        product.setStock(stockChoice);
+        supermarket.addItem(product);
+    }
+
+    public void removeProductSuperMarket(Supermarket supermarket) {
+        supermarket.getItems().remove(Selector.getInstance().selectProduct(viewAdmin, supermarket.getProducts()));
+    }
+
+    public void addDeliveryDepartment(Department department) {
+        department.addDelivery(Selector.getInstance().selectFreeDelivery(database, department));
+    }
 
     public void deliveriesTabHandler(Admin admin) {
         viewAdmin.printDeliveriesTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (DeliveriesTabOptions.findOption(userInput)) {
-            case ADD_DELIVERY: database.addDelivery();
+            case ADD_DELIVERY:
+                database.addDelivery();
                 break;
-            case REMOVE_DELIVERY: database.removeDelivery();
+            case REMOVE_DELIVERY:
+                database.removeDelivery();
                 break;
-            case VIEW_EDIT_DELIVERIES: viewAndEditDeliveries(admin);
+            case VIEW_EDIT_DELIVERIES:
+                viewAndEditDeliveries(admin);
                 break;
-            case VIEW_ORDERS: viewDeliveryOrders(admin);
-            case EXIT: return;
-            default: deliveriesTabHandler(admin);
+            case VIEW_ORDERS:
+                viewDeliveryOrders(admin);
+            case EXIT:
+                return;
+            default:
+                deliveriesTabHandler(admin);
         }
         deliveriesTabHandler(admin);
     }
@@ -297,15 +434,20 @@ public class AdminService {
         viewAdmin.printDeliveryEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (DeliveryEditOptions.findOption(userInput)) {
-            case CHANGE_SALARY: database.changeDeliverySalary(delivery);
+            case CHANGE_SALARY:
+                database.changeDeliverySalary(delivery);
                 break;
-            case CHANGE_VEHICLE: database.changeDeliveryVehicle(delivery);
+            case CHANGE_VEHICLE:
+                database.changeDeliveryVehicle(delivery);
                 break;
-            case CHANGE_SALARY_TYPE: database.changeDeliverySalaryType(delivery);
+            case CHANGE_SALARY_TYPE:
+                database.changeDeliverySalaryType(delivery);
                 break;
-            case EXIT: deliveriesTabHandler(admin);
+            case EXIT:
+                deliveriesTabHandler(admin);
                 break;
-            default: editDeliveryHandler(delivery, admin);
+            default:
+                editDeliveryHandler(delivery, admin);
         }
         editDeliveryHandler(delivery, admin);
     }
@@ -314,16 +456,22 @@ public class AdminService {
         viewAdmin.printFoodTab();
         int foodTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (FoodTabOptions.findOption(foodTabInput)) {
-            case ADD_FOOD: database.addFood();
+            case ADD_FOOD:
+                database.addFood();
                 break;
-            case REMOVE_FOOD: database.removeFood();
+            case REMOVE_FOOD:
+                database.removeFood();
                 break;
-            case VIEW_FOODS: viewFoodsHandler();
+            case VIEW_FOODS:
+                viewFoodsHandler();
                 break;
-            case VIEW_FOOD_COMMENTS: viewFoodCommentsHandler();
+            case VIEW_FOOD_COMMENTS:
+                viewFoodCommentsHandler();
                 break;
-            case EXIT: return;
-            default: foodTabHandler(admin);
+            case EXIT:
+                return;
+            default:
+                foodTabHandler(admin);
         }
         foodTabHandler(admin);
     }
@@ -333,6 +481,6 @@ public class AdminService {
     }
 
     public void viewFoodCommentsHandler() {
-        viewAdmin.printFoodComments(Selector.getInstance().selectFood(viewAdmin,database), database.getRestaurants());
+        viewAdmin.printFoodComments(Selector.getInstance().selectFood(viewAdmin, database.getFoods()), database.getRestaurants());
     }
 }

@@ -108,15 +108,15 @@ public class Delivery extends Person {
 
     }
 
-    public void removeRestaurant(Restaurant restaurant) {
-        if (departments[0] == restaurant) {
+    public void removeDepartment(Department department) {
+        if (departments[0] == department) {
             departments[0] = null;
-        } else if (departments[1] == restaurant) {
+        } else if (departments[1] == department) {
             departments[1] = null;
         }
         for (DeliverySchedule deliverySchedule : schedule) {
-            if (deliverySchedule.getRestaurant() == restaurant) {
-                deliverySchedule.setRestaurant(null);
+            if (deliverySchedule.getDepartment() == department) {
+                deliverySchedule.setDepartment(null);
             }
         }
     }
