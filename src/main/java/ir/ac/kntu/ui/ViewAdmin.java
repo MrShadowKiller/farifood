@@ -1,5 +1,6 @@
 package ir.ac.kntu.ui;
 
+import ir.ac.kntu.Department;
 import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.objects.Food;
@@ -18,6 +19,7 @@ import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.SellerMan;
 import ir.ac.kntu.user.WeekDays;
 
 import java.util.ArrayList;
@@ -27,12 +29,14 @@ public class ViewAdmin {
         System.out.println("\tPlease use of the below options");
         System.out.println("[1].Admins");
         System.out.println("[2].Customers");
-        System.out.println("[3].Restaurants");
-        System.out.println("[4].SuperMarkets");
-        System.out.println("[4].Food");
-        System.out.println("[5].Orders");
-        System.out.println("[6].Deliveries");
-        System.out.println("[7].Exit");
+        System.out.println("[3].Seller Mans");
+        System.out.println("[4].Restaurants");
+        System.out.println("[5].SuperMarkets");
+        System.out.println("[6].FruitMarkets");
+        System.out.println("[7].Food");
+        System.out.println("[8].Orders");
+        System.out.println("[9].Deliveries");
+        System.out.println("[10].Exit");
     }
 
     public void printAdminsTab() {
@@ -51,6 +55,15 @@ public class ViewAdmin {
         System.out.println("[4].View Customer orders");
         System.out.println("[5].View Customer comments");
         System.out.println("[6].Exit");
+    }
+
+    public void printSellerManTab() {
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Add SellerMan");
+        System.out.println("[2].Remove SellerMan");
+        System.out.println("[3].View SellerMen");
+        System.out.println("[4].Add SellerMan to department");
+        System.out.println("[5].Exit");
     }
 
     public void printRestaurantsTab() {
@@ -158,10 +171,23 @@ public class ViewAdmin {
         }
     }
 
+    public void printDepartments(ArrayList<Department> departments){
+        for (int i = 1; i <= departments.size(); i++) {
+            System.out.println("[" + i + "]. " + departments.get(i - 1).getName() + "  " +
+                    departments.get(i - 1).getClass());
+        }
+    }
+
     public void printDeliveries(ArrayList<Delivery> deliveries) {
         for (int i = 1; i <= deliveries.size(); i++) {
             System.out.println("[" + i + "]. " + deliveries.get(i - 1).getBriefInformation());
             printDeliverySchedule(deliveries.get(i - 1));
+        }
+    }
+
+    public void printSellerMen(ArrayList<SellerMan> sellerMen){
+        for (int i = 1; i <= sellerMen.size(); i++) {
+            System.out.println("[" + i + "]. " + sellerMen.get(i - 1));
         }
     }
 

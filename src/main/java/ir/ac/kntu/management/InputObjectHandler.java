@@ -157,6 +157,17 @@ public class InputObjectHandler {
                 deliveryVehicle, salaryType, salary, schedule);
     }
 
+    public SellerMan scanSellerManInfo() {
+        System.out.println("\tPlease enter the required information");
+        System.out.print("first name: ");
+        String firstname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("last name: ");
+        String lastname = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("phone number: ");
+        String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
+        return new SellerMan(firstname,lastname,phoneNumber);
+    }
+
     public Food scanFoodInfo() {
         System.out.print("Food name : ");
         String foodName = ScannerWrapper.getInstance().nextLine().trim();

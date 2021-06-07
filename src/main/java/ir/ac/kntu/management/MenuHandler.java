@@ -47,6 +47,7 @@ public class MenuHandler {
             case RESTAURANTS -> restaurantsTabHandler(admin);
             case SUPERMARKET -> superMarketTabHandler(admin);
             case FRUITMARKET -> fruitMarketTabHandler(admin);
+            case SELLER_MAN -> sellerManTabHandler(admin);
             case ORDERS -> adminService.ordersTabHandler(admin);
             case EXIT -> {
                 return;
@@ -144,6 +145,27 @@ public class MenuHandler {
                 editCustomerHandler(customer, admin);
         }
         editCustomerHandler(customer, admin);
+    }
+
+    public void sellerManTabHandler(Admin admin) {
+        viewAdmin.printSellerManTab();
+        int customerTabInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        switch (SellerManTabOptions.findOption(customerTabInput)) {
+            case ADD_SELLER_MAN:
+                database.addCustomer();
+                break;
+            case REMOVE_SELLER_MAN:
+                database.removeSellerMan();
+                break;
+            case ADD_SELLER_MAN_TO_DEPARTMENT:
+                adminService.addSellerManToDepartment(Selector.getInstance().selectSellerMan(viewAdmin,database), admin);
+                break;
+            case EXIT:
+                return;
+            default:
+                customersTabHandler(admin);
+        }
+        customersTabHandler(admin);
     }
 
     public void restaurantsTabHandler(Admin admin) {

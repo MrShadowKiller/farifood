@@ -15,6 +15,7 @@ import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.SellerMan;
 
 public class AdminService {
 
@@ -178,5 +179,13 @@ public class AdminService {
 
     public void viewFoodCommentsHandler() {
         viewAdmin.printFoodComments(Selector.getInstance().selectFood(viewAdmin, database.getFoods()), database.getRestaurants());
+    }
+
+    public void addSellerManToDepartment(SellerMan sellerMan,Admin admin){
+        Department department = Selector.getInstance().selectDepartmentHandler(admin,viewAdmin,database);
+        if (department != null){
+            department.setSellerMan(sellerMan);
+            sellerMan.setDepartment(department);
+        }
     }
 }

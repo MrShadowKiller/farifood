@@ -14,18 +14,22 @@ import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.SellerMan;
+
 import java.util.ArrayList;
 
 public class Database {
     private ArrayList<Admin> admins;
+
+    private ArrayList<Customer> customers;
+
+    private ArrayList<SellerMan> sellerMen;
 
     private ArrayList<Department> departments;
 
     private ArrayList<Item> items;
 
     private ArrayList<Delivery> deliveries;
-
-    private ArrayList<Customer> customers;
 
     private ArrayList<Order> orders;
 
@@ -34,7 +38,7 @@ public class Database {
     private ViewCustomer viewCustomer;
 
     public Database(ArrayList<Admin> admins, ArrayList<Department> departments, ArrayList<Item> items,
-                    ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
+                    ArrayList<Delivery> deliveries, ArrayList<Customer> customers,ArrayList<SellerMan> sellerMen, ArrayList<Order> orders,
                     ViewAdmin viewAdmin, ViewCustomer viewCustomer) {
         this.admins = admins;
         this.departments = departments;
@@ -44,6 +48,7 @@ public class Database {
         this.orders = orders;
         this.viewAdmin = viewAdmin;
         this.viewCustomer = viewCustomer;
+        this.sellerMen = sellerMen;
     }
 
     public ArrayList<Admin> getAdmins() {
@@ -62,6 +67,10 @@ public class Database {
             }
         }
         return restaurants;
+    }
+
+    public ArrayList<SellerMan> getSellerMen() {
+        return sellerMen;
     }
 
     public ArrayList<Supermarket> getSuperMarkets(){
@@ -174,6 +183,19 @@ public class Database {
         System.out.println("Cant find the Customer!");
     }
 
+    public void addSellerMan(){
+        sellerMen.add(InputObjectHandler.getInstance().scanSellerManInfo());
+    }
+
+    public void removeSellerMan(){
+        SellerMan sellerMan = Selector.getInstance().selectSellerMan(viewAdmin,this);
+        sellerMen.remove(sellerMan);
+        for (Department department : departments){
+            if (department.getSellerMan().equals(sellerMan)){
+                department.setSellerMan(null);
+            }
+        }
+    }
     public void addRestaurant(){
         departments.add(InputObjectHandler.getInstance().scanRestaurantInfo(viewAdmin,this));
     }
@@ -185,8 +207,6 @@ public class Database {
     public void addFruitMarket(){
         departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
     }
-
-
 
     public void removeDepartment(){
         departments.remove(InputObjectHandler.getInstance().findDepartment(this));

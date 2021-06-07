@@ -18,6 +18,7 @@ import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.SellerMan;
 import ir.ac.kntu.user.WeekDays;
 
 import java.time.LocalDateTime;
@@ -305,6 +306,13 @@ public class Selector {
         return database.getDeliveries().get(userInput-1);
     }
 
+    public SellerMan selectSellerMan(ViewAdmin viewAdmin, Database database){
+        System.out.println("Choose one of the SellerMen : ");
+        viewAdmin.printSellerMen(database.getSellerMen());
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return database.getSellerMen().get(userInput-1);
+    }
+
     public void selectRestaurantWorkHours(Restaurant restaurant){
         System.out.println("Work Opens at : ");
         restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
@@ -330,6 +338,17 @@ public class Selector {
             return null;
         } else {
             return database.getRestaurants().get(userChoice - 1);
+        }
+    }
+
+    public Department selectDepartmentHandler(Admin admin,ViewAdmin viewAdmin,Database database){
+        viewAdmin.printDepartments(database.getDepartments());
+        System.out.println("[" + (database.getDepartments().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getDepartments().size() + 1) {
+            return null;
+        } else {
+            return database.getDepartments().get(userChoice - 1);
         }
     }
 

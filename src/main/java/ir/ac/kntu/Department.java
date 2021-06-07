@@ -4,20 +4,17 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.*;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
-import ir.ac.kntu.restaurant.Restaurant;
-import ir.ac.kntu.sort.ItemCompareHighPrice;
-import ir.ac.kntu.sort.ItemCompareHighRate;
-import ir.ac.kntu.sort.ItemCompareLowPrice;
-import ir.ac.kntu.sort.ItemCompareLowRate;
+import ir.ac.kntu.user.SellerMan;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 
 public abstract class Department {
     private String name;
 
     private Address address;
+
+    private SellerMan sellerMan;
 
     private int workHoursOpen;
 
@@ -104,6 +101,14 @@ public abstract class Department {
 
     public void setItems(ArrayList<Item> items) {
         this.items = items;
+    }
+
+    public SellerMan getSellerMan() {
+        return sellerMan;
+    }
+
+    public void setSellerMan(SellerMan sellerMan) {
+        this.sellerMan = sellerMan;
     }
 
     public double getAverageRate() {
