@@ -57,7 +57,7 @@ public class ViewCustomer {
 
 
     public void printBestThreeFoods(Restaurant restaurant) {
-        restaurant.sortFoodHighRating();
+        restaurant.sortItemHighRating();
         for (int i = 1; i <= 3; i++) {
             System.out.println("(" + i + "). " + restaurant.getFoods().get(i - 1));
         }

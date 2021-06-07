@@ -1,11 +1,10 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.objects.Address;
-import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.objects.*;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.sort.ItemCompareHighPrice;
 import ir.ac.kntu.sort.ItemCompareHighRate;
 import ir.ac.kntu.sort.ItemCompareLowPrice;
@@ -37,9 +36,11 @@ public abstract class Department {
         this.address = address;
         this.workHoursOpen = workHoursOpen;
         this.workHoursClose = workHoursClose;
+        items = new ArrayList<>();
+        deliveries = new ArrayList<>();
+        orders = new ArrayList<>();
+        comments = new ArrayList<>();
     }
-
-
 
     public String getName() {
         return name;
@@ -115,6 +116,18 @@ public abstract class Department {
         }
         return averageRate / comments.size();
     }
+
+
+//    public ArrayList<Fruit> getFruits(){
+//        ArrayList<Fruit> fruits = new ArrayList<>();
+//        for (Item item : items ) {
+//            if (item instanceof Fruit){
+//                fruits.add((Fruit) item);
+//            }
+//        }
+//        return fruits;
+//    }
+//
 
     public void addItem(Item item) {
         items.remove(item);

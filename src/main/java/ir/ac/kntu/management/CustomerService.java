@@ -238,7 +238,7 @@ public class CustomerService {
     }
 
     public void restaurantMenu(Restaurant restaurant, Customer customer) {
-        setFoodRestaurantSort(restaurant, customer);
+        setItemDepartmentSort(restaurant, customer);
         viewCustomer.printRestaurantMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantMenuOptions.findOption(userInput)) {
@@ -345,20 +345,20 @@ public class CustomerService {
         }
     }
 
-    public void setFoodRestaurantSort(Restaurant restaurant, Customer customer) {
+    public void setItemDepartmentSort(Restaurant restaurant, Customer customer) {
         switch (customer.getUserSetting().getFoodSortOption()) {
             case LOW_PRICE:
-                restaurant.sortFoodLowPrice();
+                restaurant.sortItemLowPrice();
                 break;
             case HIGH_PRICE:
-                restaurant.sortFoodHighPrice();
+                restaurant.sortItemHighPrice();
             case HIGH_RATE:
-                restaurant.sortFoodHighRating();
+                restaurant.sortItemHighRating();
                 break;
             case LOW_RATE:
-                restaurant.sortFoodLowRating();
+                restaurant.sortItemLowRating();
             default:
-                setFoodRestaurantSort(restaurant,customer);
+                setItemDepartmentSort(restaurant,customer);
         }
     }
 

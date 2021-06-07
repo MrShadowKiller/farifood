@@ -4,7 +4,9 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.management.InputObjectHandler;
 import ir.ac.kntu.management.ScannerWrapper;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Fruit;
 import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.sort.*;
@@ -18,9 +20,9 @@ import java.util.Arrays;
 public class Database {
     private ArrayList<Admin> admins;
 
-    private ArrayList<Restaurant> restaurants;
+    private ArrayList<Department> departments;
 
-    private ArrayList<Food> foods;
+    private ArrayList<Item> items;
 
     private ArrayList<Delivery> deliveries;
 
@@ -34,12 +36,12 @@ public class Database {
 
     private ViewCustomer viewCustomer;
 
-    public Database(ArrayList<Admin> admins, ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
+    public Database(ArrayList<Admin> admins, ArrayList<Department> departments, ArrayList<Item> items,
                     ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
                     ViewAdmin viewAdmin, InputObjectHandler inputObjectHandler, ViewCustomer viewCustomer) {
         this.admins = admins;
-        this.restaurants = restaurants;
-        this.foods = foods;
+        this.departments = departments;
+        this.items = items;
         this.deliveries = deliveries;
         this.customers = customers;
         this.orders = orders;
@@ -49,27 +51,67 @@ public class Database {
     }
 
     public ArrayList<Admin> getAdmins() {
-        return admins;
+        return new ArrayList<>(admins);
     }
 
-    public ArrayList<Restaurant> getRestaurants() {
+    public ArrayList<Department> getDepartments() {
+        return new ArrayList<>(departments);
+    }
+
+    public ArrayList<Restaurant> getRestaurants(){
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+        for (Department department : departments){
+            if (department instanceof Restaurant){
+                restaurants.add((Restaurant) department);
+            }
+        }
         return restaurants;
     }
 
-    public ArrayList<Food> getFoods() {
+    public ArrayList<Item> getItems() {
+        return new ArrayList<>(items);
+    }
+
+    public ArrayList<Food> getFoods(){
+        ArrayList<Food> foods = new ArrayList<>();
+        for (Item item : items ) {
+            if (item instanceof Food){
+                foods.add((Food) item);
+            }
+        }
         return foods;
     }
 
+    public ArrayList<Fruit> getFruits(){
+        ArrayList<Fruit> fruits = new ArrayList<>();
+        for (Item item : items ) {
+            if (item instanceof Fruit){
+                fruits.add((Fruit) item);
+            }
+        }
+        return fruits;
+    }
+
+    public ArrayList<Product> getProducts(){
+        ArrayList<Product> products = new ArrayList<>();
+        for (Item item : items ) {
+            if (item instanceof Product){
+                products.add((Product) item);
+            }
+        }
+        return products;
+    }
+
     public ArrayList<Delivery> getDeliveries() {
-        return deliveries;
+        return new ArrayList<>(deliveries);
     }
 
     public ArrayList<Customer> getCustomers() {
-        return customers;
+        return new ArrayList<>(customers);
     }
 
     public ArrayList<Order> getOrders() {
-        return orders;
+        return new ArrayList<>(orders);
     }
 
     public void addAdmin() {
@@ -117,11 +159,11 @@ public class Database {
     }
 
     public void addRestaurant(){
-        restaurants.add(inputObjectHandler.scanRestaurantInfo(viewAdmin));
+        departments.add(inputObjectHandler.scanRestaurantInfo(viewAdmin));
     }
 
     public void removeRestaurant() {
-        restaurants.remove(inputObjectHandler.findRestaurant());
+        departments.remove(inputObjectHandler.findRestaurant());
     }
 
     public void addDelivery() {
@@ -133,11 +175,11 @@ public class Database {
     }
 
     public void addFood() {
-        foods.add(inputObjectHandler.scanFoodInfo());
+        items.add(inputObjectHandler.scanFoodInfo());
     }
 
     public void removeFood() {
-        foods.remove(inputObjectHandler.scanFoodInfo());
+        items.remove(inputObjectHandler.scanFoodInfo());
     }
 
 
@@ -182,27 +224,24 @@ public class Database {
     }
 
     public void sortRestaurantHighRating() {
-        restaurants.sort(new DepartmentCompareHighRate());
+        departments.sort(new DepartmentCompareHighRate());
     }
 
     public void sortRestaurantLowRating() {
-        restaurants.sort(new DepartmentCompareLowRate());
+        departments.sort(new DepartmentCompareLowRate());
     }
 
     public void sortRestaurantHighComments() {
-        restaurants.sort(new DepartmentCompareHighComments());
+        departments.sort(new DepartmentCompareHighComments());
     }
 
     public void sortRestaurantLowComments() {
-        restaurants.sort(new DepartmentCompareLowComments());
+        departments.sort(new DepartmentCompareLowComments());
     }
 
     public void sortRestaurantByRising() {
-        restaurants.sort(new DepartmentCompareRising());
+        departments.sort(new DepartmentCompareRising());
     }
-
-
-
 
 
 

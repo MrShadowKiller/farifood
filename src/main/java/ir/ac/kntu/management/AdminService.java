@@ -192,7 +192,7 @@ public class AdminService {
     }
 
     public void viewRestaurantFoods(Admin admin) {
-        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getItems());
+        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getFoods());
     }
 
     public void viewRestaurantComments(Admin admin) {

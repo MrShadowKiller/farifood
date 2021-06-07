@@ -22,6 +22,11 @@ public abstract class Item {
         itemRates = new ArrayList<>();
     }
 
+    public Item(Item item) {
+        this.name = item.name;
+        this.price = item.price;
+    }
+
     public String getName() {
         return name;
     }

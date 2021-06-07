@@ -2,6 +2,7 @@ package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Department;
 import ir.ac.kntu.objects.Address;
+import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.user.WeekDays;
 import ir.ac.kntu.delivery.DeliverySchedule;
@@ -29,7 +30,7 @@ public class Restaurant extends Department {
 
     public Restaurant(String name, Address address, int workHoursOpen, int workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType) {
-        super(name,address,workHoursClose,workHoursClose);
+        super(name,address,workHoursOpen,workHoursClose);
         this.schedule = schedule;
         this.restaurantType = restaurantType;
     }
@@ -56,6 +57,16 @@ public class Restaurant extends Department {
                 d.setAvailability(true);
             }
         }
+    }
+
+    public ArrayList<Food> getFoods(){
+        ArrayList<Food> foods = new ArrayList<>();
+        for (Item item : getItems() ) {
+            if (item instanceof Food){
+                foods.add((Food) item);
+            }
+        }
+        return foods;
     }
 
     public boolean isOpen(UserSetting userSetting) {
