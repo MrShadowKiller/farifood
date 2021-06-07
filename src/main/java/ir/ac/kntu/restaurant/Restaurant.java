@@ -85,7 +85,7 @@ public class Restaurant extends Department {
     public Delivery getFreeDelivery(WeekDays day) {
         for (Delivery delivery : getDeliveries()) {
             for (DeliverySchedule deliverySchedule : delivery.getSchedule()) {
-                if (deliverySchedule.getRestaurant() == this) {
+                if (deliverySchedule.getDepartment() == this) {
                     return delivery;
                 }
             }

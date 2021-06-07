@@ -49,7 +49,7 @@ public class Management {
                     admin.getPassword().equals(adminLoginDetails[1])) {
                 foundAdmin = true;
                 System.out.println("Welcome!");
-                adminService.adminMenuHandler(admin);
+                adminService.adminMenuStart(admin);
                 break;
             }
         }
