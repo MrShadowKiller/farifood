@@ -8,12 +8,12 @@ import ir.ac.kntu.enums.adminmenu.*;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
-import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
-public class MenuHandler {
-    private static final MenuHandler INSTANCE = new MenuHandler();
+public class AdminMenuHandler {
+    private static final AdminMenuHandler INSTANCE = new AdminMenuHandler();
 
     private AdminService adminService;
 
@@ -21,14 +21,14 @@ public class MenuHandler {
 
     private ViewAdmin viewAdmin;
 
-    private ViewCustomer viewCustomer;
+    private ViewPerson viewPerson;
 
     private Database database;
 
-    private MenuHandler() {
+    private AdminMenuHandler() {
     }
 
-    public static MenuHandler getInstance() {
+    public static AdminMenuHandler getInstance() {
         return INSTANCE;
     }
 

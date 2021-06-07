@@ -3,6 +3,7 @@ package ir.ac.kntu.objects;
 import ir.ac.kntu.user.UserRate;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Item {
     private String name;
@@ -58,5 +59,16 @@ public abstract class Item {
         return average / itemRates.size();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Double.compare(item.price, price) == 0 && name.equals(item.name);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price, itemRates);
+    }
 }

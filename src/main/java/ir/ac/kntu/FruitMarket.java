@@ -19,6 +19,14 @@ public class FruitMarket extends Department {
         }
     }
 
+    public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose,ArrayList<Item> items) {
+        super(name, address, workHoursOpen, workHoursClose);
+        setItems(items);
+        for (int i=workHoursOpen;i<workHoursClose;i+=2){
+            ordersSchedule.put(i,5);
+        }
+    }
+
     public ArrayList<Fruit> getFruits(){
         ArrayList<Fruit> fruits = new ArrayList<>();
         for (Item item : getItems() ) {

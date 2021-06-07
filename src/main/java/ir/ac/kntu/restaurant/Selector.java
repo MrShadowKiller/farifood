@@ -11,11 +11,12 @@ import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.management.ScannerWrapper;
 import ir.ac.kntu.objects.Fruit;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.ui.ViewAdmin;
-import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.SellerMan;
@@ -32,14 +33,14 @@ public class Selector {
     public static Selector getInstance(){
         return INSTANCE;
     }
-    public Restaurant selectDefaultRestaurantCustomer(ArrayList<Restaurant> restaurants, Customer customer, ViewCustomer viewCustomer) {
+    public Restaurant selectDefaultRestaurantCustomer(ArrayList<Restaurant> restaurants, Customer customer, ViewPerson viewPerson) {
         ArrayList<Restaurant> openRestaurants = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
             if (restaurant.isOpen(customer.getUserSetting())) {
                 openRestaurants.add(restaurant);
             }
         }
-        viewCustomer.printRestaurants(openRestaurants);
+        viewPerson.printRestaurants(openRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == openRestaurants.size() + 1) {
             return null;
@@ -49,7 +50,7 @@ public class Selector {
     }
 
 
-    public Restaurant selectBestThreeRestaurant(ArrayList<Restaurant> restaurants, Customer customer, ViewCustomer viewCustomer) {
+    public Restaurant selectBestThreeRestaurant(ArrayList<Restaurant> restaurants, Customer customer, ViewPerson viewPerson) {
         ArrayList<Restaurant> bestThreeRestaurants = new ArrayList<>(3);
         for (Restaurant restaurant : restaurants) {
             if (restaurant.isOpen(customer.getUserSetting())) {
@@ -59,7 +60,7 @@ public class Selector {
                 break;
             }
         }
-        viewCustomer.printBestThreeRestaurants(bestThreeRestaurants);
+        viewPerson.printBestThreeRestaurants(bestThreeRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == bestThreeRestaurants.size() + 1) {
             return null;
@@ -69,9 +70,9 @@ public class Selector {
     }
 
     public Restaurant selectBestRestaurantForFood(ArrayList<Restaurant> restaurants, ArrayList<Food> foods,
-                                                  ViewCustomer viewCustomer, Customer customer) {
+                                                  ViewPerson viewPerson, Customer customer) {
         System.out.println("For which food ?");
-        viewCustomer.printFoodsWithoutPrice(foods);
+        viewPerson.printFoodsWithoutPrice(foods);
         System.out.println("[" + (foods.size() + 1) + "]. " + "Exit");
         int foodChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (foodChoice == foods.size() + 1) {
@@ -79,7 +80,7 @@ public class Selector {
         }
         ArrayList<Restaurant> selectedRestaurant = findRestaurantWithFood(restaurants, foods.get(foodChoice - 1), customer);
         System.out.println("Choose one :");
-        viewCustomer.printRestaurants(selectedRestaurant);
+        viewPerson.printRestaurants(selectedRestaurant);
         int restaurantChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (restaurantChoice == selectedRestaurant.size() + 1) {
             return null;
@@ -118,8 +119,8 @@ public class Selector {
         return null;
     }
 
-    public Restaurant selectRestaurantByType(ArrayList<Restaurant> restaurants, Customer customer, ViewCustomer viewCustomer) {
-        RestaurantType restaurantType = selectRestaurantType(viewCustomer);
+    public Restaurant selectRestaurantByType(ArrayList<Restaurant> restaurants, Customer customer, ViewPerson viewPerson) {
+        RestaurantType restaurantType = selectRestaurantType(viewPerson);
         ArrayList<Restaurant> sameRestaurantTypes = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
             if (restaurant.getRestaurantType() == restaurantType && restaurant.isOpen(customer.getUserSetting())) {
@@ -131,28 +132,28 @@ public class Selector {
             return null;
         }
         System.out.println("Select One :");
-        viewCustomer.printRestaurants(sameRestaurantTypes);
+        viewPerson.printRestaurants(sameRestaurantTypes);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return restaurants.get(userChoice - 1);
     }
 
-    public RestaurantType selectRestaurantType(ViewCustomer viewCustomer) {
+    public RestaurantType selectRestaurantType(ViewPerson viewPerson) {
         System.out.println("Which restaurant Type ?");
-        viewCustomer.printRestaurantTypes();
+        viewPerson.printRestaurantTypes();
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantType restaurantType = RestaurantType.DEFAULT;
 
         return (restaurantType.findOption(userChoice - 1));
     }
 
-    public Restaurant selectNearRestaurant(ArrayList<Restaurant> restaurants, Customer customer, ViewCustomer viewCustomer) {
+    public Restaurant selectNearRestaurant(ArrayList<Restaurant> restaurants, Customer customer, ViewPerson viewPerson) {
         ArrayList<Restaurant> nearRestaurants = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
             if (restaurant.getAddress().getNeighbor().equals(customer.getAddress().getNeighbor())) {
                 nearRestaurants.add(restaurant);
             }
         }
-        viewCustomer.printRestaurants(nearRestaurants);
+        viewPerson.printRestaurants(nearRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == nearRestaurants.size() + 1){
             return null;
@@ -161,21 +162,21 @@ public class Selector {
     }
 
 
-    public FoodSortOption selectFoodSort(ViewCustomer viewCustomer) {
+    public FoodSortOption selectFoodSort(ViewPerson viewPerson) {
         FoodSortOption[] foodOptions = FoodSortOption.values();
-        viewCustomer.printFoodSortOptions(foodOptions);
+        viewPerson.printFoodSortOptions(foodOptions);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return foodOptions[userChoice - 1];
     }
 
-    public RestaurantSortOption selectRestaurantSort(ViewCustomer viewCustomer) {
+    public RestaurantSortOption selectRestaurantSort(ViewPerson viewPerson) {
         RestaurantSortOption[] restaurantOptions = RestaurantSortOption.values();
-        viewCustomer.printRestaurantSortOptions(restaurantOptions);
+        viewPerson.printRestaurantSortOptions(restaurantOptions);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return restaurantOptions[userChoice - 1];
     }
 
-    public WeekDays selectWeekDay(ViewCustomer viewCustomer) {
+    public WeekDays selectWeekDay(ViewPerson viewPerson) {
         WeekDays[] weekDays = WeekDays.values();
         System.out.println("1.Manual");
         System.out.println("2.Automatic (By System Date)");
@@ -189,7 +190,7 @@ public class Selector {
             }
         }
         System.out.println("Which day do you want to choose ? ");
-        viewCustomer.printWeekDays();
+        viewPerson.printWeekDays();
         int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return weekDays[dayChoice - 1];
     }
@@ -405,5 +406,16 @@ public class Selector {
         viewAdmin.printFruits(fruits);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return fruits.get(userInput - 1);
+    }
+
+    public Item selectItem(ViewAdmin viewAdmin, ArrayList<Item> items) {
+        if (items.size() == 0) {
+            System.out.println("NO Items AVAILABLE");
+            return null;
+        }
+        System.out.println("Which Item ?");
+        viewAdmin.printItems(items);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return items.get(userInput - 1);
     }
 }

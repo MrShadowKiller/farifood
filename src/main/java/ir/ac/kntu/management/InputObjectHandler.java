@@ -2,15 +2,13 @@ package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
 import ir.ac.kntu.Department;
+import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
-import ir.ac.kntu.objects.Address;
-import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.objects.Item;
-import ir.ac.kntu.objects.Product;
+import ir.ac.kntu.objects.*;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
@@ -20,10 +18,9 @@ import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.setting.UserSetting;
 import ir.ac.kntu.ui.ViewAdmin;
-import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InputObjectHandler {
@@ -124,13 +121,13 @@ public class InputObjectHandler {
         return new Address(neighbor, fullAddress, zipcode);
     }
 
-    public UserSetting scanUserSetting(ViewCustomer viewCustomer) {
+    public UserSetting scanUserSetting(ViewPerson viewPerson) {
         System.out.println("How do you want the foods to be sorted ?");
-        FoodSortOption foodSortOption = Selector.getInstance().selectFoodSort(viewCustomer);
+        FoodSortOption foodSortOption = Selector.getInstance().selectFoodSort(viewPerson);
         System.out.println("How do you want the restaurants to be sorted ?");
-        RestaurantSortOption restaurantSortOption = Selector.getInstance().selectRestaurantSort(viewCustomer);
+        RestaurantSortOption restaurantSortOption = Selector.getInstance().selectRestaurantSort(viewPerson);
         System.out.println("How do you want to choose your current Day ?");
-        WeekDays currentDay = Selector.getInstance().selectWeekDay(viewCustomer);
+        WeekDays currentDay = Selector.getInstance().selectWeekDay(viewPerson);
         System.out.println("How do you want to Choose your Hour ?");
         int hour = Selector.getInstance().selectHour();
         return new UserSetting(foodSortOption, restaurantSortOption, currentDay, hour);
@@ -252,21 +249,21 @@ public class InputObjectHandler {
         return department.getDeliveries().get(userDeliveryChoice - 1);
     }
 
-    public Comment scanCommentFields(ViewCustomer viewCustomer, Customer customer, Food food,
+    public Comment scanCommentFields(ViewPerson viewPerson, Customer customer, Food food,
                                      Restaurant restaurant, Delivery delivery) {
         System.out.print("Enter your message : ");
         String messege = ScannerWrapper.getInstance().nextLine().trim();
         System.out.println("How was the food rate ?");
-        viewCustomer.printUserRate();
+        viewPerson.printUserRate();
         int foodRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate foodRate = UserRate.values()[foodRateChoice - 1];
         food.addFoodRate(foodRate);
         System.out.println("How was the delivery rate ?");
-        viewCustomer.printUserRate();
+        viewPerson.printUserRate();
         int deliveryRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate deliveryRate = UserRate.values()[deliveryRateChoice - 1];
         System.out.println("How was the restaurant rate ?");
-        viewCustomer.printUserRate();
+        viewPerson.printUserRate();
         int restaurantRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate restaurantRate = UserRate.values()[restaurantRateChoice - 1];
 
@@ -287,6 +284,22 @@ public class InputObjectHandler {
 
         return new Supermarket(superMarketName, address, workHoursOpen,
                 workHoursClose, superMarketProducts);
+    }
+
+    public FruitMarket scanFruitMarketInfo(ViewAdmin viewAdmin, Database database){
+        System.out.print("FruitMarket Name : ");
+        String fruitMarketName = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("Address Section\nneighbor: ");
+        Address address = scanAddressInfo();
+        System.out.print("Open Time : ");
+        int workHoursOpen = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("Close Time : ");
+        int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.println("Which products supermarket has ? ");
+        ArrayList<Item> fruitMarketFruits = setFruitMarketFruits(viewAdmin,database);
+
+        return new FruitMarket(fruitMarketName, address, workHoursOpen,
+                workHoursClose, fruitMarketFruits);
     }
 
     public ArrayList<Item> setSuperMarketProducts(ViewAdmin viewAdmin,Database database){
@@ -310,6 +323,32 @@ public class InputObjectHandler {
                 System.out.println("Stock : ");
                 int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
                 result.add(new Product(database.getProducts().get(userChoice - 1), price,stock));
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Item> setFruitMarketFruits(ViewAdmin viewAdmin,Database database){
+        ArrayList<Item> result = new ArrayList<>();
+        if (database.getFruits().size() == 0) {
+            System.out.println("Fruit list is empty!");
+            return null;
+        }
+        while (true) {
+            viewAdmin.printFruits(database.getFruits());
+            System.out.println("[" + (database.getFruits().size() + 1) + "]. Exit");
+            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            if (userChoice == database.getFruits().size() + 1) {
+                break;
+            }
+            if (result.contains(database.getFruits().get(userChoice - 1))) {
+                System.out.println("Fruit already exist !");
+            } else {
+                System.out.print("Price : ");
+                double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+                System.out.println("Stock : ");
+                int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+                result.add(new Fruit(database.getFruits().get(userChoice - 1), price,stock));
             }
         }
         return result;

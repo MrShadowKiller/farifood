@@ -147,6 +147,12 @@ public abstract class Department {
         }
     }
 
+    public void removeDelivery(Delivery delivery){
+        if (delivery != null) {
+            deliveries.remove(delivery);
+        }
+    }
+
     public void addComment(Comment comment) {
         if (comment != null) {
             comments.add(comment);

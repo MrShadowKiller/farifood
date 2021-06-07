@@ -30,7 +30,7 @@ public class AdminService {
 
     //Start the menu
     public void adminMenuStart(Admin admin) {
-        MenuHandler.getInstance().adminMenuHandler(admin, viewAdmin, database, this);
+        AdminMenuHandler.getInstance().adminMenuHandler(admin, viewAdmin, database, this);
     }
 
     public void ordersTabHandler(Admin admin) {
@@ -59,14 +59,14 @@ public class AdminService {
         viewAdmin.printAdmins(database.getAdmins());
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice != database.getAdmins().size() + 1) {
-            MenuHandler.getInstance().editAdminHandler(database.getAdmins().get(userChoice - 1));
+            AdminMenuHandler.getInstance().editAdminHandler(database.getAdmins().get(userChoice - 1));
         }
     }
 
     public void viewAndEditCustomers(Admin admin) {
         Customer selectedCustomer = Selector.getInstance().selectCustomerHandler(viewAdmin, admin, database);
         if (selectedCustomer != null) {
-            MenuHandler.getInstance().editCustomerHandler(selectedCustomer, admin);
+            AdminMenuHandler.getInstance().editCustomerHandler(selectedCustomer, admin);
         }
     }
 
@@ -169,7 +169,7 @@ public class AdminService {
         System.out.println("[" + (database.getDeliveries().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice != database.getDeliveries().size() + 1) {
-            MenuHandler.getInstance().editDeliveryHandler(database.getDeliveries().get(userChoice - 1), admin);
+            AdminMenuHandler.getInstance().editDeliveryHandler(database.getDeliveries().get(userChoice - 1), admin);
         }
     }
 

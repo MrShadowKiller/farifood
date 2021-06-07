@@ -1,5 +1,6 @@
 package ir.ac.kntu.ui;
 
+import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.order.Comment;
@@ -12,8 +13,8 @@ import ir.ac.kntu.user.UserRate;
 import ir.ac.kntu.user.WeekDays;
 
 import java.util.ArrayList;
-
-public class ViewCustomer {
+e
+public class ViewPerson {
 
     public void printCustomerMenu() {
         System.out.println("\tPlease use of the below options");
@@ -34,6 +35,15 @@ public class ViewCustomer {
         System.out.println("[6].Search Near Restaurants");
         System.out.println("[7].Show Food Comments");
         System.out.println("[8].Exit");
+    }
+
+    public void printSellerManMenu() {
+        System.out.println("[1].Select Department");
+        System.out.println("[2].Edit Department Info");
+        System.out.println("[3].Get orders");
+        System.out.println("[4].Get Deliveries");
+        System.out.println("[5].Get comments");
+        System.out.println("[6].Exit");
     }
 
     public void printRestaurants(ArrayList<Restaurant> restaurants) {
@@ -148,6 +158,12 @@ public class ViewCustomer {
         }
     }
 
+    public void printDeliveries(ArrayList<Delivery> deliveries){
+        for (int i = 1; i <= deliveries.size(); i++) {
+            System.out.println("[" + i + "]. " + deliveries.get(i - 1).getBriefInformation());
+        }
+    }
+
     public void printShowCustomerTab() {
         System.out.println("[1].Show Information");
         System.out.println("[2].Show Orders");
@@ -171,6 +187,15 @@ public class ViewCustomer {
         if (foods.size() == 0) {
             System.out.println("EMPTY!");
         }
+    }
+
+    public void printSellerManEditDepartmentTab() {
+        System.out.println("[1].Change Name");
+        System.out.println("[2].Add Item");
+        System.out.println("[3].Remove Item");
+        System.out.println("[4].Add Delivery");
+        System.out.println("[5].Remove Delivery");
+        System.out.println("[6].Exit");
     }
 
 }

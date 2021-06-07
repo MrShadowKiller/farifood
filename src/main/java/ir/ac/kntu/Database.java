@@ -11,7 +11,7 @@ import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
-import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.SellerMan;
@@ -35,11 +35,11 @@ public class Database {
 
     private ViewAdmin viewAdmin;
 
-    private ViewCustomer viewCustomer;
+    private ViewPerson viewPerson;
 
     public Database(ArrayList<Admin> admins, ArrayList<Department> departments, ArrayList<Item> items,
                     ArrayList<Delivery> deliveries, ArrayList<Customer> customers,ArrayList<SellerMan> sellerMen, ArrayList<Order> orders,
-                    ViewAdmin viewAdmin, ViewCustomer viewCustomer) {
+                    ViewAdmin viewAdmin, ViewPerson viewPerson) {
         this.admins = admins;
         this.departments = departments;
         this.items = items;
@@ -47,7 +47,7 @@ public class Database {
         this.customers = customers;
         this.orders = orders;
         this.viewAdmin = viewAdmin;
-        this.viewCustomer = viewCustomer;
+        this.viewPerson = viewPerson;
         this.sellerMen = sellerMen;
     }
 
@@ -205,7 +205,7 @@ public class Database {
     }
 
     public void addFruitMarket(){
-        departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
+        departments.add(InputObjectHandler.getInstance().scanFruitMarketInfo(viewAdmin,this));
     }
 
     public void removeDepartment(){

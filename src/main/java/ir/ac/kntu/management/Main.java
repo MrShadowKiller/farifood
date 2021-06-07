@@ -13,7 +13,7 @@ import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
 import ir.ac.kntu.ui.ViewAdmin;
-import ir.ac.kntu.ui.ViewCustomer;
+import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.objects.Item;
@@ -26,7 +26,7 @@ public class Main {
                 "09216272515", "1", "1", address1);
 
         Database database = new Database(new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),new ViewAdmin(),new ViewCustomer());
+                ,new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ViewAdmin(),new ViewPerson());
 
         database.getAdmins().add(admin1);
         database.getCustomers().add(admin1);
@@ -135,7 +135,7 @@ public class Main {
 
 
         return new Database(admins,departments,items,deliveries,customers,orders,new ViewAdmin()
-               ,new ViewCustomer());
+               new ArrayList<>(),new ViewPerson());
     }
 
 }
