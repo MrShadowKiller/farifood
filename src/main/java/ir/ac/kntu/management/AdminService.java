@@ -6,6 +6,7 @@ import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
@@ -14,15 +15,11 @@ public class AdminService {
 
     private final ViewAdmin viewAdmin;
 
-    private final InputObjectHandler inputObjectHandler;
-
     private final Database database;
 
     public AdminService(Database database){
         this.database = database;
         viewAdmin = new ViewAdmin();
-        inputObjectHandler = new InputObjectHandler();
-        inputObjectHandler.setDatabase(database);
     }
 
     public void adminMenuHandler(Admin admin) {
@@ -98,7 +95,7 @@ public class AdminService {
         viewAdmin.printAdminEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: inputObjectHandler.changeCustomerInformation(admin);
+            case CHANGE_PERSONAL_INFO: InputObjectHandler.getInstance().changeCustomerInformation(admin);
                 break;
             case CHANGE_PASSWORD: database.changeUserPassword(admin);
                 break;
@@ -131,7 +128,7 @@ public class AdminService {
     }
 
     public void viewAndEditCustomers(Admin admin) {
-        Customer selectedCustomer = inputObjectHandler.selectCustomerHandler(viewAdmin,admin);
+        Customer selectedCustomer = Selector.getInstance().selectCustomerHandler(viewAdmin,admin,database);
         if (selectedCustomer != null){
             editCustomerHandler(selectedCustomer, admin);
         }
@@ -142,7 +139,7 @@ public class AdminService {
         viewAdmin.printCustomerEditMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomerEditOptions.findOption(userInput)) {
-            case CHANGE_PERSONAL_INFO: inputObjectHandler.changeCustomerInformation(customer);
+            case CHANGE_PERSONAL_INFO: InputObjectHandler.getInstance().changeCustomerInformation(customer);
                 break;
             case CHANGE_PASSWORD: database.changeUserPassword(customer);
                 break;
@@ -162,7 +159,7 @@ public class AdminService {
     }
 
     public void viewCustomerComments(Admin admin) {
-        viewAdmin.printComments(inputObjectHandler.selectCustomerHandler(viewAdmin,admin).getComments());
+        viewAdmin.printComments(Selector.getInstance().selectCustomerHandler(viewAdmin,admin,database).getComments());
     }
 
     public void restaurantsTabHandler(Admin admin) {
@@ -190,30 +187,30 @@ public class AdminService {
     }
 
     public void viewRestaurantOrders(Admin admin) {
-        viewAdmin.printOrders(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getOrders());
+        viewAdmin.printOrders(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getOrders());
     }
 
     public void viewRestaurantFoods(Admin admin) {
-        viewAdmin.printFoods(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getFoods());
+        viewAdmin.printFoods(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getFoods());
     }
 
     public void viewRestaurantComments(Admin admin) {
-        viewAdmin.printComments(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getComments());
+        viewAdmin.printComments(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getComments());
     }
 
     public void viewRestaurantDeliveries(Admin admin) {
-        viewAdmin.printDeliveries(inputObjectHandler.selectRestaurantHandler(admin,viewAdmin).getDeliveries());
+        viewAdmin.printDeliveries(Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database).getDeliveries());
     }
 
     public void viewAndEditRestaurantHandler(Admin admin) {
-        Restaurant selectedRestaurant = inputObjectHandler.selectRestaurantHandler(admin,viewAdmin);
+        Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantHandler(admin,viewAdmin,database);
         if (selectedRestaurant == null){
             return;
         }
         viewAdmin.printEditRestaurantTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (RestaurantEditOptions.findOption(userInput)) {
-            case CHANGE_NAME: database.changeRestaurantName(selectedRestaurant);
+            case CHANGE_NAME: database.changeDepartmentName(selectedRestaurant);
                 break;
             case CHANGE_WORK_HOURS: database.changeRestaurantWorkHours(selectedRestaurant);
                 break;
@@ -234,7 +231,7 @@ public class AdminService {
     }
 
     public void addFoodRestaurant(Restaurant restaurant) {
-        Food food = new Food(inputObjectHandler.selectFood(viewAdmin));
+        Food food = new Food(Selector.getInstance().selectFood(viewAdmin,database));
         System.out.print("price : ");
         double userChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         food.setPrice(userChoice);
@@ -242,15 +239,15 @@ public class AdminService {
     }
 
     public void removeFoodRestaurant(Restaurant restaurant) {
-        restaurant.getItems().remove(inputObjectHandler.selectFood(viewAdmin));
+        restaurant.getItems().remove(Selector.getInstance().selectFood(viewAdmin,database));
     }
 
     public void addDeliveryRestaurant(Restaurant restaurant) {
-        restaurant.addDelivery(inputObjectHandler.selectRestaurantDelivery(viewAdmin, restaurant));
+        restaurant.addDelivery(Selector.getInstance().selectRestaurantDelivery(viewAdmin, restaurant,database));
     }
 
     public void removeDeliveryRestaurant(Restaurant restaurant) {
-        Delivery delivery = inputObjectHandler.findRestaurantDelivery(viewAdmin, restaurant);
+        Delivery delivery = InputObjectHandler.getInstance().findRestaurantDelivery(viewAdmin, restaurant);
         delivery.removeRestaurant(restaurant);
         restaurant.getDeliveries().remove(delivery);
     }
@@ -336,6 +333,6 @@ public class AdminService {
     }
 
     public void viewFoodCommentsHandler() {
-        viewAdmin.printFoodComments(inputObjectHandler.selectFood(viewAdmin), database.getRestaurants());
+        viewAdmin.printFoodComments(Selector.getInstance().selectFood(viewAdmin,database), database.getRestaurants());
     }
 }

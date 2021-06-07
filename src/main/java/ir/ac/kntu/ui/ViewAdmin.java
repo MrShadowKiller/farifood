@@ -6,6 +6,7 @@ import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
@@ -263,5 +264,29 @@ public class ViewAdmin {
             }
         }
     }
+
+    public void printProducts(ArrayList<Product> products){
+        for (int i = 1; i <= products.size(); i++) {
+
+            System.out.println("[" + i + "]. " + products.get(i - 1).getName() +
+                    "  "+ products.get(i - 1).getPrice() + "$");
+        }
+        if (products.size() == 0) {
+            System.out.println("EMPTY!");
+        }
+    }
+
+    public void printProductsWithSize(ArrayList<Product> products){
+        for (int i = 1; i <= products.size(); i++) {
+
+            System.out.println("[" + i + "]. " + products.get(i - 1).getName() +
+                    "  " + products.get(i - 1).getPrice() + "$" + " " + products.get(i - 1).getStock());
+        }
+        if (products.size() == 0) {
+            System.out.println("EMPTY!");
+        }
+    }
+
+
 
 }

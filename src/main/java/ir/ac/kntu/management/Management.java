@@ -8,17 +8,15 @@ import ir.ac.kntu.user.Customer;
 public class Management {
     private Database database;
 
-    private InputObjectHandler inputObjectHandler;
-
     private CustomerService customerService ;
 
     private AdminService adminService ;
 
-    public Management(Database database,InputObjectHandler inputObjectHandler) {
+    public Management(Database database) {
         this.database = database;
         customerService = new CustomerService(database);
         adminService = new AdminService(database);
-        this.inputObjectHandler = inputObjectHandler;
+
     }
 
     public void setDatabase(Database database) {
@@ -44,7 +42,7 @@ public class Management {
     }
 
     public void adminLoginVerify() {
-        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
+        String[] adminLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         boolean foundAdmin = false;
         for (Admin admin : database.getAdmins()) {
             if (admin.getUsername().equals(adminLoginDetails[0]) &&
@@ -61,7 +59,7 @@ public class Management {
     }
 
     public void customerLoginVerify() {
-        String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
+        String[] customerLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         boolean foundCustomer = false;
         for (Customer customer : database.getCustomers()) {
             if (customer.getUsername().equals(customerLoginDetails[0]) &&

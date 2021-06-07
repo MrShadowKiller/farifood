@@ -9,13 +9,13 @@ import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.sort.*;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Database {
     private ArrayList<Admin> admins;
@@ -32,13 +32,11 @@ public class Database {
 
     private ViewAdmin viewAdmin;
 
-    private InputObjectHandler inputObjectHandler;
-
     private ViewCustomer viewCustomer;
 
     public Database(ArrayList<Admin> admins, ArrayList<Department> departments, ArrayList<Item> items,
                     ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<Order> orders,
-                    ViewAdmin viewAdmin, InputObjectHandler inputObjectHandler, ViewCustomer viewCustomer) {
+                    ViewAdmin viewAdmin, ViewCustomer viewCustomer) {
         this.admins = admins;
         this.departments = departments;
         this.items = items;
@@ -46,7 +44,6 @@ public class Database {
         this.customers = customers;
         this.orders = orders;
         this.viewAdmin = viewAdmin;
-        this.inputObjectHandler = inputObjectHandler;
         this.viewCustomer = viewCustomer;
     }
 
@@ -115,13 +112,13 @@ public class Database {
     }
 
     public void addAdmin() {
-        Admin newAdmin = inputObjectHandler.scanAdminInfo();
+        Admin newAdmin = InputObjectHandler.getInstance().scanAdminInfo();
         admins.add(newAdmin);
         customers.add(newAdmin);
     }
 
     public void removeAdmin(){
-        String[] adminLoginDetails = inputObjectHandler.scanCustomerLogin();
+        String[] adminLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         for (int i = 0; i < admins.size(); i++) {
             if (admins.get(i).getUsername().equals(adminLoginDetails[0])
                     && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
@@ -142,11 +139,11 @@ public class Database {
     }
 
     public void addCustomer(){
-        customers.add(inputObjectHandler.scanCustomerInfo());
+        customers.add(InputObjectHandler.getInstance().scanCustomerInfo());
     }
 
     public void removeCustomer(){
-        String[] customerLoginDetails = inputObjectHandler.scanCustomerLogin();
+        String[] customerLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(customerLoginDetails[0])
                     && customers.get(i).getPassword().equals(customerLoginDetails[1])) {
@@ -159,27 +156,31 @@ public class Database {
     }
 
     public void addRestaurant(){
-        departments.add(inputObjectHandler.scanRestaurantInfo(viewAdmin));
+        departments.add(InputObjectHandler.getInstance().scanRestaurantInfo(viewAdmin,this));
     }
 
     public void removeRestaurant() {
-        departments.remove(inputObjectHandler.findRestaurant());
+        departments.remove(InputObjectHandler.getInstance().findRestaurant(this));
+    }
+
+    public void addSuperMarket(){
+
     }
 
     public void addDelivery() {
-        deliveries.add(inputObjectHandler.scanDeliveryInfo(viewAdmin));
+        deliveries.add(InputObjectHandler.getInstance().scanDeliveryInfo(viewAdmin));
     }
 
     public void removeDelivery() {
-        deliveries.remove(inputObjectHandler.selectToRemoveDelivery(viewAdmin));
+        deliveries.remove(Selector.getInstance().selectToRemoveDelivery(viewAdmin,this));
     }
 
     public void addFood() {
-        items.add(inputObjectHandler.scanFoodInfo());
+        items.add(InputObjectHandler.getInstance().scanFoodInfo());
     }
 
     public void removeFood() {
-        items.remove(inputObjectHandler.scanFoodInfo());
+        items.remove(InputObjectHandler.getInstance().scanFoodInfo());
     }
 
 
@@ -196,18 +197,18 @@ public class Database {
         customer.getWallet().setBalance(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
     }
 
-    public void changeRestaurantName(Restaurant restaurant) {
+    public void changeDepartmentName(Department department) {
         System.out.print("New Name : ");
-        restaurant.setName(ScannerWrapper.getInstance().nextLine().trim());
+        department.setName(ScannerWrapper.getInstance().nextLine().trim());
     }
 
     public void changeRestaurantWorkHours(Restaurant restaurant) {
-        inputObjectHandler.selectRestaurantWorkHours(restaurant);
+        Selector.getInstance().selectRestaurantWorkHours(restaurant);
     }
 
     public void changeRestaurantSchedule(Restaurant restaurant) {
         System.out.println("Which days restaurant is available ? ");
-        restaurant.setSchedule(inputObjectHandler.selectRestaurantSchedule(viewAdmin));
+        restaurant.setSchedule(Selector.getInstance().selectRestaurantSchedule(viewAdmin));
     }
 
     public void changeDeliverySalary(Delivery delivery) {
@@ -216,11 +217,11 @@ public class Database {
     }
 
     public void changeDeliveryVehicle(Delivery delivery) {
-        delivery.setVehicleType(inputObjectHandler.selectDeliveryVehicle());
+        delivery.setVehicleType(Selector.getInstance().selectDeliveryVehicle());
     }
 
     public void changeDeliverySalaryType(Delivery delivery) {
-        delivery.setSalaryType(inputObjectHandler.selectDeliverySalaryType());
+        delivery.setSalaryType(Selector.getInstance().selectDeliverySalaryType());
     }
 
     public void sortRestaurantHighRating() {

@@ -25,15 +25,13 @@ public class Main {
         Admin admin1 = new Admin("Mohammad", "Shahabadi",
                 "09216272515", "1", "1", address1);
 
-        InputObjectHandler inputObjectHandler = new InputObjectHandler();
         Database database = new Database(new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),new ViewAdmin(),inputObjectHandler,new ViewCustomer());
+                ,new ArrayList<>(),new ArrayList<>(),new ViewAdmin(),new ViewCustomer());
 
-        inputObjectHandler.setDatabase(database);
         database.getAdmins().add(admin1);
         database.getCustomers().add(admin1);
 
-        Management management = new Management(database,inputObjectHandler);
+        Management management = new Management(database);
 
 
         while (true) {
@@ -44,9 +42,8 @@ public class Main {
             if (userChoice == 1) {
                 management.startMenu();
             } else if (userChoice == 2) {
-                InputObjectHandler inputObjectHandler1 = new InputObjectHandler();
                 Database database1 = getTest(admin1,address1);
-                management = new Management(database1,inputObjectHandler1);
+                management = new Management(database1);
             } else {
                 break;
             }
@@ -138,7 +135,7 @@ public class Main {
 
 
         return new Database(admins,departments,items,deliveries,customers,orders,new ViewAdmin()
-                ,new InputObjectHandler(),new ViewCustomer());
+               ,new ViewCustomer());
     }
 
 }

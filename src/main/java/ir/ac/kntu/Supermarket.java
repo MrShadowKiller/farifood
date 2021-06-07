@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Supermarket extends Department {
-    private ArrayList<Product> products;
-
     private HashMap<Integer, ArrayList<Order>> orders;
 
     public Supermarket(String name, Address address, int workHoursOpen, int workHoursClose) {
@@ -21,6 +19,13 @@ public class Supermarket extends Department {
         }
     }
 
+    public Supermarket(String name, Address address, int workHoursOpen, int workHoursClose, ArrayList<Item> items) {
+        super(name, address, workHoursOpen, workHoursClose);
+        for (int i = workHoursOpen;i < workHoursClose;i++){
+            orders.put(i,new ArrayList<>());
+        }
+        setItems(items);
+    }
 
     public ArrayList<Product> getProducts(){
         ArrayList<Product> products = new ArrayList<>();

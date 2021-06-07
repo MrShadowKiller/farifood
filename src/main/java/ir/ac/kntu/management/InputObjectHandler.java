@@ -1,6 +1,7 @@
 package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
@@ -8,10 +9,12 @@ import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Address;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.RestaurantSchedule;
 import ir.ac.kntu.restaurant.RestaurantType;
+import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
 import ir.ac.kntu.setting.UserSetting;
@@ -23,15 +26,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InputObjectHandler {
-    private Database database;
+    private static final InputObjectHandler INSTANCE = new InputObjectHandler();
+    private InputObjectHandler(){
 
-    public InputObjectHandler(){
     }
 
-    public void setDatabase(Database database){
-        this.database = database;
+    public static InputObjectHandler getInstance(){
+        return INSTANCE;
     }
-
 
     public Admin scanAdminInfo() {
         System.out.println("\tPlease enter the required information");
@@ -123,61 +125,14 @@ public class InputObjectHandler {
 
     public UserSetting scanUserSetting(ViewCustomer viewCustomer) {
         System.out.println("How do you want the foods to be sorted ?");
-        FoodSortOption foodSortOption = selectFoodSort(viewCustomer);
+        FoodSortOption foodSortOption = Selector.getInstance().selectFoodSort(viewCustomer);
         System.out.println("How do you want the restaurants to be sorted ?");
-        RestaurantSortOption restaurantSortOption = selectRestaurantSort(viewCustomer);
+        RestaurantSortOption restaurantSortOption = Selector.getInstance().selectRestaurantSort(viewCustomer);
         System.out.println("How do you want to choose your current Day ?");
-        WeekDays currentDay = selectWeekDay(viewCustomer);
+        WeekDays currentDay = Selector.getInstance().selectWeekDay(viewCustomer);
         System.out.println("How do you want to Choose your Hour ?");
-        int hour = selectHour();
+        int hour = Selector.getInstance().selectHour();
         return new UserSetting(foodSortOption, restaurantSortOption, currentDay, hour);
-    }
-
-    public FoodSortOption selectFoodSort(ViewCustomer viewCustomer) {
-        FoodSortOption[] foodOptions = FoodSortOption.values();
-        viewCustomer.printFoodSortOptions(foodOptions);
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return foodOptions[userChoice - 1];
-    }
-
-    public RestaurantSortOption selectRestaurantSort(ViewCustomer viewCustomer) {
-        RestaurantSortOption[] restaurantOptions = RestaurantSortOption.values();
-        viewCustomer.printRestaurantSortOptions(restaurantOptions);
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return restaurantOptions[userChoice - 1];
-    }
-
-    public WeekDays selectWeekDay(ViewCustomer viewCustomer) {
-        WeekDays[] weekDays = WeekDays.values();
-        System.out.println("1.Manual");
-        System.out.println("2.Automatic (By System Date)");
-        int dateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-
-        if (dateChoice == 2) {
-            for (WeekDays weekDay : weekDays) {
-                if (weekDay.getRate() == LocalDateTime.now().getDayOfWeek().getValue()) {
-                    return weekDay;
-                }
-            }
-        }
-        System.out.println("Which day do you want to choose ? ");
-        viewCustomer.printWeekDays();
-        int dayChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return weekDays[dayChoice - 1];
-    }
-
-
-    public int selectHour() {
-        System.out.println("1.Manual");
-        System.out.println("2.Automatic (By System Time)");
-        int timeTypeChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-
-        if (timeTypeChoice == 2) {
-            return LocalDateTime.now().getHour();
-        } else {
-            System.out.print("Enter hour (0-24) :");
-            return Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        }
     }
 
     public Delivery scanDeliveryInfo(ViewAdmin viewAdmin) {
@@ -189,47 +144,16 @@ public class InputObjectHandler {
         System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
         System.out.println("Which salary type ? ");
-        SalaryType salaryType = selectDeliverySalaryType();
+        SalaryType salaryType = Selector.getInstance().selectDeliverySalaryType();
         System.out.println("How much Salary ?");
         double salary = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
         System.out.println("Which days the delivery is available ?");
-        DeliverySchedule[] schedule = selectDeliverySchedule(viewAdmin);
+        DeliverySchedule[] schedule = Selector.getInstance().selectDeliverySchedule(viewAdmin);
         System.out.println("Which is the Delivery Vehicle ?");
-        DeliveryVehicle deliveryVehicle = selectDeliveryVehicle();
+        DeliveryVehicle deliveryVehicle = Selector.getInstance().selectDeliveryVehicle();
 
         return new Delivery(firstname, lastname, phoneNumber,
                 deliveryVehicle, salaryType, salary, schedule);
-    }
-
-    public SalaryType selectDeliverySalaryType() {
-        SalaryType[] salaryTypes = SalaryType.values();
-        System.out.println("[1]. Hourly");
-        System.out.println("[2]. Per Order");
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return salaryTypes[userChoice - 1];
-    }
-
-    public DeliverySchedule[] selectDeliverySchedule(ViewAdmin viewAdmin) {
-        boolean status = true;
-        DeliverySchedule[] schedule = DeliverySchedule.values();
-        while (true) {
-            viewAdmin.printWeekDays();
-            System.out.println("[" + (schedule.length + 1) + "]. Exit");
-            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-            if (userChoice == schedule.length + 1) {
-                break;
-            }
-            schedule[userChoice - 1].setAvailability(true);
-        }
-        return schedule;
-    }
-
-    public DeliveryVehicle selectDeliveryVehicle() {
-        DeliveryVehicle[] deliveryVehicles = DeliveryVehicle.values();
-        System.out.println("[1]. Car");
-        System.out.println("[2]. Bike");
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return deliveryVehicles[userChoice - 1];
     }
 
     public Food scanFoodInfo() {
@@ -240,18 +164,8 @@ public class InputObjectHandler {
         return new Food(foodName, foodCookTime);
     }
 
-    public Food selectFood(ViewAdmin viewAdmin) {
-        if (database.getFoods().size() == 0) {
-            System.out.println("NO FOOD AVAILABLE");
-            return null;
-        }
-        System.out.println("Which Food ?");
-        viewAdmin.printFoods(database.getFoods());
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return database.getFoods().get(userInput - 1);
-    }
 
-    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin) {
+    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin,Database database) {
         System.out.print("Restaurant Name : ");
         String restaurantName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
@@ -261,33 +175,20 @@ public class InputObjectHandler {
         System.out.print("Close Time : ");
         int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         System.out.println("Which days restaurant is Open ? ");
-        RestaurantSchedule[] restaurantSchedules = selectRestaurantSchedule(viewAdmin);
+        RestaurantSchedule[] restaurantSchedules = Selector.getInstance().selectRestaurantSchedule(viewAdmin);
         System.out.println("What is the Restaurant Type ?");
         viewAdmin.printRestaurantTypes();
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantType restaurantType = RestaurantType.values()[userChoice - 1];
         System.out.println("Which foods restaurant have ? ");
-        ArrayList<Item> restaurantFoods = setRestaurantFoods(viewAdmin);
+        ArrayList<Item> restaurantFoods = setRestaurantFoods(viewAdmin,database);
 
         return new Restaurant(restaurantName, address, workHoursOpen,
                 workHoursClose, restaurantSchedules, restaurantType, restaurantFoods);
     }
 
-    public RestaurantSchedule[] selectRestaurantSchedule(ViewAdmin viewAdmin) {
-        RestaurantSchedule[] schedule = RestaurantSchedule.values();
-        while (true) {
-            viewAdmin.printWeekDays();
-            System.out.println("[" + (schedule.length + 1) + "]. Exit");
-            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-            if (userChoice == schedule.length + 1) {
-                break;
-            }
-            schedule[userChoice - 1].setAvailability(true);
-        }
-        return schedule;
-    }
 
-    public ArrayList<Item> setRestaurantFoods(ViewAdmin viewAdmin) {
+    public ArrayList<Item> setRestaurantFoods(ViewAdmin viewAdmin,Database database) {
         ArrayList<Item> result = new ArrayList<>();
         if (database.getFoods().size() == 0) {
             System.out.println("Food list is empty!");
@@ -311,7 +212,7 @@ public class InputObjectHandler {
         return result;
     }
 
-    public Restaurant findRestaurant() {
+    public Restaurant findRestaurant(Database database) {
         System.out.print("Restaurant name : ");
         String name = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Restaurant neighbor : ");
@@ -324,40 +225,6 @@ public class InputObjectHandler {
             }
         }
         System.out.println("Cant Find Restaurant");
-        return null;
-    }
-
-    public Delivery selectRestaurantDelivery(ViewAdmin viewAdmin,Restaurant restaurant) {
-        System.out.println("Which Delivery ?");
-        viewAdmin.printDeliveries(database.getDeliveries());
-        int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (database.getDeliveries().get(userDeliveryChoice - 1).isFull(restaurant)) {
-            System.out.println("Delivery is full!");
-            return null;
-
-        }
-
-        while (true) {
-            System.out.println("Which day delivery will work ? ");
-            viewAdmin.printRestaurantSchedule(restaurant);
-            System.out.println("[" + (restaurant.getSchedule().length + 1) + "]. Exit");
-
-            int userRestScheChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-
-            if (userRestScheChoice == restaurant.getSchedule().length + 1) {
-                break;
-            }
-
-            if (database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].getAvailability()
-                    && restaurant.getSchedule()[userRestScheChoice - 1].getAvailability()) {
-
-                database.getDeliveries().get(userDeliveryChoice - 1).addRestaurant(restaurant);
-                database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setRestaurant(restaurant);
-                return database.getDeliveries().get(userDeliveryChoice - 1);
-            } else {
-                System.out.println("No empty schedule for delivery or restaurant!");
-            }
-        }
         return null;
     }
 
@@ -393,38 +260,45 @@ public class InputObjectHandler {
         return new Comment(customer, food, restaurant, delivery, foodRate, deliveryRate, restaurantRate, messege);
     }
 
-    public Delivery selectToRemoveDelivery(ViewAdmin viewAdmin){
-        System.out.println("Choose one of the deliveries : ");
-        viewAdmin.printDeliveries(database.getDeliveries());
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return database.getDeliveries().get(userInput-1);
+    public Supermarket scanSuperMarketInfo(ViewAdmin viewAdmin,Database database){
+        System.out.print("SuperMarket Name : ");
+        String superMarketName = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("Address Section\nneighbor: ");
+        Address address = scanAddressInfo();
+        System.out.print("Open Time : ");
+        int workHoursOpen = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("Close Time : ");
+        int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.println("Which products supermarket has ? ");
+        ArrayList<Item> superMarketProducts = setSuperMarketProducts(viewAdmin,database);
+
+        return new Supermarket(superMarketName, address, workHoursOpen,
+                workHoursClose, superMarketProducts);
     }
 
-    public void selectRestaurantWorkHours(Restaurant restaurant){
-        System.out.println("Work Opens at : ");
-        restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
-        System.out.println("Work Closes at : ");
-        restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
-    }
-
-    public Customer selectCustomerHandler(ViewAdmin viewAdmin,Admin admin) {
-        viewAdmin.printCustomers(database.getCustomers());
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getCustomers().size() + 1) {
+    public ArrayList<Item> setSuperMarketProducts(ViewAdmin viewAdmin,Database database){
+        ArrayList<Item> result = new ArrayList<>();
+        if (database.getProducts().size() == 0) {
+            System.out.println("Product list is empty!");
             return null;
-        } else {
-            return database.getCustomers().get(userChoice - 1);
         }
-    }
-
-    public Restaurant selectRestaurantHandler(Admin admin,ViewAdmin viewAdmin) {
-        viewAdmin.printRestaurants(database.getRestaurants());
-        System.out.println("[" + (database.getRestaurants().size() + 1) + "]. " + "Exit");
-        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == database.getRestaurants().size() + 1) {
-            return null;
-        } else {
-            return database.getRestaurants().get(userChoice - 1);
+        while (true) {
+            viewAdmin.printProducts(database.getProducts());
+            System.out.println("[" + (database.getProducts().size() + 1) + "]. Exit");
+            int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+            if (userChoice == database.getProducts().size() + 1) {
+                break;
+            }
+            if (result.contains(database.getProducts().get(userChoice - 1))) {
+                System.out.println("Food already exist !");
+            } else {
+                System.out.print("Price : ");
+                double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+                System.out.println("Stock : ");
+                int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+                result.add(new Product(database.getProducts().get(userChoice - 1), price,stock));
+            }
         }
+        return result;
     }
 }

@@ -7,27 +7,18 @@ import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.*;
-import ir.ac.kntu.sort.*;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Customer;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 public class CustomerService {
     private final ViewCustomer viewCustomer;
-
-    private final InputObjectHandler inputObjectHandler;
-
-    private final SelectRestaurantManager selectRestaurantManager;
 
     private Database database;
 
     public CustomerService(Database database) {
         this.database = database;
         viewCustomer = new ViewCustomer();
-        inputObjectHandler = new InputObjectHandler();
-        inputObjectHandler.setDatabase(database);
-        selectRestaurantManager = new SelectRestaurantManager();
     }
 
     public void customerMenuHandler(Customer customer) {
@@ -61,7 +52,7 @@ public class CustomerService {
     }
 
     public void editCustomerInformation(Customer customer) {
-        inputObjectHandler.changeCustomerInformation(customer);
+        InputObjectHandler.getInstance().changeCustomerInformation(customer);
     }
 
     public void showCustomerInformationHandler(Customer customer) {
@@ -120,7 +111,7 @@ public class CustomerService {
     }
 
     public void addCreditCardHandler(Customer customer) {
-        customer.setCreditCard(inputObjectHandler.scanCreditCard());
+        customer.setCreditCard(InputObjectHandler.getInstance().scanCreditCard());
     }
 
     public void addWalletBalanceHandler(Customer customer) {
@@ -142,7 +133,7 @@ public class CustomerService {
 
     public void setUserSetting(Customer customer) {
         System.out.println("To provide better support we need to customize the app with your preferences.");
-        customer.setUserSetting(inputObjectHandler.scanUserSetting(viewCustomer));
+        customer.setUserSetting(InputObjectHandler.getInstance().scanUserSetting(viewCustomer));
     }
 
     public void restaurantsFoodsTabHandler(Customer customer) {
@@ -190,7 +181,7 @@ public class CustomerService {
 
     public void showDefaultRestaurants(Customer customer) {
         setRestaurantSort(customer);
-        Restaurant selectedRestaurant = selectRestaurantManager.selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
+        Restaurant selectedRestaurant = Selector.getInstance().selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
@@ -202,7 +193,7 @@ public class CustomerService {
             System.out.println("Not enough Restaurants!");
             restaurantsFoodsTabHandler(customer);
         }
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestThreeRestaurant(database.getRestaurants(), customer, viewCustomer);
+        Restaurant selectedRestaurant = Selector.getInstance().selectBestThreeRestaurant(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
@@ -210,28 +201,28 @@ public class CustomerService {
 
     public void showBestRestaurantsForFood(Customer customer) {
         database.sortRestaurantHighRating();
-        Restaurant selectedRestaurant = selectRestaurantManager.selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewCustomer, customer);
+        Restaurant selectedRestaurant = Selector.getInstance().selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewCustomer, customer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantName(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.findRestaurantByName(database.getRestaurants(), customer);
+        Restaurant selectedRestaurant = Selector.getInstance().findRestaurantByName(database.getRestaurants(), customer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantType(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.selectRestaurantByType(database.getRestaurants(), customer, viewCustomer);
+        Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantByType(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByNeighbor(Customer customer) {
-        Restaurant selectedRestaurant = selectRestaurantManager.selectNearRestaurant(database.getRestaurants(), customer, viewCustomer);
+        Restaurant selectedRestaurant = Selector.getInstance().selectNearRestaurant(database.getRestaurants(), customer, viewCustomer);
         if (selectedRestaurant != null) {
             restaurantMenu(selectedRestaurant, customer);
         }
@@ -309,7 +300,7 @@ public class CustomerService {
             System.out.println("There is no Delivery available");
             customer.getWallet().addBalance(food.getPrice());
         } else {
-            Comment comment = inputObjectHandler.scanCommentFields(viewCustomer, customer, food, restaurant, delivery);
+            Comment comment = InputObjectHandler.getInstance().scanCommentFields(viewCustomer, customer, food, restaurant, delivery);
             Order order = new Order(customer, restaurant, food, delivery, LocalDateTime.now());
             restaurant.addOrder(order);
             restaurant.addComment(comment);
