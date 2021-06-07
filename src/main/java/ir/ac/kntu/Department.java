@@ -156,18 +156,18 @@ public abstract class Department {
     }
 
     public void sortItemHighRating() {
-        items.sort(new ItemCompareHighRate());
+        items.sort((o1,o2) -> Double.compare(o2.getAverageRate(),o1.getAverageRate()));
     }
 
     public void sortItemLowRating() {
-        items.sort(new ItemCompareLowRate());
+        items.sort((o1,o2) -> Double.compare(o1.getAverageRate(),o2.getAverageRate()));
     }
 
     public void sortItemHighPrice() {
-        items.sort(new ItemCompareHighPrice());
+        items.sort((o1,o2) -> Double.compare(o2.getPrice(),o1.getPrice()));
     }
 
     public void sortItemLowPrice() {
-        items.sort(new ItemCompareLowPrice());
+        items.sort((o1,o2) -> Double.compare(o1.getPrice(),o2.getPrice()));
     }
 }

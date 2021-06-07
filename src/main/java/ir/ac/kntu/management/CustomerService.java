@@ -154,6 +154,7 @@ public class CustomerService {
                 break;
             case SEARCH_BY_TYPE:
                 searchByRestaurantType(customer);
+                break;
             case SEARCH_BY_NEIGHBOR:
                 searchByNeighbor(customer);
                 break;

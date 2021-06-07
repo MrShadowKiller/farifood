@@ -16,6 +16,7 @@ import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Database {
     private ArrayList<Admin> admins;
@@ -245,23 +246,30 @@ public class Database {
     }
 
     public void sortRestaurantHighRating() {
-        departments.sort(new DepartmentCompareHighRate());
+        departments.sort((o1,o2) -> Double.compare(o2.getAverageRate(),o1.getAverageRate()));
     }
 
     public void sortRestaurantLowRating() {
-        departments.sort(new DepartmentCompareLowRate());
+        departments.sort((o1,o2) -> Double.compare(o1.getAverageRate(),o2.getAverageRate()));
     }
 
+
     public void sortRestaurantHighComments() {
-        departments.sort(new DepartmentCompareHighComments());
+        departments.sort((o1,o2) -> Integer.compare(o2.getComments().size(),o1.getComments().size()));
     }
 
     public void sortRestaurantLowComments() {
-        departments.sort(new DepartmentCompareLowComments());
+        departments.sort((o1,o2) -> Integer.compare(o1.getComments().size(),o2.getComments().size()));
     }
 
     public void sortRestaurantByRising() {
-        departments.sort(new DepartmentCompareRising());
+        departments.sort((o1, o2) -> {
+            if (o1.getOrders().size() >= o2.getOrders().size() && o2.getAverageRate() >= 3) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
     }
 
 
