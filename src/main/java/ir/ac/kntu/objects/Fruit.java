@@ -11,6 +11,15 @@ public class Fruit extends Item implements Stackable {
         super(name);
     }
 
+    public Fruit(Fruit fruit) {
+        super(fruit.getName(),fruit.getPrice());
+    }
+
+    public Fruit(Fruit fruit, double price,int stock) {
+        super(fruit.getName(),price);
+        this.stock = stock;
+    }
+
     public int getStock() {
         return stock;
     }

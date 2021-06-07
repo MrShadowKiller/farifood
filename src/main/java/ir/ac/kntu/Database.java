@@ -10,13 +10,11 @@ import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.restaurant.Selector;
-import ir.ac.kntu.sort.*;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewCustomer;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Database {
     private ArrayList<Admin> admins;
@@ -76,7 +74,7 @@ public class Database {
         return supermarkets;
     }
 
-    public ArrayList<FruitMarket> getFruitMarket(){
+    public ArrayList<FruitMarket> getFruitMarkets(){
         ArrayList<FruitMarket> fruitMarkets = new ArrayList<>();
         for (Department department : departments){
             if (department instanceof FruitMarket){
@@ -183,6 +181,12 @@ public class Database {
     public void addSuperMarket(){
         departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
     }
+
+    public void addFruitMarket(){
+        departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
+    }
+
+
 
     public void removeDepartment(){
         departments.remove(InputObjectHandler.getInstance().findDepartment(this));

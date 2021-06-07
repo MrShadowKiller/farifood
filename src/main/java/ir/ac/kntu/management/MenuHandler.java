@@ -1,6 +1,7 @@
 package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.enums.adminmenu.*;
@@ -45,7 +46,7 @@ public class MenuHandler {
             case FOOD -> foodTabHandler(admin);
             case RESTAURANTS -> restaurantsTabHandler(admin);
             case SUPERMARKET -> superMarketTabHandler(admin);
-            case FRUITMARKET ->
+            case FRUITMARKET -> fruitMarketTabHandler(admin);
             case ORDERS -> adminService.ordersTabHandler(admin);
             case EXIT -> {
                 return;
@@ -280,23 +281,23 @@ public class MenuHandler {
     }
 
 
-    public void superMarketTabHandler(Admin admin) {
-        viewAdmin.printSuperMarketTab();
+    public void fruitMarketTabHandler(Admin admin) {
+        viewAdmin.printFruitMarketTab();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (SuperMarketTabOptions.findOption(userInput)) {
-            case ADD_SUPERMARKET:
-                database.addSuperMarket();
+        switch (FruitMarketTabOptions.findOption(userInput)) {
+            case ADD_FRUITMARKET:
+                database.addFruitMarket();
                 break;
-            case REMOVE_SUPERMARKET:
+            case REMOVE_FRUITMARKET:
                 database.removeDepartment();
                 break;
-            case VIEW_EDIT_SUPERMARKET:
-                viewAndEditSuperMarketHandler(admin);
+            case VIEW_EDIT_FRUITMARKET:
+                viewAndEditFruitMarketHandler(admin);
                 break;
             case VIEW_ORDERS:
                 adminService.viewDepartmentOrders(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
-            case VIEW_PRODUCTS:
+            case VIEW_FRUITS:
                 adminService.viewDepartmentItems(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
                 break;
             case VIEW_COMMENTS:
@@ -308,9 +309,40 @@ public class MenuHandler {
             case EXIT:
                 return;
             default:
-                superMarketTabHandler(admin);
+                fruitMarketTabHandler(admin);
         }
-        superMarketTabHandler(admin);
+        fruitMarketTabHandler(admin);
+    }
+
+    public void viewAndEditFruitMarketHandler(Admin admin){
+        FruitMarket selectedFruitMarket = Selector.getInstance().selectFruitMarketHandler(admin, viewAdmin, database);
+        if (selectedFruitMarket == null) {
+            return;
+        }
+        viewAdmin.printEditFruitMarketTab();
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        switch (FruitMarketEditOptions.findOption(userInput)) {
+            case CHANGE_NAME:
+                database.changeDepartmentName(selectedFruitMarket);
+                break;
+            case ADD_FRUIT:
+                adminService.addFruitFruitMarket(selectedFruitMarket);
+                break;
+            case REMOVE_FRUIT:
+                adminService.removeFruitFruitMarket(selectedFruitMarket);
+                break;
+            case ADD_DELIVERY:
+                adminService.addDeliveryDepartment(selectedFruitMarket);
+                break;
+            case REMOVE_DELIVERY:
+                adminService.removeDeliveryDepartment(selectedFruitMarket);
+                break;
+            case EXIT:
+                return;
+            default:
+                viewAndEditFruitMarketHandler(admin);
+        }
+        viewAndEditFruitMarketHandler(admin);
     }
 
     public void deliveriesTabHandler(Admin admin) {

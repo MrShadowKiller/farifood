@@ -1,11 +1,13 @@
 package ir.ac.kntu.ui;
 
+import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
+import ir.ac.kntu.objects.Fruit;
 import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Comment;
@@ -68,10 +70,22 @@ public class ViewAdmin {
         System.out.println("[1].Add SuperMarket");
         System.out.println("[2].Remove SuperMarket");
         System.out.println("[3].View and Edit SuperMarket");
-        System.out.println("[4].View Restaurant orders");
-        System.out.println("[5].View Restaurant foods");
-        System.out.println("[6].View Restaurant comments");
-        System.out.println("[7].View Restaurant Deliveries");
+        System.out.println("[4].View SuperMarket orders");
+        System.out.println("[5].View SuperMarket Products");
+        System.out.println("[6].View SuperMarket comments");
+        System.out.println("[7].View SuperMarket Deliveries");
+        System.out.println("[8].Exit");
+    }
+
+    public void printFruitMarketTab() {
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Add FruitMarket");
+        System.out.println("[2].Remove FruitMarket");
+        System.out.println("[3].View and Edit FruitMarket");
+        System.out.println("[4].View FruitMarket orders");
+        System.out.println("[5].View FruitMarket fruits");
+        System.out.println("[6].View FruitMarket comments");
+        System.out.println("[7].View FruitMarket Deliveries");
         System.out.println("[8].Exit");
     }
 
@@ -272,6 +286,16 @@ public class ViewAdmin {
         System.out.println("[8].Exit");
     }
 
+    public void printEditFruitMarketTab(){
+        System.out.println("Please use of these options : ");
+        System.out.println("[1].Change name");
+        System.out.println("[4].Add Fruit");
+        System.out.println("[5].Remove Fruit");
+        System.out.println("[6].Add Delivery");
+        System.out.println("[7].Remove Delivery");
+        System.out.println("[8].Exit");
+    }
+
     public void printRestaurantSchedule(Restaurant restaurant) {
         RestaurantSchedule[] restaurantSchedules = restaurant.getSchedule();
         for (int i = 1; i <= restaurantSchedules.length; i++) {
@@ -312,9 +336,26 @@ public class ViewAdmin {
         }
     }
 
+    public void printFruits(ArrayList<Fruit> fruits){
+        for (int i = 1; i <= fruits.size(); i++) {
+
+            System.out.println("[" + i + "]. " + fruits.get(i - 1).getName() +
+                    "  " + fruits.get(i - 1).getPrice() + "$" + " " + fruits.get(i - 1).getStock());
+        }
+        if (fruits.size() == 0) {
+            System.out.println("EMPTY!");
+        }
+    }
+
     public void printSuperMarkets(ArrayList<Supermarket> supermarkets){
         for (int i = 1; i <= supermarkets.size(); i++) {
             System.out.println("[" + i + "]. " + supermarkets.get(i - 1).getName());
+        }
+    }
+
+    public void printFruitMarkets(ArrayList<FruitMarket> fruitMarkets){
+        for (int i = 1; i <= fruitMarkets.size(); i++) {
+            System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName());
         }
     }
 

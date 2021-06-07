@@ -2,9 +2,11 @@ package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
 import ir.ac.kntu.Department;
+import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Fruit;
 import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.order.OrderStatus;
@@ -130,6 +132,21 @@ public class AdminService {
 
     public void removeProductSuperMarket(Supermarket supermarket) {
         supermarket.getItems().remove(Selector.getInstance().selectProduct(viewAdmin, supermarket.getProducts()));
+    }
+
+    public void addFruitFruitMarket(FruitMarket fruitMarket) {
+        Fruit fruit = new Fruit(Selector.getInstance().selectFruit(viewAdmin, database.getFruits()));
+        System.out.print("price : ");
+        double priceChoice = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
+        System.out.print("Stock : ");
+        int stockChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        fruit.setPrice(priceChoice);
+        fruit.setStock(stockChoice);
+        fruitMarket.addItem(fruit);
+    }
+
+    public void removeFruitFruitMarket(FruitMarket fruitMarket) {
+        fruitMarket.getItems().remove(Selector.getInstance().selectFruit(viewAdmin, fruitMarket.getFruits()));
     }
 
     public void addDeliveryDepartment(Department department) {

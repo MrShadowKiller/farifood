@@ -2,6 +2,7 @@ package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Database;
 import ir.ac.kntu.Department;
+import ir.ac.kntu.FruitMarket;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.delivery.DeliverySchedule;
@@ -9,6 +10,7 @@ import ir.ac.kntu.delivery.DeliveryVehicle;
 import ir.ac.kntu.delivery.SalaryType;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.management.ScannerWrapper;
+import ir.ac.kntu.objects.Fruit;
 import ir.ac.kntu.objects.Product;
 import ir.ac.kntu.setting.FoodSortOption;
 import ir.ac.kntu.setting.RestaurantSortOption;
@@ -342,6 +344,17 @@ public class Selector {
         }
     }
 
+    public FruitMarket selectFruitMarketHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
+        viewAdmin.printFruitMarkets(database.getFruitMarkets());
+        System.out.println("[" + (database.getFruitMarkets().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getFruitMarkets().size() + 1) {
+            return null;
+        } else {
+            return database.getFruitMarkets().get(userChoice - 1);
+        }
+    }
+
     public Food selectFood(ViewAdmin viewAdmin,ArrayList<Food> foods) {
         if (foods.size() == 0) {
             System.out.println("NO FOOD AVAILABLE");
@@ -362,5 +375,16 @@ public class Selector {
         viewAdmin.printProductsWithSize(products);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return products.get(userInput - 1);
+    }
+
+    public Fruit selectFruit(ViewAdmin viewAdmin, ArrayList<Fruit> fruits) {
+        if (fruits.size() == 0) {
+            System.out.println("NO Fruit AVAILABLE");
+            return null;
+        }
+        System.out.println("Which fruit ?");
+        viewAdmin.printFruits(fruits);
+        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        return fruits.get(userInput - 1);
     }
 }
