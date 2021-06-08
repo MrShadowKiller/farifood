@@ -176,4 +176,9 @@ public abstract class Department {
     public void sortItemLowPrice() {
         items.sort((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()));
     }
+
+    @Override
+    public String toString() {
+        return getName() + "\t" + getAverageRate() + "\t";
+    }
 }

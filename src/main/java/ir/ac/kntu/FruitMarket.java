@@ -16,6 +16,7 @@ public class FruitMarket extends Department implements Stackable {
 
     public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose) {
         super(name, address, workHoursOpen, workHoursClose);
+        ordersSchedule = new HashMap<>();
         for (int i = workHoursOpen; i < workHoursClose; i += 2) {
             ordersSchedule.put(i, new ArrayList<>());
         }
@@ -24,6 +25,7 @@ public class FruitMarket extends Department implements Stackable {
     public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose, ArrayList<Item> items) {
         super(name, address, workHoursOpen, workHoursClose);
         setItems(items);
+        ordersSchedule = new HashMap<>();
         for (int i = workHoursOpen; i < workHoursClose; i += 2) {
             ordersSchedule.put(i, new ArrayList<>());
         }
@@ -47,20 +49,22 @@ public class FruitMarket extends Department implements Stackable {
 
     @Override
     public void getDepartmentItemMenu(ViewPerson viewPerson) {
-        viewPerson.printDepartmentInformation(this);
+        viewPerson.printDepartmentItemMenu(this);
     }
 
     @Override
     public Order checkOutCustomerOrder(Customer customer) {
         int period = Selector.getInstance().orderPeriodFruitMarketSelector(this);
-        if (ordersSchedule.get(period).size() >= getDeliveries().size()) {
+        if (ordersSchedule.get(period).size() >= getDeliveries().size() || customer.getBasket().size() >5) {
+            System.out.println("Out of limit for orders in this period!");
             return null;
         }
         Delivery delivery = getFreedelivery(period);
         if (delivery == null) {
+            System.out.println("No delivery avaliable");
             return null;
         }
-        Order order = new Order(customer, this, customer.getBasket(), delivery, LocalDateTime.now());
+        Order order = new Order(customer, this, new ArrayList<>(customer.getBasket()), delivery, LocalDateTime.now());
         for (Item item : customer.getBasket()) {
             ((Fruit) item).setStock(((Fruit) item).getStock() - 1);
         }
@@ -83,7 +87,7 @@ public class FruitMarket extends Department implements Stackable {
                     status = true;
                 }
             }
-            if (status == false) {
+            if (!status) {
                 return delivery;
             }
         }

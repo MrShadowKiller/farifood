@@ -82,10 +82,10 @@ public class Main {
         items.add(new Product("Rice"));
         items.add(new Product("Meat"));
 
-        items.add(new Product("Vegetables"));
-        items.add(new Product("Cucumber"));
-        items.add(new Product("Tomato"));
-        items.add(new Product("Carrot"));
+        items.add(new Fruit("Vegetables"));
+        items.add(new Fruit("Cucumber"));
+        items.add(new Fruit("Tomato"));
+        items.add(new Fruit("Carrot"));
 
         customers.add(new Customer("Kazem", "bikar", "09212222", "kazem", "1", address1));
         customers.add(new Customer("Akbar", "bikar", "0933333", "akbar", "1", address2));
@@ -153,25 +153,25 @@ public class Main {
         departments.get(1).addItem(new Food((Food) items.get(2)));
         departments.get(2).addItem(new Food((Food) items.get(2)));
 
-        departments.get(3).addItem(new Product((Product) items.get(3)));
-        departments.get(4).addItem(new Product((Product) items.get(3)));
-        departments.get(5).addItem(new Product((Product) items.get(3)));
-        departments.get(3).addItem(new Product((Product) items.get(4)));
-        departments.get(4).addItem(new Product((Product) items.get(4)));
-        departments.get(5).addItem(new Product((Product) items.get(4)));
-        departments.get(3).addItem(new Product((Product) items.get(5)));
-        departments.get(4).addItem(new Product((Product) items.get(5)));
-        departments.get(5).addItem(new Product((Product) items.get(5)));
+        departments.get(3).addItem(new Product((Product) items.get(4),20));
+        departments.get(4).addItem(new Product((Product) items.get(4),1));
+        departments.get(5).addItem(new Product((Product) items.get(4),0));
+        departments.get(3).addItem(new Product((Product) items.get(5),10));
+        departments.get(4).addItem(new Product((Product) items.get(5),3));
+        departments.get(5).addItem(new Product((Product) items.get(5),4));
+        departments.get(3).addItem(new Product((Product) items.get(6),10));
+        departments.get(4).addItem(new Product((Product) items.get(6),9));
+        departments.get(5).addItem(new Product((Product) items.get(6),5));
 
-        departments.get(6).addItem(new Fruit((Fruit) items.get(6)));
-        departments.get(7).addItem(new Fruit((Fruit) items.get(6)));
-        departments.get(8).addItem(new Fruit((Fruit) items.get(6)));
-        departments.get(6).addItem(new Fruit((Fruit) items.get(7)));
-        departments.get(7).addItem(new Fruit((Fruit) items.get(7)));
-        departments.get(8).addItem(new Fruit((Fruit) items.get(7)));
-        departments.get(6).addItem(new Fruit((Fruit) items.get(8)));
-        departments.get(7).addItem(new Fruit((Fruit) items.get(8)));
-        departments.get(8).addItem(new Fruit((Fruit) items.get(8)));
+        departments.get(6).addItem(new Fruit((Fruit) items.get(8),20));
+        departments.get(7).addItem(new Fruit((Fruit) items.get(8),0));
+        departments.get(8).addItem(new Fruit((Fruit) items.get(8),10));
+        departments.get(6).addItem(new Fruit((Fruit) items.get(9),4));
+        departments.get(7).addItem(new Fruit((Fruit) items.get(9),1));
+        departments.get(8).addItem(new Fruit((Fruit) items.get(9),10));
+        departments.get(6).addItem(new Fruit((Fruit) items.get(10),21));
+        departments.get(7).addItem(new Fruit((Fruit) items.get(10),3));
+        departments.get(8).addItem(new Fruit((Fruit) items.get(10),4));
 
         ((Restaurant) (departments.get(0))).getFoods().get(0).setPrice(100);
         ((Restaurant) (departments.get(1))).getFoods().get(0).setPrice(80);
@@ -243,30 +243,25 @@ public class Main {
         deliveries.get(5).addDepartment(departments.get(7));
 
 
-        SellerMan sellerMan1 = new SellerMan("Seyed", "SSS",
-                "09216272515", "1", "1");
-        sellerMan1.setUsername("2");
-        sellerMan1.setPassword("2");
+        SellerMan sellerMan1 = new SellerMan("2","2","Seyed", "SSS", "09216272515");
         sellerMan1.setDepartment(departments.get(0));
         departments.get(0).setSellerMan(sellerMan1);
 
-        SellerMan sellerMan2 = new SellerMan("Ali", "SSS",
+        SellerMan sellerMan2 = new SellerMan("3", "3",
                 "09216272515", "1", "1");
-        sellerMan2.setUsername("3");
-        sellerMan2.setPassword("3");
         sellerMan2.setDepartment(departments.get(3));
         departments.get(3).setSellerMan(sellerMan2);
 
 
-        SellerMan sellerMan3 = new SellerMan("Hasan", "SSS",
+        SellerMan sellerMan3 = new SellerMan("4", "4",
                 "09216272515", "1", "1");
-        sellerMan3.setUsername("4");
-        sellerMan3.setPassword("4");
         sellerMan3.setDepartment(departments.get(6));
         departments.get(3).setSellerMan(sellerMan3);
 
 
-
+        sellerMEN.add(sellerMan1);
+        sellerMEN.add(sellerMan2);
+        sellerMEN.add(sellerMan3);
 
 
         return new Database(admins, departments, items, deliveries, customers,sellerMEN,orders

@@ -113,6 +113,7 @@ public class Order {
         String result = "";
         for (Item item : items) {
             result += item.getName() + " : " + item.getPrice() + "$\n\t";
+            System.out.println("YEEE");
         }
         return "Customer Details :\n\t" + customer.briefInformation() +
                 "\nRestaurant : \n\t" + department.getName() +

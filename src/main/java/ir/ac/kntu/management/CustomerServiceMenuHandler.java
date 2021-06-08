@@ -138,6 +138,9 @@ public class CustomerServiceMenuHandler {
     }
 
     public void departmentMenu(Department department, Customer customer) {
+        if (department == null){
+            return;
+        }
         customerService.setItemDepartmentSort(department, customer);
         viewPerson.printDepartmentMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());

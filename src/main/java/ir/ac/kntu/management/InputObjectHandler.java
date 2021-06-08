@@ -53,7 +53,7 @@ public class InputObjectHandler {
                 username, password, address);
     }
 
-    public String[] scanCustomerLogin() {
+    public String[] scanUserLogin() {
         String[] loginDetails = new String[2];
         System.out.println("\tPlease enter the required information");
         System.out.print("username: ");

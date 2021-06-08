@@ -6,6 +6,7 @@ import ir.ac.kntu.Stackable;
 import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.objects.StackableItem;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
@@ -23,11 +24,13 @@ public class ViewPerson {
     public void printCustomerMenu() {
         System.out.println("\tPlease use of the below options");
         System.out.println("[1].Restaurants and Foods");
-        System.out.println("[2].Edit Information");
-        System.out.println("[3].Show Information");
-        System.out.println("[4].Add Balance");
-        System.out.println("[5].Setting");
-        System.out.println("[6].Exit");
+        System.out.println("[2].SuperMarkets");
+        System.out.println("[3].FruitMarkets");
+        System.out.println("[4].Edit Information");
+        System.out.println("[5].Show Information");
+        System.out.println("[6].Add Balance");
+        System.out.println("[7].Setting");
+        System.out.println("[8].Exit");
     }
 
     public void printRestaurantFoodTab() {
@@ -42,11 +45,10 @@ public class ViewPerson {
     }
 
     public void printSellerManMenu() {
-        System.out.println("[1].Select Department");
-        System.out.println("[2].Edit Department Info");
-        System.out.println("[3].Get orders");
-        System.out.println("[4].Get Deliveries");
-        System.out.println("[5].Get comments");
+        System.out.println("[1].Edit Department Info");
+        System.out.println("[2].Get orders");
+        System.out.println("[3].Get Deliveries");
+        System.out.println("[4].Get comments");
         System.out.println("[6].Exit");
     }
 
@@ -118,7 +120,8 @@ public class ViewPerson {
         System.out.println("[1].Show Information");
         System.out.println("[2].Buy Item");
         System.out.println("[3].Show Comments History");
-        System.out.println("[4].Exit");
+        System.out.println("[4].CheckOut");
+        System.out.println("[5].Exit");
     }
 
     public void printDepartmentInformation(Department department) {
@@ -147,7 +150,7 @@ public class ViewPerson {
         for (int i = 1; i <= department.getItems().size(); i++) {
             System.out.println("[" + i + "]. " + department.getItems().get(i - 1).getName() + "\t" +
                     department.getItems().get(i - 1).getAverageRate() + "\t\t" + department.getItems().get(i - 1).getPrice() +
-                    "$\t" + ((StackableItem) (department.getItems().get(i - 1))).getStock() + "min");
+                    "$\t" + ((StackableItem) (department.getItems().get(i - 1))).getStock());
         }
         System.out.println("[" + (department.getItems().size() + 1) + "]. " + "Exit");
     }
@@ -217,7 +220,7 @@ public class ViewPerson {
     public void printOrderPeriodsSuperMarket(int workHoursOpen, int workHoursClose) {
         int counter = 1;
         for (int i = workHoursOpen; i < workHoursClose; i += 1) {
-            System.out.println("[" + counter++ + "]" + i + "-" + i + 1);
+            System.out.println("[" + counter++ + "]" + i + "-" + (i + 1));
         }
     }
 
@@ -225,7 +228,7 @@ public class ViewPerson {
         int counter = 1;
         for (int i = workHoursOpen; i <= workHoursClose; i += 2) {
             if (!fruitMarket.isFullPeriod(i)) {
-                System.out.println("[" + counter + "]" + i + "-" + i + 2);
+                System.out.println("[" + counter + "]" + i + "-" + (i + 2));
             }
             counter++;
         }
@@ -242,5 +245,6 @@ public class ViewPerson {
             System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName() + "  " + fruitMarkets.get(i - 1).getAverageRate());
         }
     }
+
 
 }

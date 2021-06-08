@@ -12,8 +12,9 @@ public class SellerMan extends User {
     }
 
     public SellerMan(String username, String password, String firstName, String lastName, String phoneNumber) {
-        super(username, password, firstName, lastName, phoneNumber);
+        super(firstName, lastName, phoneNumber,username, password);
     }
+
 
     public Department getDepartment() {
         return department;

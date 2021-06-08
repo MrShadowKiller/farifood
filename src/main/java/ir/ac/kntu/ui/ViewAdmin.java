@@ -61,9 +61,8 @@ public class ViewAdmin {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Add SellerMan");
         System.out.println("[2].Remove SellerMan");
-        System.out.println("[3].View SellerMen");
-        System.out.println("[4].Add SellerMan to department");
-        System.out.println("[5].Exit");
+        System.out.println("[3].Add SellerMan to department");
+        System.out.println("[4].Exit");
     }
 
     public void printRestaurantsTab() {
@@ -308,21 +307,21 @@ public class ViewAdmin {
     public void printEditSuperMarketTab() {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Change name");
-        System.out.println("[4].Add Product");
-        System.out.println("[5].Remove Product");
-        System.out.println("[6].Add Delivery");
-        System.out.println("[7].Remove Delivery");
-        System.out.println("[8].Exit");
+        System.out.println("[2].Add Product");
+        System.out.println("[3].Remove Product");
+        System.out.println("[4].Add Delivery");
+        System.out.println("[5].Remove Delivery");
+        System.out.println("[6].Exit");
     }
 
     public void printEditFruitMarketTab() {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Change name");
-        System.out.println("[4].Add Fruit");
-        System.out.println("[5].Remove Fruit");
-        System.out.println("[6].Add Delivery");
-        System.out.println("[7].Remove Delivery");
-        System.out.println("[8].Exit");
+        System.out.println("[2].Add Fruit");
+        System.out.println("[3].Remove Fruit");
+        System.out.println("[4].Add Delivery");
+        System.out.println("[5].Remove Delivery");
+        System.out.println("[6].Exit");
     }
 
     public void printRestaurantSchedule(Restaurant restaurant) {
@@ -387,6 +386,7 @@ public class ViewAdmin {
             System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName());
         }
     }
+
 
 
 }

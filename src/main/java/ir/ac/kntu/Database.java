@@ -146,7 +146,7 @@ public class Database {
     }
 
     public void removeAdmin() {
-        String[] adminLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
+        String[] adminLoginDetails = InputObjectHandler.getInstance().scanUserLogin();
         for (int i = 0; i < admins.size(); i++) {
             if (admins.get(i).getUsername().equals(adminLoginDetails[0])
                     && admins.get(i).getPassword().equals(adminLoginDetails[1])) {
@@ -171,7 +171,7 @@ public class Database {
     }
 
     public void removeCustomer() {
-        String[] customerLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
+        String[] customerLoginDetails = InputObjectHandler.getInstance().scanUserLogin();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(customerLoginDetails[0])
                     && customers.get(i).getPassword().equals(customerLoginDetails[1])) {

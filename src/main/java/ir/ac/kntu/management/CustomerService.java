@@ -157,6 +157,10 @@ public class CustomerService {
     }
 
     public void checkOutItemsHandler(Customer customer, Department department) {
+        if (customer.getBasket().isEmpty()){
+            System.out.println("Basket is empty!");
+            return;
+        }
         processTheOrderCost(customer, department);
     }
 
@@ -204,9 +208,8 @@ public class CustomerService {
             customer.addComment(comment);
             database.getOrders().add(order);
             order.setComment(comment);
-            customer.emptyBasket();
         }
-
+        customer.emptyBasket();
     }
 
 
@@ -245,6 +248,7 @@ public class CustomerService {
                 break;
             case LOW_RATE:
                 department.sortItemLowRating();
+                break;
             default:
                 setItemDepartmentSort(department, customer);
         }

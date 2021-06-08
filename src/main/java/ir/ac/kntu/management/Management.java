@@ -4,6 +4,7 @@ import ir.ac.kntu.Database;
 import ir.ac.kntu.enums.adminmenu.StartMenuOptions;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
+import ir.ac.kntu.user.SellerMan;
 
 public class Management {
     private Database database;
@@ -12,10 +13,13 @@ public class Management {
 
     private final AdminService adminService;
 
+    private final SellerManService sellerManService;
+
     public Management(Database database) {
         this.database = database;
         customerService = new CustomerService(database);
         adminService = new AdminService(database);
+        sellerManService = new SellerManService(database);
 
     }
 
@@ -33,6 +37,9 @@ public class Management {
             case CUSTOMER_LOGIN:
                 customerLoginVerify();
                 break;
+            case SELLERMAN_LOGIN:
+                sellerManLoginVerify();
+                break;
             case EXIT:
                 return;
             default:
@@ -42,7 +49,7 @@ public class Management {
     }
 
     public void adminLoginVerify() {
-        String[] adminLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
+        String[] adminLoginDetails = InputObjectHandler.getInstance().scanUserLogin();
         boolean foundAdmin = false;
         for (Admin admin : database.getAdmins()) {
             if (admin.getUsername().equals(adminLoginDetails[0]) &&
@@ -59,7 +66,7 @@ public class Management {
     }
 
     public void customerLoginVerify() {
-        String[] customerLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
+        String[] customerLoginDetails = InputObjectHandler.getInstance().scanUserLogin();
         boolean foundCustomer = false;
         for (Customer customer : database.getCustomers()) {
             if (customer.getUsername().equals(customerLoginDetails[0]) &&
@@ -75,11 +82,30 @@ public class Management {
         }
     }
 
+    public void sellerManLoginVerify() {
+        String[] sellerManLoginDetails = InputObjectHandler.getInstance().scanUserLogin();
+        boolean foundSellerMan = false;
+        for (SellerMan sellerMan : database.getSellerMen()) {
+            if (sellerMan.getUsername().equals(sellerManLoginDetails[0]) &&
+                    sellerMan.getPassword().equals(sellerManLoginDetails[1])) {
+                foundSellerMan = true;
+                System.out.println("Welcome!");
+                sellerManService.sellerManMenuStart(sellerMan);
+                break;
+            }
+        }
+        if (!foundSellerMan) {
+            System.out.println("Wrong username or password!");
+        }
+    }
+
     public void printStartMenu() {
         System.out.println(" ------- Welcome to Farifood Food Service ------- ");
         System.out.println("[1].Admin login");
         System.out.println("[2].Customer login");
-        System.out.println("[3].Exit");
+        System.out.println("[3].SellerMan login");
+        System.out.println("[4].Exit");
+
     }
 
 

@@ -18,6 +18,7 @@ public class Supermarket extends Department implements Stackable {
 
     public Supermarket(String name, Address address, int workHoursOpen, int workHoursClose) {
         super(name, address, workHoursOpen, workHoursClose);
+        ordersSchedule = new HashMap<>();
         for (int i = workHoursOpen; i < workHoursClose; i++) {
             ordersSchedule.put(i, new ArrayList<>());
         }
@@ -25,20 +26,22 @@ public class Supermarket extends Department implements Stackable {
 
     @Override
     public void getDepartmentItemMenu(ViewPerson viewPerson) {
-        viewPerson.printDepartmentInformation(this);
+        viewPerson.printDepartmentItemMenu(this);
     }
 
     @Override
     public Order checkOutCustomerOrder(Customer customer) {
         int period = Selector.getInstance().orderPeriodSuperMarketSelector(this);
         if (ordersSchedule.get(period).size() >= getDeliveries().size()) {
+            System.out.println("Cant order in this clock");
             return null;
         }
         Delivery delivery = getFreedelivery(period);
         if (delivery == null) {
+            System.out.println("No delivery avaliable");
             return null;
         }
-        Order order = new Order(customer, this, customer.getBasket(), delivery, LocalDateTime.now());
+        Order order = new Order(customer, this, new ArrayList<>(customer.getBasket()), delivery, LocalDateTime.now());
         for (Item item : customer.getBasket()) {
             ((Product) item).setStock(((Product) item).getStock() - 1);
         }
@@ -54,7 +57,7 @@ public class Supermarket extends Department implements Stackable {
                     status = true;
                 }
             }
-            if (status == false) {
+            if (!status) {
                 return delivery;
             }
         }
@@ -63,6 +66,7 @@ public class Supermarket extends Department implements Stackable {
 
     public Supermarket(String name, Address address, int workHoursOpen, int workHoursClose, ArrayList<Item> items) {
         super(name, address, workHoursOpen, workHoursClose);
+        ordersSchedule = new HashMap<>();
         for (int i = workHoursOpen; i < workHoursClose; i++) {
             ordersSchedule.put(i, new ArrayList<>());
         }

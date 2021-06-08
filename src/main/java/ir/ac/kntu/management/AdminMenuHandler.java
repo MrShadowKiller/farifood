@@ -30,19 +30,28 @@ public class AdminMenuHandler {
 
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminMenuOptions.findOption(adminOptionInput)) {
-            case ADMINS -> adminsTabHandler(admin, viewAdmin, database, adminService);
-            case CUSTOMERS -> customersTabHandler(admin);
-            case DELIVERIES -> deliveriesTabHandler(admin);
-            case FOOD -> foodTabHandler(admin);
-            case RESTAURANTS -> restaurantsTabHandler(admin);
-            case SUPERMARKET -> superMarketTabHandler(admin);
-            case FRUITMARKET -> fruitMarketTabHandler(admin);
-            case SELLER_MAN -> sellerManTabHandler(admin);
-            case ORDERS -> adminService.ordersTabHandler(admin);
-            case EXIT -> {
+            case ADMINS : adminsTabHandler(admin, viewAdmin, database, adminService);
+            break;
+            case CUSTOMERS : customersTabHandler(admin);
+            break;
+            case DELIVERIES : deliveriesTabHandler(admin);
+            break;
+            case FOOD : foodTabHandler(admin);
+            break;
+            case RESTAURANTS : restaurantsTabHandler(admin);
+            break;
+            case SUPERMARKET : superMarketTabHandler(admin);
+            break;
+            case FRUITMARKET : fruitMarketTabHandler(admin);
+            break;
+            case SELLER_MAN : sellerManTabHandler(admin);
+            break;
+            case ORDERS : adminService.ordersTabHandler(admin);
+            break;
+            case EXIT : {
                 return;
             }
-            default -> adminMenuTabHandler(admin);
+            default : adminMenuTabHandler(admin);
         }
         adminMenuTabHandler(admin);
     }
@@ -153,9 +162,9 @@ public class AdminMenuHandler {
             case EXIT:
                 return;
             default:
-                customersTabHandler(admin);
+                sellerManTabHandler(admin);
         }
-        customersTabHandler(admin);
+        sellerManTabHandler(admin);
     }
 
     public void restaurantsTabHandler(Admin admin) {
@@ -242,16 +251,16 @@ public class AdminMenuHandler {
                 viewAndEditSuperMarketHandler(admin);
                 break;
             case VIEW_ORDERS:
-                adminService.viewDepartmentOrders(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentOrders(Selector.getInstance().selectSuperMarketHandler( viewAdmin, database));
                 break;
             case VIEW_PRODUCTS:
-                adminService.viewDepartmentItems(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentItems(Selector.getInstance().selectSuperMarketHandler(viewAdmin, database));
                 break;
             case VIEW_COMMENTS:
-                adminService.viewDepartmentComments(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentComments(Selector.getInstance().selectSuperMarketHandler(viewAdmin, database));
                 break;
             case VIEW_DELIVERIES:
-                adminService.viewDepartmentDeliveries(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentDeliveries(Selector.getInstance().selectSuperMarketHandler(viewAdmin, database));
                 break;
             case EXIT:
                 return;
@@ -307,16 +316,16 @@ public class AdminMenuHandler {
                 viewAndEditFruitMarketHandler(admin);
                 break;
             case VIEW_ORDERS:
-                adminService.viewDepartmentOrders(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentOrders(Selector.getInstance().selectFruitMarketHandler(viewAdmin, database));
                 break;
             case VIEW_FRUITS:
-                adminService.viewDepartmentItems(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentItems(Selector.getInstance().selectFruitMarketHandler(viewAdmin, database));
                 break;
             case VIEW_COMMENTS:
-                adminService.viewDepartmentComments(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentComments(Selector.getInstance().selectFruitMarketHandler(viewAdmin, database));
                 break;
             case VIEW_DELIVERIES:
-                adminService.viewDepartmentDeliveries(Selector.getInstance().selectRestaurantHandler(admin, viewAdmin, database));
+                adminService.viewDepartmentDeliveries(Selector.getInstance().selectFruitMarketHandler(viewAdmin, database));
                 break;
             case EXIT:
                 return;

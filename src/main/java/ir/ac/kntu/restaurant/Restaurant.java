@@ -97,10 +97,6 @@ public class Restaurant extends Department {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return getName() + "\t" + getAverageRate() + "\t";
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -123,7 +119,7 @@ public class Restaurant extends Department {
 
     @Override
     public void getDepartmentItemMenu(ViewPerson viewPerson) {
-        viewPerson.printRestaurantFoodMenu(this);
+        viewPerson.printDepartmentItemMenu(this);
     }
 
     @Override
