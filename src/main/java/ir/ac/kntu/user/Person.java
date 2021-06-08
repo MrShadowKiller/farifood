@@ -39,6 +39,7 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

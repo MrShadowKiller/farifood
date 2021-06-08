@@ -18,13 +18,16 @@ public class SellerManService {
 
     private final ViewPerson viewPerson;
 
+    private final SellerManMenuHandler sellerManMenuHandler;
+
     public SellerManService(Database database) {
         this.database = database;
         this.viewPerson= new ViewPerson();
+        this.sellerManMenuHandler = new SellerManMenuHandler(this,database,viewPerson);
     }
 
     public void sellerManMenuStart(SellerMan sellerMan){
-        SellerManMenuHandler.getInstance().sellerManMenuHandler(sellerMan,viewPerson,database,this);
+        sellerManMenuHandler.sellerManMenuTabHandler(sellerMan);
     }
 
     public void getOrdersHandler(SellerMan sellerMan){

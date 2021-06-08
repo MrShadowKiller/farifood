@@ -8,24 +8,20 @@ import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.SellerMan;
 
 public class SellerManMenuHandler {
-    private static final SellerManMenuHandler INSTANCE = new SellerManMenuHandler();
     private ViewPerson viewPerson;
 
     private Database database;
 
     private SellerManService sellerManService;
 
-    private SellerManMenuHandler() {
-    }
-
-    public static SellerManMenuHandler getInstance() {
-        return INSTANCE;
-    }
-
-    public void sellerManMenuHandler(SellerMan sellerMan,ViewPerson viewPerson,Database database,SellerManService sellerManService){
+    public SellerManMenuHandler(SellerManService sellerManService,Database database,ViewPerson viewPerson) {
         this.sellerManService = sellerManService;
         this.viewPerson = viewPerson;
         this.database = database;
+    }
+
+    public void sellerManMenuTabHandler(SellerMan sellerMan){
+
         viewPerson.printSellerManMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (SellerManMenuOptions.findOption(userInput)) {
@@ -44,9 +40,9 @@ public class SellerManMenuHandler {
             case EXIT:
                 return;
             default:
-                sellerManMenuHandler(sellerMan,viewPerson,database,sellerManService);
+                sellerManMenuTabHandler(sellerMan);
         }
-        sellerManMenuHandler(sellerMan,viewPerson,database,sellerManService);
+        sellerManMenuTabHandler(sellerMan);
     }
 
     public void sellerManDepartmentEdit(SellerMan sellerMan){

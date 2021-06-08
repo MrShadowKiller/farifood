@@ -2,16 +2,17 @@ package ir.ac.kntu.user;
 
 import ir.ac.kntu.Department;
 
-public class SellerMan extends Person{
+public class SellerMan extends User{
     private Department department;
 
-    public SellerMan(String firstName, String lastName, String phoneNumber, Department department) {
-        super(firstName, lastName, phoneNumber);
+    public SellerMan(String username,String password,String firstName,
+                     String lastName, String phoneNumber, Department department) {
+        super(username,password,firstName, lastName, phoneNumber);
         this.department = department;
     }
 
-    public SellerMan(String firstName, String lastName, String phoneNumber) {
-        super(firstName, lastName, phoneNumber);
+    public SellerMan(String username,String password,String firstName, String lastName, String phoneNumber) {
+        super(username,password,firstName, lastName, phoneNumber);
     }
 
     public Department getDepartment() {

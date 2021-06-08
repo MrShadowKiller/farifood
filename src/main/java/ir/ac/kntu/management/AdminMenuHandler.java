@@ -13,31 +13,21 @@ import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
 public class AdminMenuHandler {
-    private static final AdminMenuHandler INSTANCE = new AdminMenuHandler();
-
     private AdminService adminService;
-
-    private CustomerService customerService;
 
     private ViewAdmin viewAdmin;
 
-    private ViewPerson viewPerson;
-
     private Database database;
 
-    private AdminMenuHandler() {
-    }
-
-    public static AdminMenuHandler getInstance() {
-        return INSTANCE;
-    }
-
-    public void adminMenuHandler(Admin admin, ViewAdmin viewAdmin, Database database, AdminService adminService) {
+    public AdminMenuHandler(AdminService adminService,ViewAdmin viewAdmin,Database database) {
         this.adminService = adminService;
         this.viewAdmin = viewAdmin;
         this.database = database;
+    }
 
+    public void adminMenuTabHandler(Admin admin) {
         viewAdmin.printAdminStartMenu();
+
         int adminOptionInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (AdminMenuOptions.findOption(adminOptionInput)) {
             case ADMINS -> adminsTabHandler(admin, viewAdmin, database, adminService);
@@ -52,9 +42,9 @@ public class AdminMenuHandler {
             case EXIT -> {
                 return;
             }
-            default -> adminMenuHandler(admin, viewAdmin, database, adminService);
+            default -> adminMenuTabHandler(admin);
         }
-        adminMenuHandler(admin, viewAdmin, database, adminService);
+        adminMenuTabHandler(admin);
     }
 
     public void adminsTabHandler(Admin admin, ViewAdmin viewAdmin, Database database, AdminService adminService) {

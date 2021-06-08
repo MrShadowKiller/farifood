@@ -10,11 +10,7 @@ import ir.ac.kntu.setting.UserSetting;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Customer extends Person {
-    private String username;
-
-    private String password;
-
+public class Customer extends User {
     private Address address;
 
     private ArrayList<Order> orders;
@@ -31,9 +27,7 @@ public class Customer extends Person {
 
     public Customer(String firstName, String lastName, String phoneNumber,
                     String username, String password, Address address) {
-        super(firstName, lastName, phoneNumber);
-        this.username = username;
-        this.password = password;
+        super(firstName, lastName, phoneNumber,username,password);
         this.address = address;
         orders = new ArrayList<>();
         wallet = new Wallet();
@@ -52,34 +46,6 @@ public class Customer extends Person {
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public boolean setPassword(String password) {
-        if (checkPasswordValidation(password)) {
-            this.password = password;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean checkPasswordValidation(String password) {
-        String passwordValidation = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=." +
-                "*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
-
-        return password.matches(passwordValidation);
-    }
-
 
     public Address getAddress() {
         return address;
@@ -134,16 +100,6 @@ public class Customer extends Person {
         comments.add(comment);
     }
 
-    public void changePassword() {
-        System.out.print("New Password : ");
-        String newPassword = ScannerWrapper.getInstance().nextLine().trim();
-        if (checkPasswordValidation(newPassword)) {
-            this.password = newPassword;
-            return;
-        }
-        System.out.println("Invalid Password!");
-    }
-
     public void addItemToBasket(Item item){
         basket.add(item);
     }
@@ -164,8 +120,8 @@ public class Customer extends Person {
     @Override
     public String toString() {
         return "Customer Information {" +
-                "\tUsername : " + username + '\n' +
-                "\tpassword : " + password + '\n' +
+                "\tUsername : " + getUsername() + '\n' +
+                "\tpassword : " + getPassword() + '\n' +
                 "\tName : " + getFirstName() + '\n' +
                 "\tLastName : " + getLastName() + '\n' +
                 "\tPhoneNumber :" + getPhoneNumber() + '\n' +
@@ -182,11 +138,11 @@ public class Customer extends Person {
             return false;
         }
         Customer customer = (Customer) o;
-        return username.equals(customer.username) && password.equals(customer.password);
+        return address.equals(customer.address) && orders.equals(customer.orders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password);
+        return Objects.hash(address, orders);
     }
 }

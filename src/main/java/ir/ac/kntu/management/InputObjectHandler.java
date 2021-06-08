@@ -156,13 +156,17 @@ public class InputObjectHandler {
 
     public SellerMan scanSellerManInfo() {
         System.out.println("\tPlease enter the required information");
+        System.out.print("userName: ");
+        String username = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.print("password : ");
+        String password = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("first name: ");
         String firstname = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("last name: ");
         String lastname = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
-        return new SellerMan(firstname,lastname,phoneNumber);
+        return new SellerMan(username,password,firstname,lastname,phoneNumber);
     }
 
     public Food scanFoodInfo() {
