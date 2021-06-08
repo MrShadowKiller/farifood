@@ -26,14 +26,20 @@ public class Order {
 
     private LocalDateTime dateTime;
 
+    private double shippingCost = 0;
 
-    public Order(Customer customer, Department department,ArrayList<Item> items,
+
+    public Order(Customer customer, Department department, ArrayList<Item> items,
                  Delivery delivery, LocalDateTime dateTime) {
         this.customer = customer;
         this.department = department;
         this.items = items;
         this.delivery = delivery;
         this.dateTime = dateTime;
+    }
+
+    public void setShippingCost(double shippingCost) {
+        this.shippingCost = shippingCost;
     }
 
     public Customer getCustomer() {
@@ -60,9 +66,9 @@ public class Order {
         this.items = items;
     }
 
-    public double getOrderCost(){
+    public double getOrderCost() {
         double cost = 0;
-        for (Item item : items){
+        for (Item item : items) {
             cost += item.getPrice();
         }
         return cost;
@@ -105,13 +111,13 @@ public class Order {
         DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = dateTime.format(dateformat);
         String result = "";
-        for (Item item : items){
+        for (Item item : items) {
             result += item.getName() + " : " + item.getPrice() + "$\n\t";
         }
         return "Customer Details :\n\t" + customer.briefInformation() +
                 "\nRestaurant : \n\t" + department.getName() +
                 "\nItems :\n\t" + result +
                 "\nDelivery : \n\t" + delivery.getBriefInformation() +
-                "\n Time : \n\t" + formattedDate;
+                "\n Time : \n\t" + formattedDate + "\n Shipping Cost : \n\t" + shippingCost;
     }
 }

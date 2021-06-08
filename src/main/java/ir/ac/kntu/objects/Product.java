@@ -1,6 +1,6 @@
 package ir.ac.kntu.objects;
 
-public class Product extends Item implements Stackable {
+public class Product extends Item implements StackableItem {
     private int stock = 0;
 
     public Product(String name, double price) {
@@ -12,11 +12,11 @@ public class Product extends Item implements Stackable {
     }
 
     public Product(Product product) {
-        super(product.getName(),product.getPrice());
+        super(product.getName(), product.getPrice());
     }
 
-    public Product(Product product, double price,int stock) {
-        super(product.getName(),price);
+    public Product(Product product, double price, int stock) {
+        super(product.getName(), price);
         this.stock = stock;
     }
 

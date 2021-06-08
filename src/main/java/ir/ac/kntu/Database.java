@@ -19,26 +19,26 @@ import ir.ac.kntu.user.SellerMan;
 import java.util.ArrayList;
 
 public class Database {
-    private ArrayList<Admin> admins;
+    private final ArrayList<Admin> admins;
 
-    private ArrayList<Customer> customers;
+    private final ArrayList<Customer> customers;
 
-    private ArrayList<SellerMan> sellerMen;
+    private final ArrayList<SellerMan> sellerMen;
 
-    private ArrayList<Department> departments;
+    private final ArrayList<Department> departments;
 
-    private ArrayList<Item> items;
+    private final ArrayList<Item> items;
 
-    private ArrayList<Delivery> deliveries;
+    private final ArrayList<Delivery> deliveries;
 
-    private ArrayList<Order> orders;
+    private final ArrayList<Order> orders;
 
-    private ViewAdmin viewAdmin;
+    private final ViewAdmin viewAdmin;
 
-    private ViewPerson viewPerson;
+    private final ViewPerson viewPerson;
 
     public Database(ArrayList<Admin> admins, ArrayList<Department> departments, ArrayList<Item> items,
-                    ArrayList<Delivery> deliveries, ArrayList<Customer> customers,ArrayList<SellerMan> sellerMen, ArrayList<Order> orders,
+                    ArrayList<Delivery> deliveries, ArrayList<Customer> customers, ArrayList<SellerMan> sellerMen, ArrayList<Order> orders,
                     ViewAdmin viewAdmin, ViewPerson viewPerson) {
         this.admins = admins;
         this.departments = departments;
@@ -59,10 +59,10 @@ public class Database {
         return new ArrayList<>(departments);
     }
 
-    public ArrayList<Restaurant> getRestaurants(){
+    public ArrayList<Restaurant> getRestaurants() {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
-        for (Department department : departments){
-            if (department instanceof Restaurant){
+        for (Department department : departments) {
+            if (department instanceof Restaurant) {
                 restaurants.add((Restaurant) department);
             }
         }
@@ -73,20 +73,20 @@ public class Database {
         return sellerMen;
     }
 
-    public ArrayList<Supermarket> getSuperMarkets(){
+    public ArrayList<Supermarket> getSuperMarkets() {
         ArrayList<Supermarket> supermarkets = new ArrayList<>();
-        for (Department department : departments){
-            if (department instanceof Supermarket){
+        for (Department department : departments) {
+            if (department instanceof Supermarket) {
                 supermarkets.add((Supermarket) department);
             }
         }
         return supermarkets;
     }
 
-    public ArrayList<FruitMarket> getFruitMarkets(){
+    public ArrayList<FruitMarket> getFruitMarkets() {
         ArrayList<FruitMarket> fruitMarkets = new ArrayList<>();
-        for (Department department : departments){
-            if (department instanceof FruitMarket){
+        for (Department department : departments) {
+            if (department instanceof FruitMarket) {
                 fruitMarkets.add((FruitMarket) department);
             }
         }
@@ -97,30 +97,30 @@ public class Database {
         return new ArrayList<>(items);
     }
 
-    public ArrayList<Food> getFoods(){
+    public ArrayList<Food> getFoods() {
         ArrayList<Food> foods = new ArrayList<>();
-        for (Item item : items ) {
-            if (item instanceof Food){
+        for (Item item : items) {
+            if (item instanceof Food) {
                 foods.add((Food) item);
             }
         }
         return foods;
     }
 
-    public ArrayList<Fruit> getFruits(){
+    public ArrayList<Fruit> getFruits() {
         ArrayList<Fruit> fruits = new ArrayList<>();
-        for (Item item : items ) {
-            if (item instanceof Fruit){
+        for (Item item : items) {
+            if (item instanceof Fruit) {
                 fruits.add((Fruit) item);
             }
         }
         return fruits;
     }
 
-    public ArrayList<Product> getProducts(){
+    public ArrayList<Product> getProducts() {
         ArrayList<Product> products = new ArrayList<>();
-        for (Item item : items ) {
-            if (item instanceof Product){
+        for (Item item : items) {
+            if (item instanceof Product) {
                 products.add((Product) item);
             }
         }
@@ -145,7 +145,7 @@ public class Database {
         customers.add(newAdmin);
     }
 
-    public void removeAdmin(){
+    public void removeAdmin() {
         String[] adminLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         for (int i = 0; i < admins.size(); i++) {
             if (admins.get(i).getUsername().equals(adminLoginDetails[0])
@@ -166,11 +166,11 @@ public class Database {
         System.out.println("Cant find the admin!");
     }
 
-    public void addCustomer(){
+    public void addCustomer() {
         customers.add(InputObjectHandler.getInstance().scanCustomerInfo());
     }
 
-    public void removeCustomer(){
+    public void removeCustomer() {
         String[] customerLoginDetails = InputObjectHandler.getInstance().scanCustomerLogin();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(customerLoginDetails[0])
@@ -183,32 +183,33 @@ public class Database {
         System.out.println("Cant find the Customer!");
     }
 
-    public void addSellerMan(){
+    public void addSellerMan() {
         sellerMen.add(InputObjectHandler.getInstance().scanSellerManInfo());
     }
 
-    public void removeSellerMan(){
-        SellerMan sellerMan = Selector.getInstance().selectSellerMan(viewAdmin,this);
+    public void removeSellerMan() {
+        SellerMan sellerMan = Selector.getInstance().selectSellerMan(viewAdmin, this);
         sellerMen.remove(sellerMan);
-        for (Department department : departments){
-            if (department.getSellerMan().equals(sellerMan)){
+        for (Department department : departments) {
+            if (department.getSellerMan().equals(sellerMan)) {
                 department.setSellerMan(null);
             }
         }
     }
-    public void addRestaurant(){
-        departments.add(InputObjectHandler.getInstance().scanRestaurantInfo(viewAdmin,this));
+
+    public void addRestaurant() {
+        departments.add(InputObjectHandler.getInstance().scanRestaurantInfo(viewAdmin, this));
     }
 
-    public void addSuperMarket(){
-        departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin,this));
+    public void addSuperMarket() {
+        departments.add(InputObjectHandler.getInstance().scanSuperMarketInfo(viewAdmin, this));
     }
 
-    public void addFruitMarket(){
-        departments.add(InputObjectHandler.getInstance().scanFruitMarketInfo(viewAdmin,this));
+    public void addFruitMarket() {
+        departments.add(InputObjectHandler.getInstance().scanFruitMarketInfo(viewAdmin, this));
     }
 
-    public void removeDepartment(){
+    public void removeDepartment() {
         departments.remove(InputObjectHandler.getInstance().findDepartment(this));
     }
 
@@ -217,7 +218,7 @@ public class Database {
     }
 
     public void removeDelivery() {
-        deliveries.remove(Selector.getInstance().selectToRemoveDelivery(viewAdmin,this));
+        deliveries.remove(Selector.getInstance().selectToRemoveDelivery(viewAdmin, this));
     }
 
     public void addFood() {
@@ -232,7 +233,7 @@ public class Database {
     public void changeUserPassword(Customer user) {
         System.out.print("New Password : ");
         String newPassword = ScannerWrapper.getInstance().nextLine().trim();
-        if (!user.setPassword(newPassword)){
+        if (!user.setPassword(newPassword)) {
             System.out.println("Invalid Password!");
         }
     }
@@ -270,20 +271,20 @@ public class Database {
     }
 
     public void sortRestaurantHighRating() {
-        departments.sort((o1,o2) -> Double.compare(o2.getAverageRate(),o1.getAverageRate()));
+        departments.sort((o1, o2) -> Double.compare(o2.getAverageRate(), o1.getAverageRate()));
     }
 
     public void sortRestaurantLowRating() {
-        departments.sort((o1,o2) -> Double.compare(o1.getAverageRate(),o2.getAverageRate()));
+        departments.sort((o1, o2) -> Double.compare(o1.getAverageRate(), o2.getAverageRate()));
     }
 
 
     public void sortRestaurantHighComments() {
-        departments.sort((o1,o2) -> Integer.compare(o2.getComments().size(),o1.getComments().size()));
+        departments.sort((o1, o2) -> Integer.compare(o2.getComments().size(), o1.getComments().size()));
     }
 
     public void sortRestaurantLowComments() {
-        departments.sort((o1,o2) -> Integer.compare(o1.getComments().size(),o2.getComments().size()));
+        departments.sort((o1, o2) -> Integer.compare(o1.getComments().size(), o2.getComments().size()));
     }
 
     public void sortRestaurantByRising() {
@@ -295,7 +296,6 @@ public class Database {
             }
         });
     }
-
 
 
 }

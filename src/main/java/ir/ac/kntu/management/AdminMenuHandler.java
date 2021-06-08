@@ -13,13 +13,13 @@ import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
 public class AdminMenuHandler {
-    private AdminService adminService;
+    private final AdminService adminService;
 
-    private ViewAdmin viewAdmin;
+    private final ViewAdmin viewAdmin;
 
-    private Database database;
+    private final Database database;
 
-    public AdminMenuHandler(AdminService adminService,ViewAdmin viewAdmin,Database database) {
+    public AdminMenuHandler(AdminService adminService, ViewAdmin viewAdmin, Database database) {
         this.adminService = adminService;
         this.viewAdmin = viewAdmin;
         this.database = database;
@@ -148,7 +148,7 @@ public class AdminMenuHandler {
                 database.removeSellerMan();
                 break;
             case ADD_SELLER_MAN_TO_DEPARTMENT:
-                adminService.addSellerManToDepartment(Selector.getInstance().selectSellerMan(viewAdmin,database), admin);
+                adminService.addSellerManToDepartment(Selector.getInstance().selectSellerMan(viewAdmin, database), admin);
                 break;
             case EXIT:
                 return;
@@ -262,7 +262,7 @@ public class AdminMenuHandler {
     }
 
     public void viewAndEditSuperMarketHandler(Admin admin) {
-        Supermarket selectedSuperMarket = Selector.getInstance().selectSuperMarketHandler(admin, viewAdmin, database);
+        Supermarket selectedSuperMarket = Selector.getInstance().selectSuperMarketHandler(viewAdmin, database);
         if (selectedSuperMarket == null) {
             return;
         }
@@ -326,8 +326,8 @@ public class AdminMenuHandler {
         fruitMarketTabHandler(admin);
     }
 
-    public void viewAndEditFruitMarketHandler(Admin admin){
-        FruitMarket selectedFruitMarket = Selector.getInstance().selectFruitMarketHandler(admin, viewAdmin, database);
+    public void viewAndEditFruitMarketHandler(Admin admin) {
+        FruitMarket selectedFruitMarket = Selector.getInstance().selectFruitMarketHandler(viewAdmin, database);
         if (selectedFruitMarket == null) {
             return;
         }

@@ -93,17 +93,17 @@ public class Delivery extends Person {
         this.departments = departments;
     }
 
-    public void addRestaurant(Restaurant restaurant) {
-        if (departments[0] == restaurant || departments[1] == restaurant) {
+    public void addDepartment(Department department) {
+        if (departments[0] == department || departments[1] == department) {
             return;
         }
 
         if (departments[0] == null) {
-            departments[0] = restaurant;
+            departments[0] = department;
         }
 
         if (departments[1] == null) {
-            departments[1] = restaurant;
+            departments[1] = department;
         }
 
     }

@@ -1,8 +1,8 @@
 package ir.ac.kntu.enums.customermenu;
 
 public enum CustomerMenuOptions {
-    RESTAURANTS_FOODS(0), EDIT_INFORMATION(1), SHOW_INFORMATION(2), ADD_BALANCE(3),
-    SETTING(4), EXIT(5), DEFAULT(6);
+    RESTAURANTS_FOODS(0), SUPERMARKETS(1), FRUITMARKETS(2), EDIT_INFORMATION(3),
+    SHOW_INFORMATION(4), ADD_BALANCE(5), SETTING(6), EXIT(7), DEFAULT(8);
 
     private int rate;
 

@@ -8,19 +8,19 @@ import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.SellerMan;
 
 public class SellerManMenuHandler {
-    private ViewPerson viewPerson;
+    private final ViewPerson viewPerson;
 
-    private Database database;
+    private final Database database;
 
-    private SellerManService sellerManService;
+    private final SellerManService sellerManService;
 
-    public SellerManMenuHandler(SellerManService sellerManService,Database database,ViewPerson viewPerson) {
+    public SellerManMenuHandler(SellerManService sellerManService, Database database, ViewPerson viewPerson) {
         this.sellerManService = sellerManService;
         this.viewPerson = viewPerson;
         this.database = database;
     }
 
-    public void sellerManMenuTabHandler(SellerMan sellerMan){
+    public void sellerManMenuTabHandler(SellerMan sellerMan) {
 
         viewPerson.printSellerManMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -45,8 +45,8 @@ public class SellerManMenuHandler {
         sellerManMenuTabHandler(sellerMan);
     }
 
-    public void sellerManDepartmentEdit(SellerMan sellerMan){
-        if (sellerMan.getDepartment() == null){
+    public void sellerManDepartmentEdit(SellerMan sellerMan) {
+        if (sellerMan.getDepartment() == null) {
             System.out.println("NO DEPARTMENT!");
             return;
         }
@@ -75,7 +75,6 @@ public class SellerManMenuHandler {
         }
         sellerManDepartmentEdit(sellerMan);
     }
-
 
 
 }

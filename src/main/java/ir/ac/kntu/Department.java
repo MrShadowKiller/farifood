@@ -4,6 +4,8 @@ import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.*;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.ui.ViewPerson;
+import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.SellerMan;
 
 import java.util.ArrayList;
@@ -122,18 +124,6 @@ public abstract class Department {
         return averageRate / comments.size();
     }
 
-
-//    public ArrayList<Fruit> getFruits(){
-//        ArrayList<Fruit> fruits = new ArrayList<>();
-//        for (Item item : items ) {
-//            if (item instanceof Fruit){
-//                fruits.add((Fruit) item);
-//            }
-//        }
-//        return fruits;
-//    }
-//
-
     public void addItem(Item item) {
         items.remove(item);
         if (item != null) {
@@ -147,7 +137,7 @@ public abstract class Department {
         }
     }
 
-    public void removeDelivery(Delivery delivery){
+    public void removeDelivery(Delivery delivery) {
         if (delivery != null) {
             deliveries.remove(delivery);
         }
@@ -166,19 +156,24 @@ public abstract class Department {
         }
     }
 
+
+    public abstract void getDepartmentItemMenu(ViewPerson viewPerson);
+
+    public abstract Order checkOutCustomerOrder(Customer customer);
+
     public void sortItemHighRating() {
-        items.sort((o1,o2) -> Double.compare(o2.getAverageRate(),o1.getAverageRate()));
+        items.sort((o1, o2) -> Double.compare(o2.getAverageRate(), o1.getAverageRate()));
     }
 
     public void sortItemLowRating() {
-        items.sort((o1,o2) -> Double.compare(o1.getAverageRate(),o2.getAverageRate()));
+        items.sort((o1, o2) -> Double.compare(o1.getAverageRate(), o2.getAverageRate()));
     }
 
     public void sortItemHighPrice() {
-        items.sort((o1,o2) -> Double.compare(o2.getPrice(),o1.getPrice()));
+        items.sort((o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
     }
 
     public void sortItemLowPrice() {
-        items.sort((o1,o2) -> Double.compare(o1.getPrice(),o2.getPrice()));
+        items.sort((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()));
     }
 }

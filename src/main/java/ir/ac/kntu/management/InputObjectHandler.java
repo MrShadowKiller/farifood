@@ -25,11 +25,12 @@ import java.util.ArrayList;
 
 public class InputObjectHandler {
     private static final InputObjectHandler INSTANCE = new InputObjectHandler();
-    private InputObjectHandler(){
+
+    private InputObjectHandler() {
 
     }
 
-    public static InputObjectHandler getInstance(){
+    public static InputObjectHandler getInstance() {
         return INSTANCE;
     }
 
@@ -166,7 +167,7 @@ public class InputObjectHandler {
         String lastname = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("phone number: ");
         String phoneNumber = ScannerWrapper.getInstance().nextLine().trim();
-        return new SellerMan(username,password,firstname,lastname,phoneNumber);
+        return new SellerMan(username, password, firstname, lastname, phoneNumber);
     }
 
     public Food scanFoodInfo() {
@@ -178,7 +179,7 @@ public class InputObjectHandler {
     }
 
 
-    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin,Database database) {
+    public Restaurant scanRestaurantInfo(ViewAdmin viewAdmin, Database database) {
         System.out.print("Restaurant Name : ");
         String restaurantName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
@@ -194,14 +195,14 @@ public class InputObjectHandler {
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         RestaurantType restaurantType = RestaurantType.values()[userChoice - 1];
         System.out.println("Which foods restaurant have ? ");
-        ArrayList<Item> restaurantFoods = setRestaurantFoods(viewAdmin,database);
+        ArrayList<Item> restaurantFoods = setRestaurantFoods(viewAdmin, database);
 
         return new Restaurant(restaurantName, address, workHoursOpen,
                 workHoursClose, restaurantSchedules, restaurantType, restaurantFoods);
     }
 
 
-    public ArrayList<Item> setRestaurantFoods(ViewAdmin viewAdmin,Database database) {
+    public ArrayList<Item> setRestaurantFoods(ViewAdmin viewAdmin, Database database) {
         ArrayList<Item> result = new ArrayList<>();
         if (database.getFoods().size() == 0) {
             System.out.println("Food list is empty!");
@@ -253,28 +254,30 @@ public class InputObjectHandler {
         return department.getDeliveries().get(userDeliveryChoice - 1);
     }
 
-    public Comment scanCommentFields(ViewPerson viewPerson, Customer customer, Food food,
-                                     Restaurant restaurant, Delivery delivery) {
+    public Comment scanCommentFields(ViewPerson viewPerson, Customer customer, ArrayList<Item> items,
+                                     Department department, Delivery delivery) {
         System.out.print("Enter your message : ");
-        String messege = ScannerWrapper.getInstance().nextLine().trim();
-        System.out.println("How was the food rate ?");
+        String message = ScannerWrapper.getInstance().nextLine().trim();
+        System.out.println("How was the items rate ?");
         viewPerson.printUserRate();
         int foodRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        UserRate foodRate = UserRate.values()[foodRateChoice - 1];
-        food.addFoodRate(foodRate);
+        UserRate itemRate = UserRate.values()[foodRateChoice - 1];
+        for (Item item : items) {
+            item.addItemRate(itemRate);
+        }
         System.out.println("How was the delivery rate ?");
         viewPerson.printUserRate();
         int deliveryRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         UserRate deliveryRate = UserRate.values()[deliveryRateChoice - 1];
-        System.out.println("How was the restaurant rate ?");
+        System.out.println("How was the department rate ?");
         viewPerson.printUserRate();
         int restaurantRateChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        UserRate restaurantRate = UserRate.values()[restaurantRateChoice - 1];
+        UserRate departMentRate = UserRate.values()[restaurantRateChoice - 1];
 
-        return new Comment(customer, food, restaurant, delivery, foodRate, deliveryRate, restaurantRate, messege);
+        return new Comment(customer, items, department, delivery, itemRate, deliveryRate, departMentRate, message);
     }
 
-    public Supermarket scanSuperMarketInfo(ViewAdmin viewAdmin,Database database){
+    public Supermarket scanSuperMarketInfo(ViewAdmin viewAdmin, Database database) {
         System.out.print("SuperMarket Name : ");
         String superMarketName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
@@ -284,13 +287,13 @@ public class InputObjectHandler {
         System.out.print("Close Time : ");
         int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         System.out.println("Which products supermarket has ? ");
-        ArrayList<Item> superMarketProducts = setSuperMarketProducts(viewAdmin,database);
+        ArrayList<Item> superMarketProducts = setSuperMarketProducts(viewAdmin, database);
 
         return new Supermarket(superMarketName, address, workHoursOpen,
                 workHoursClose, superMarketProducts);
     }
 
-    public FruitMarket scanFruitMarketInfo(ViewAdmin viewAdmin, Database database){
+    public FruitMarket scanFruitMarketInfo(ViewAdmin viewAdmin, Database database) {
         System.out.print("FruitMarket Name : ");
         String fruitMarketName = ScannerWrapper.getInstance().nextLine().trim();
         System.out.print("Address Section\nneighbor: ");
@@ -300,13 +303,13 @@ public class InputObjectHandler {
         System.out.print("Close Time : ");
         int workHoursClose = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         System.out.println("Which products supermarket has ? ");
-        ArrayList<Item> fruitMarketFruits = setFruitMarketFruits(viewAdmin,database);
+        ArrayList<Item> fruitMarketFruits = setFruitMarketFruits(viewAdmin, database);
 
         return new FruitMarket(fruitMarketName, address, workHoursOpen,
                 workHoursClose, fruitMarketFruits);
     }
 
-    public ArrayList<Item> setSuperMarketProducts(ViewAdmin viewAdmin,Database database){
+    public ArrayList<Item> setSuperMarketProducts(ViewAdmin viewAdmin, Database database) {
         ArrayList<Item> result = new ArrayList<>();
         if (database.getProducts().size() == 0) {
             System.out.println("Product list is empty!");
@@ -326,13 +329,13 @@ public class InputObjectHandler {
                 double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
                 System.out.println("Stock : ");
                 int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-                result.add(new Product(database.getProducts().get(userChoice - 1), price,stock));
+                result.add(new Product(database.getProducts().get(userChoice - 1), price, stock));
             }
         }
         return result;
     }
 
-    public ArrayList<Item> setFruitMarketFruits(ViewAdmin viewAdmin,Database database){
+    public ArrayList<Item> setFruitMarketFruits(ViewAdmin viewAdmin, Database database) {
         ArrayList<Item> result = new ArrayList<>();
         if (database.getFruits().size() == 0) {
             System.out.println("Fruit list is empty!");
@@ -352,7 +355,7 @@ public class InputObjectHandler {
                 double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
                 System.out.println("Stock : ");
                 int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-                result.add(new Fruit(database.getFruits().get(userChoice - 1), price,stock));
+                result.add(new Fruit(database.getFruits().get(userChoice - 1), price, stock));
             }
         }
         return result;

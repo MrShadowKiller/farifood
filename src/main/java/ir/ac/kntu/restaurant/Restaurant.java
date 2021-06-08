@@ -4,11 +4,15 @@ import ir.ac.kntu.Department;
 import ir.ac.kntu.objects.Address;
 import ir.ac.kntu.objects.Food;
 import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.order.Order;
+import ir.ac.kntu.ui.ViewPerson;
+import ir.ac.kntu.user.Customer;
 import ir.ac.kntu.user.WeekDays;
 import ir.ac.kntu.delivery.DeliverySchedule;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.setting.UserSetting;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -30,7 +34,7 @@ public class Restaurant extends Department {
 
     public Restaurant(String name, Address address, int workHoursOpen, int workHoursClose,
                       RestaurantSchedule[] schedule, RestaurantType restaurantType) {
-        super(name,address,workHoursOpen,workHoursClose);
+        super(name, address, workHoursOpen, workHoursClose);
         this.schedule = schedule;
         this.restaurantType = restaurantType;
     }
@@ -59,10 +63,10 @@ public class Restaurant extends Department {
         }
     }
 
-    public ArrayList<Food> getFoods(){
+    public ArrayList<Food> getFoods() {
         ArrayList<Food> foods = new ArrayList<>();
-        for (Item item : getItems() ) {
-            if (item instanceof Food){
+        for (Item item : getItems()) {
+            if (item instanceof Food) {
                 foods.add((Food) item);
             }
         }
@@ -85,7 +89,7 @@ public class Restaurant extends Department {
     public Delivery getFreeDelivery(WeekDays day) {
         for (Delivery delivery : getDeliveries()) {
             for (DeliverySchedule deliverySchedule : delivery.getSchedule()) {
-                if (deliverySchedule.getDepartment() == this) {
+                if (deliverySchedule.getDepartment() == this && deliverySchedule.getRate() == day.getRate()) {
                     return delivery;
                 }
             }
@@ -115,5 +119,23 @@ public class Restaurant extends Department {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getAddress(), restaurantType, getItems());
+    }
+
+    @Override
+    public void getDepartmentItemMenu(ViewPerson viewPerson) {
+        viewPerson.printRestaurantFoodMenu(this);
+    }
+
+    @Override
+    public Order checkOutCustomerOrder(Customer customer) {
+        Delivery delivery = getFreeDelivery(customer.getUserSetting().getCurrentDay());
+        if (delivery == null) {
+            System.out.println("There is no Delivery available");
+            return null;
+        }
+        Order order = new Order(customer, this, new ArrayList<>(customer.getBasket()),
+                delivery, LocalDateTime.now());
+        delivery.addOrder(order);
+        return (order);
     }
 }

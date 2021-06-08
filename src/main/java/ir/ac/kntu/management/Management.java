@@ -8,9 +8,9 @@ import ir.ac.kntu.user.Customer;
 public class Management {
     private Database database;
 
-    private CustomerService customerService ;
+    private final CustomerService customerService;
 
-    private AdminService adminService ;
+    private final AdminService adminService;
 
     public Management(Database database) {
         this.database = database;
@@ -81,7 +81,6 @@ public class Management {
         System.out.println("[2].Customer login");
         System.out.println("[3].Exit");
     }
-
 
 
 }

@@ -1,7 +1,7 @@
 package ir.ac.kntu.enums.adminmenu;
 
 public enum SellerManTabOptions {
-    ADD_SELLER_MAN(0), REMOVE_SELLER_MAN(1),ADD_SELLER_MAN_TO_DEPARTMENT(2),
+    ADD_SELLER_MAN(0), REMOVE_SELLER_MAN(1), ADD_SELLER_MAN_TO_DEPARTMENT(2),
     EXIT(3), DEFAULT(4);
 
     private int rate;

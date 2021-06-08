@@ -1,19 +1,22 @@
 package ir.ac.kntu.order;
 
+import ir.ac.kntu.Department;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.Item;
 import ir.ac.kntu.user.UserRate;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.restaurant.Restaurant;
 import ir.ac.kntu.user.Customer;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Comment {
     private Customer customer;
 
-    private Food food;
+    private final ArrayList<Item> items;
 
-    private Restaurant restaurant;
+    private final Department department;
 
     private Delivery delivery;
 
@@ -25,11 +28,11 @@ public class Comment {
 
     private String message;
 
-    public Comment(Customer customer, Food food, Restaurant restaurant, Delivery delivery, UserRate foodRate,
+    public Comment(Customer customer, ArrayList<Item> items, Department department, Delivery delivery, UserRate foodRate,
                    UserRate deliveryRate, UserRate restaurantRate, String message) {
         this.customer = customer;
-        this.food = food;
-        this.restaurant = restaurant;
+        this.items = items;
+        this.department = department;
         this.delivery = delivery;
         this.foodRate = foodRate;
         this.deliveryRate = deliveryRate;
@@ -45,20 +48,12 @@ public class Comment {
         this.customer = customer;
     }
 
-    public Food getFood() {
-        return food;
+    public ArrayList<Item> getItems() {
+        return items;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public Department getDepartment() {
+        return department;
     }
 
     public Delivery getDelivery() {
@@ -107,9 +102,14 @@ public class Comment {
     }
 
     public String toString() {
+        String result = "";
+        for (Item item : items) {
+            result += item.getName() + " : " + item.getPrice() + "$\n\t";
+        }
+
         return "Customer Details :\n\t" + customer.briefInformation() +
-                "\nRestaurant : \n\t" + restaurant.getName() +
-                "\nFood :\n\t" + food.getName() + food.getPrice() +
+                "\nDepartment : \n\t" + department.getName() +
+                "\nItems :\n\t" + result +
                 "\nDelivery : \n\t" + delivery.getBriefInformation() +
                 "\nMessage : \n\t" + message + "\nFood rate : " + foodRate +
                 "\tDelivery Rate : " + deliveryRate + "\tRestaurant Rate : " + restaurantRate;
@@ -124,15 +124,15 @@ public class Comment {
             return false;
         }
         Comment comment = (Comment) o;
-        return customer.equals(comment.customer) && food.equals(comment.food) &&
-                restaurant.equals(comment.restaurant) && delivery.equals(comment.delivery)
+        return customer.equals(comment.customer) && items.equals(comment.items) &&
+                department.equals(comment.department) && delivery.equals(comment.delivery)
                 && foodRate == comment.foodRate && deliveryRate == comment.deliveryRate &&
                 restaurantRate == comment.restaurantRate && message.equals(comment.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customer, food, restaurant, delivery, foodRate,
+        return Objects.hash(customer, items, department, delivery, foodRate,
                 deliveryRate, restaurantRate, message);
     }
 }

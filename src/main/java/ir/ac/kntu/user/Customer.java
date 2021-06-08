@@ -23,11 +23,11 @@ public class Customer extends User {
 
     private UserSetting userSetting;
 
-    private ArrayList<Item> basket;
+    private final ArrayList<Item> basket;
 
     public Customer(String firstName, String lastName, String phoneNumber,
                     String username, String password, Address address) {
-        super(firstName, lastName, phoneNumber,username,password);
+        super(firstName, lastName, phoneNumber, username, password);
         this.address = address;
         orders = new ArrayList<>();
         wallet = new Wallet();
@@ -100,22 +100,25 @@ public class Customer extends User {
         comments.add(comment);
     }
 
-    public void addItemToBasket(Item item){
+    public void addItemToBasket(Item item) {
         basket.add(item);
     }
 
-    public void emptyBasket(){
+    public void emptyBasket() {
         basket.clear();
     }
 
-    public double getBasketCost(){
+    public double getBasketCost() {
         double cost = 0;
-        for (Item item : basket){
+        for (Item item : basket) {
             cost += item.getPrice();
         }
         return cost;
     }
 
+    public ArrayList<Item> getBasket() {
+        return basket;
+    }
 
     @Override
     public String toString() {

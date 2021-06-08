@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Food extends Item {
-    private int timeForCooking;
+    private final int timeForCooking;
 
     public Food(String name, int timeForCooking) {
-        super(name,0);
+        super(name, 0);
         this.timeForCooking = timeForCooking;
     }
 
     public Food(Food food) {
-        super(food.getName(),food.getPrice());
+        super(food.getName(), food.getPrice());
         this.timeForCooking = food.timeForCooking;
     }
 
     public Food(Food food, double price) {
-        super(food.getName(),price);
+        super(food.getName(), price);
         this.timeForCooking = food.timeForCooking;
     }
 

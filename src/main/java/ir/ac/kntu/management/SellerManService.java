@@ -22,33 +22,33 @@ public class SellerManService {
 
     public SellerManService(Database database) {
         this.database = database;
-        this.viewPerson= new ViewPerson();
-        this.sellerManMenuHandler = new SellerManMenuHandler(this,database,viewPerson);
+        this.viewPerson = new ViewPerson();
+        this.sellerManMenuHandler = new SellerManMenuHandler(this, database, viewPerson);
     }
 
-    public void sellerManMenuStart(SellerMan sellerMan){
+    public void sellerManMenuStart(SellerMan sellerMan) {
         sellerManMenuHandler.sellerManMenuTabHandler(sellerMan);
     }
 
-    public void getOrdersHandler(SellerMan sellerMan){
+    public void getOrdersHandler(SellerMan sellerMan) {
         viewPerson.printOrders(sellerMan.getDepartment().getOrders());
     }
 
-    public void getCommentsHandler(SellerMan sellerMan){
+    public void getCommentsHandler(SellerMan sellerMan) {
         viewPerson.printComments(sellerMan.getDepartment().getComments());
     }
 
-    public void getDeliveriesHandler(SellerMan sellerMan){
+    public void getDeliveriesHandler(SellerMan sellerMan) {
         viewPerson.printDeliveries(sellerMan.getDepartment().getDeliveries());
     }
 
-    public void addItemHandler(SellerMan sellerMan){
-        if (sellerMan.getDepartment() instanceof Restaurant){
+    public void addItemHandler(SellerMan sellerMan) {
+        if (sellerMan.getDepartment() instanceof Restaurant) {
             Food food = Selector.getInstance().selectFood(new ViewAdmin(), database.getFoods());
             System.out.print("Price : ");
             double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
 
-            sellerMan.getDepartment().addItem(new Food(food,price));
+            sellerMan.getDepartment().addItem(new Food(food, price));
         } else if (sellerMan.getDepartment() instanceof Supermarket) {
             Product product = Selector.getInstance().selectProduct(new ViewAdmin(), database.getProducts());
             System.out.print("Price : ");
@@ -56,25 +56,25 @@ public class SellerManService {
             System.out.println("Stock : ");
 
             int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-            sellerMan.getDepartment().addItem(new Product(product,price,stock));
-        } else if (sellerMan.getDepartment() instanceof FruitMarket){
+            sellerMan.getDepartment().addItem(new Product(product, price, stock));
+        } else if (sellerMan.getDepartment() instanceof FruitMarket) {
             Fruit fruit = Selector.getInstance().selectFruit(new ViewAdmin(), database.getFruits());
             System.out.print("Price : ");
             double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine().trim());
             System.out.println("Stock : ");
 
             int stock = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-            sellerMan.getDepartment().addItem(new Fruit(fruit,price,stock));
+            sellerMan.getDepartment().addItem(new Fruit(fruit, price, stock));
         }
     }
 
-    public void removeItemHandler(SellerMan sellerMan){
+    public void removeItemHandler(SellerMan sellerMan) {
         sellerMan.getDepartment().getItems().remove(Selector.getInstance().selectItem(new ViewAdmin()
-                ,sellerMan.getDepartment().getItems()));
+                , sellerMan.getDepartment().getItems()));
     }
 
-    public void addDeliveryDepartment(SellerMan sellerMan){
-        if (sellerMan.getDepartment() instanceof  Restaurant){
+    public void addDeliveryDepartment(SellerMan sellerMan) {
+        if (sellerMan.getDepartment() instanceof Restaurant) {
             sellerMan.getDepartment().addDelivery(Selector.getInstance().selectRestaurantDelivery(new ViewAdmin(),
                     (Restaurant) sellerMan.getDepartment(), database));
         } else {
@@ -82,10 +82,9 @@ public class SellerManService {
         }
     }
 
-    public void removeDeliveryDepartment(SellerMan sellerMan){
-        sellerMan.getDepartment().removeDelivery(Selector.getInstance().selectToRemoveDelivery(new ViewAdmin(),database));
+    public void removeDeliveryDepartment(SellerMan sellerMan) {
+        sellerMan.getDepartment().removeDelivery(Selector.getInstance().selectToRemoveDelivery(new ViewAdmin(), database));
     }
-
 
 
 }

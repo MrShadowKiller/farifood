@@ -1,8 +1,12 @@
 package ir.ac.kntu.ui;
 
+import ir.ac.kntu.Department;
+import ir.ac.kntu.FruitMarket;
+import ir.ac.kntu.Stackable;
+import ir.ac.kntu.Supermarket;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.objects.Item;
+import ir.ac.kntu.objects.StackableItem;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.Restaurant;
@@ -13,7 +17,7 @@ import ir.ac.kntu.user.UserRate;
 import ir.ac.kntu.user.WeekDays;
 
 import java.util.ArrayList;
-e
+
 public class ViewPerson {
 
     public void printCustomerMenu() {
@@ -110,20 +114,22 @@ public class ViewPerson {
         }
     }
 
-    public void printRestaurantMenu() {
+    public void printDepartmentMenu() {
         System.out.println("[1].Show Information");
-        System.out.println("[2].Buy Food");
+        System.out.println("[2].Buy Item");
         System.out.println("[3].Show Comments History");
         System.out.println("[4].Exit");
     }
 
-    public void printRestaurantInformation(Restaurant restaurant) {
-        System.out.println("Name : " + restaurant.getName());
-        System.out.println("Address : " + restaurant.getAddress());
-        System.out.println("Restaurant Type : " + restaurant.getRestaurantType().toString() +
-                "\tRate : " + restaurant.getAverageRate());
-        System.out.println("Number of active deliveries : " + restaurant.getDeliveries().size() +
-                "\t WorkHours : " + restaurant.getWorkHoursOpen() + "-" + restaurant.getWorkHoursClose());
+    public void printDepartmentInformation(Department department) {
+        System.out.println("Name : " + department.getName());
+        System.out.println("Address : " + department.getAddress());
+        System.out.println("Rate : " + department.getAverageRate());
+        System.out.println("Number of active deliveries : " + department.getDeliveries().size() +
+                "\t WorkHours : " + department.getWorkHoursOpen() + "-" + department.getWorkHoursClose());
+        if (department instanceof Restaurant) {
+            System.out.print("Restaurant Type : " + ((Restaurant) department).getRestaurantType());
+        }
     }
 
     public void printRestaurantFoodMenu(Restaurant restaurant) {
@@ -134,6 +140,16 @@ public class ViewPerson {
                     "$\t" + restaurant.getFoods().get(i - 1).getTimeForCooking() + "min");
         }
         System.out.println("[" + (restaurant.getFoods().size() + 1) + "]. " + "Exit");
+    }
+
+    public void printDepartmentItemMenu(Department department) {
+        System.out.println("\t\tName\tRate\tPrice\tStock");
+        for (int i = 1; i <= department.getItems().size(); i++) {
+            System.out.println("[" + i + "]. " + department.getItems().get(i - 1).getName() + "\t" +
+                    department.getItems().get(i - 1).getAverageRate() + "\t\t" + department.getItems().get(i - 1).getPrice() +
+                    "$\t" + ((StackableItem) (department.getItems().get(i - 1))).getStock() + "min");
+        }
+        System.out.println("[" + (department.getItems().size() + 1) + "]. " + "Exit");
     }
 
     public void printUserRate() {
@@ -158,7 +174,7 @@ public class ViewPerson {
         }
     }
 
-    public void printDeliveries(ArrayList<Delivery> deliveries){
+    public void printDeliveries(ArrayList<Delivery> deliveries) {
         for (int i = 1; i <= deliveries.size(); i++) {
             System.out.println("[" + i + "]. " + deliveries.get(i - 1).getBriefInformation());
         }
@@ -196,6 +212,35 @@ public class ViewPerson {
         System.out.println("[4].Add Delivery");
         System.out.println("[5].Remove Delivery");
         System.out.println("[6].Exit");
+    }
+
+    public void printOrderPeriodsSuperMarket(int workHoursOpen, int workHoursClose) {
+        int counter = 1;
+        for (int i = workHoursOpen; i < workHoursClose; i += 1) {
+            System.out.println("[" + counter++ + "]" + i + "-" + i + 1);
+        }
+    }
+
+    public void printOrderPeriodsFruitMarket(FruitMarket fruitMarket, int workHoursOpen, int workHoursClose) {
+        int counter = 1;
+        for (int i = workHoursOpen; i <= workHoursClose; i += 2) {
+            if (!fruitMarket.isFullPeriod(i)) {
+                System.out.println("[" + counter + "]" + i + "-" + i + 2);
+            }
+            counter++;
+        }
+    }
+
+    public void printSuperMarkets(ArrayList<Supermarket> supermarkets) {
+        for (int i = 1; i <= supermarkets.size(); i++) {
+            System.out.println("[" + i + "]. " + supermarkets.get(i - 1).getName() + "  " + supermarkets.get(i - 1).getAverageRate());
+        }
+    }
+
+    public void printFruitMarkets(ArrayList<FruitMarket> fruitMarkets) {
+        for (int i = 1; i <= fruitMarkets.size(); i++) {
+            System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName() + "  " + fruitMarkets.get(i - 1).getAverageRate());
+        }
     }
 
 }

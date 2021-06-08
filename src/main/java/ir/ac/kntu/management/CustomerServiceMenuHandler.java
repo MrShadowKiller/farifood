@@ -1,21 +1,23 @@
 package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Department;
 import ir.ac.kntu.enums.customermenu.*;
 import ir.ac.kntu.restaurant.Restaurant;
+import ir.ac.kntu.restaurant.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.Customer;
 
 public class CustomerServiceMenuHandler {
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
-    private ViewPerson viewPerson;
+    private final ViewPerson viewPerson;
 
-    private Database database;
+    private final Database database;
 
-    public CustomerServiceMenuHandler(CustomerService customerService,Database database,ViewPerson viewPerson) {
+    public CustomerServiceMenuHandler(CustomerService customerService, Database database, ViewPerson viewPerson) {
         this.customerService = customerService;
         this.viewPerson = viewPerson;
         this.database = database;
@@ -25,11 +27,18 @@ public class CustomerServiceMenuHandler {
         if (!customer.getUserSetting().isAlreadyCreated()) {
             customerService.setUserSetting(customer);
         }
+        customer.emptyBasket();
         viewPerson.printCustomerMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         switch (CustomerMenuOptions.findOption(userInput)) {
             case RESTAURANTS_FOODS:
                 restaurantsFoodsTabHandler(customer);
+                break;
+            case SUPERMARKETS:
+                departmentMenu(Selector.getInstance().selectSuperMarketHandler(viewPerson,database),customer);
+                break;
+            case FRUITMARKETS:
+                departmentMenu(Selector.getInstance().selectFruitMarketHandler(viewPerson,database),customer);
                 break;
             case EDIT_INFORMATION:
                 customerService.editCustomerInformation(customer);
@@ -128,27 +137,29 @@ public class CustomerServiceMenuHandler {
         restaurantsFoodsTabHandler(customer);
     }
 
-    public void restaurantMenu(Restaurant restaurant, Customer customer) {
-        customerService.setItemDepartmentSort(restaurant, customer);
-        viewPerson.printRestaurantMenu();
+    public void departmentMenu(Department department, Customer customer) {
+        customerService.setItemDepartmentSort(department, customer);
+        viewPerson.printDepartmentMenu();
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (RestaurantMenuOptions.findOption(userInput)) {
+        switch (DepartmentMenuOptions.findOption(userInput)) {
             case SHOW_INFORMATION:
-                customerService.showRestaurantInformationHandler(restaurant);
+                customerService.showDepartmentInformationHandler(department);
                 break;
-            case BUY_FOOD:
-                customerService.buyFoodHandler(restaurant, customer);
+            case SELECT_ITEM:
+                customerService.buyItemHandler(department, customer);
                 break;
             case SHOW_COMMENTS:
-                viewPerson.printComments(restaurant.getComments());
+                viewPerson.printComments(department.getComments());
+                break;
+            case CHECKOUT:
+                customerService.checkOutItemsHandler(customer, department);
                 break;
             case EXIT:
                 return;
             default:
-                restaurantMenu(restaurant, customer);
+                departmentMenu(department, customer);
         }
-        restaurantMenu(restaurant, customer);
+        departmentMenu(department, customer);
     }
-
 
 }

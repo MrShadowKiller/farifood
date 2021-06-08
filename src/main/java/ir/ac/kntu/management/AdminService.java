@@ -28,7 +28,7 @@ public class AdminService {
     public AdminService(Database database) {
         this.database = database;
         viewAdmin = new ViewAdmin();
-        this.adminMenuHandler = new AdminMenuHandler(this,viewAdmin,database);
+        this.adminMenuHandler = new AdminMenuHandler(this, viewAdmin, database);
     }
 
     //Start the menu
@@ -184,9 +184,9 @@ public class AdminService {
         viewAdmin.printFoodComments(Selector.getInstance().selectFood(viewAdmin, database.getFoods()), database.getRestaurants());
     }
 
-    public void addSellerManToDepartment(SellerMan sellerMan,Admin admin){
-        Department department = Selector.getInstance().selectDepartmentHandler(admin,viewAdmin,database);
-        if (department != null){
+    public void addSellerManToDepartment(SellerMan sellerMan, Admin admin) {
+        Department department = Selector.getInstance().selectDepartmentHandler(admin, viewAdmin, database);
+        if (department != null) {
             department.setSellerMan(sellerMan);
             sellerMan.setDepartment(department);
         }

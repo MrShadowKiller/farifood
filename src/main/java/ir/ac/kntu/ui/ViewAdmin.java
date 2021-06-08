@@ -171,7 +171,7 @@ public class ViewAdmin {
         }
     }
 
-    public void printDepartments(ArrayList<Department> departments){
+    public void printDepartments(ArrayList<Department> departments) {
         for (int i = 1; i <= departments.size(); i++) {
             System.out.println("[" + i + "]. " + departments.get(i - 1).getName() + "  " +
                     departments.get(i - 1).getClass());
@@ -185,7 +185,7 @@ public class ViewAdmin {
         }
     }
 
-    public void printSellerMen(ArrayList<SellerMan> sellerMen){
+    public void printSellerMen(ArrayList<SellerMan> sellerMen) {
         for (int i = 1; i <= sellerMen.size(); i++) {
             System.out.println("[" + i + "]. " + sellerMen.get(i - 1));
         }
@@ -249,7 +249,7 @@ public class ViewAdmin {
         }
     }
 
-    public void printItems(ArrayList<Item> items){
+    public void printItems(ArrayList<Item> items) {
         for (int i = 1; i <= items.size(); i++) {
             System.out.println("[" + i + "]. " + items.get(i - 1).getName() +
                     "  " + items.get(i - 1).getPrice() + "$");
@@ -263,10 +263,13 @@ public class ViewAdmin {
         int count = 1;
         for (Restaurant restaurant : restaurants) {
             for (Comment comment : restaurant.getComments()) {
-                if (comment.getFood().equals(food)) {
-                    System.out.println("[" + count + "]. " + comment);
-                    count++;
-                }
+                for (Item item : comment.getItems() )
+                    if (item instanceof Food){
+                        if(item.equals(food)) {
+                            System.out.println("[" + count + "]. " + comment);
+                            count++;
+                        }
+                    }
             }
         }
         if (count == 1) {
@@ -312,7 +315,7 @@ public class ViewAdmin {
         System.out.println("[8].Exit");
     }
 
-    public void printEditFruitMarketTab(){
+    public void printEditFruitMarketTab() {
         System.out.println("Please use of these options : ");
         System.out.println("[1].Change name");
         System.out.println("[4].Add Fruit");
@@ -351,7 +354,7 @@ public class ViewAdmin {
     }
 
 
-    public void printProductsWithSize(ArrayList<Product> products){
+    public void printProductsWithSize(ArrayList<Product> products) {
         for (int i = 1; i <= products.size(); i++) {
 
             System.out.println("[" + i + "]. " + products.get(i - 1).getName() +
@@ -362,7 +365,7 @@ public class ViewAdmin {
         }
     }
 
-    public void printFruits(ArrayList<Fruit> fruits){
+    public void printFruits(ArrayList<Fruit> fruits) {
         for (int i = 1; i <= fruits.size(); i++) {
 
             System.out.println("[" + i + "]. " + fruits.get(i - 1).getName() +
@@ -373,18 +376,17 @@ public class ViewAdmin {
         }
     }
 
-    public void printSuperMarkets(ArrayList<Supermarket> supermarkets){
+    public void printSuperMarkets(ArrayList<Supermarket> supermarkets) {
         for (int i = 1; i <= supermarkets.size(); i++) {
-            System.out.println("[" + i + "]. " + supermarkets.get(i - 1).getName());
+            System.out.println("[" + i + "]. " + supermarkets.get(i - 1).getName() + "  ");
         }
     }
 
-    public void printFruitMarkets(ArrayList<FruitMarket> fruitMarkets){
+    public void printFruitMarkets(ArrayList<FruitMarket> fruitMarkets) {
         for (int i = 1; i <= fruitMarkets.size(); i++) {
             System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName());
         }
     }
-
 
 
 }

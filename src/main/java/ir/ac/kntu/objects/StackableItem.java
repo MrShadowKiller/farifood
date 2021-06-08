@@ -1,5 +1,7 @@
 package ir.ac.kntu.objects;
 
-public interface Stackable {
+public interface StackableItem {
     boolean isOutOfStock();
+
+    int getStock();
 }

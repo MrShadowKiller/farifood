@@ -27,12 +27,14 @@ import java.util.ArrayList;
 
 public class Selector {
     private static final Selector INSTANCE = new Selector();
+
     private Selector() {
     }
 
-    public static Selector getInstance(){
+    public static Selector getInstance() {
         return INSTANCE;
     }
+
     public Restaurant selectDefaultRestaurantCustomer(ArrayList<Restaurant> restaurants, Customer customer, ViewPerson viewPerson) {
         ArrayList<Restaurant> openRestaurants = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
@@ -155,7 +157,7 @@ public class Selector {
         }
         viewPerson.printRestaurants(nearRestaurants);
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userChoice == nearRestaurants.size() + 1){
+        if (userChoice == nearRestaurants.size() + 1) {
             return null;
         }
         return nearRestaurants.get(userChoice - 1);
@@ -257,7 +259,7 @@ public class Selector {
     }
 
 
-    public Delivery selectRestaurantDelivery(ViewAdmin viewAdmin, Restaurant restaurant,Database database) {
+    public Delivery selectRestaurantDelivery(ViewAdmin viewAdmin, Restaurant restaurant, Database database) {
         System.out.println("Which Delivery ?");
         viewAdmin.printDeliveries(database.getDeliveries());
         int userDeliveryChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -280,7 +282,7 @@ public class Selector {
             if (database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].getAvailability()
                     && restaurant.getSchedule()[userRestScheChoice - 1].getAvailability()) {
 
-                database.getDeliveries().get(userDeliveryChoice - 1).addRestaurant(restaurant);
+                database.getDeliveries().get(userDeliveryChoice - 1).addDepartment(restaurant);
                 database.getDeliveries().get(userDeliveryChoice - 1).getSchedule()[userRestScheChoice - 1].setDepartment(restaurant);
                 return database.getDeliveries().get(userDeliveryChoice - 1);
             } else {
@@ -290,9 +292,9 @@ public class Selector {
         return null;
     }
 
-    public Delivery selectFreeDelivery(Database database, Department department){
-        for (Delivery delivery : database.getDeliveries()){
-            if(!delivery.isFull(department)){
+    public Delivery selectFreeDelivery(Database database, Department department) {
+        for (Delivery delivery : database.getDeliveries()) {
+            if (!delivery.isFull(department)) {
                 return delivery;
             }
         }
@@ -300,28 +302,28 @@ public class Selector {
     }
 
 
-    public Delivery selectToRemoveDelivery(ViewAdmin viewAdmin,Database database){
+    public Delivery selectToRemoveDelivery(ViewAdmin viewAdmin, Database database) {
         System.out.println("Choose one of the deliveries : ");
         viewAdmin.printDeliveries(database.getDeliveries());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return database.getDeliveries().get(userInput-1);
+        return database.getDeliveries().get(userInput - 1);
     }
 
-    public SellerMan selectSellerMan(ViewAdmin viewAdmin, Database database){
+    public SellerMan selectSellerMan(ViewAdmin viewAdmin, Database database) {
         System.out.println("Choose one of the SellerMen : ");
         viewAdmin.printSellerMen(database.getSellerMen());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        return database.getSellerMen().get(userInput-1);
+        return database.getSellerMen().get(userInput - 1);
     }
 
-    public void selectRestaurantWorkHours(Restaurant restaurant){
+    public void selectRestaurantWorkHours(Restaurant restaurant) {
         System.out.println("Work Opens at : ");
         restaurant.setWorkHoursOpen(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
         System.out.println("Work Closes at : ");
         restaurant.setWorkHoursClose(Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()));
     }
 
-    public Customer selectCustomerHandler(ViewAdmin viewAdmin, Admin admin,Database database) {
+    public Customer selectCustomerHandler(ViewAdmin viewAdmin, Admin admin, Database database) {
         viewAdmin.printCustomers(database.getCustomers());
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userChoice == database.getCustomers().size() + 1) {
@@ -331,7 +333,7 @@ public class Selector {
         }
     }
 
-    public Restaurant selectRestaurantHandler(Admin admin,ViewAdmin viewAdmin,Database database) {
+    public Restaurant selectRestaurantHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
         viewAdmin.printRestaurants(database.getRestaurants());
         System.out.println("[" + (database.getRestaurants().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -342,7 +344,7 @@ public class Selector {
         }
     }
 
-    public Department selectDepartmentHandler(Admin admin,ViewAdmin viewAdmin,Database database){
+    public Department selectDepartmentHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
         viewAdmin.printDepartments(database.getDepartments());
         System.out.println("[" + (database.getDepartments().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -353,7 +355,7 @@ public class Selector {
         }
     }
 
-    public Supermarket selectSuperMarketHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
+    public Supermarket selectSuperMarketHandler(ViewAdmin viewAdmin, Database database) {
         viewAdmin.printSuperMarkets(database.getSuperMarkets());
         System.out.println("[" + (database.getSuperMarkets().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -364,7 +366,18 @@ public class Selector {
         }
     }
 
-    public FruitMarket selectFruitMarketHandler(Admin admin, ViewAdmin viewAdmin, Database database) {
+    public Supermarket selectSuperMarketHandler(ViewPerson viewPerson, Database database) {
+        viewPerson.printSuperMarkets(database.getSuperMarkets());
+        System.out.println("[" + (database.getSuperMarkets().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getSuperMarkets().size() + 1) {
+            return null;
+        } else {
+            return database.getSuperMarkets().get(userChoice - 1);
+        }
+    }
+
+    public FruitMarket selectFruitMarketHandler(ViewAdmin viewAdmin, Database database) {
         viewAdmin.printFruitMarkets(database.getFruitMarkets());
         System.out.println("[" + (database.getFruitMarkets().size() + 1) + "]. " + "Exit");
         int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
@@ -375,7 +388,19 @@ public class Selector {
         }
     }
 
-    public Food selectFood(ViewAdmin viewAdmin,ArrayList<Food> foods) {
+    public FruitMarket selectFruitMarketHandler(ViewPerson viewPerson, Database database) {
+        viewPerson.printFruitMarkets(database.getFruitMarkets());
+        System.out.println("[" + (database.getFruitMarkets().size() + 1) + "]. " + "Exit");
+        int userChoice = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
+        if (userChoice == database.getFruitMarkets().size() + 1) {
+            return null;
+        } else {
+            return database.getFruitMarkets().get(userChoice - 1);
+        }
+    }
+
+
+    public Food selectFood(ViewAdmin viewAdmin, ArrayList<Food> foods) {
         if (foods.size() == 0) {
             System.out.println("NO FOOD AVAILABLE");
             return null;
@@ -418,4 +443,18 @@ public class Selector {
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         return items.get(userInput - 1);
     }
+
+    public int orderPeriodSuperMarketSelector(Supermarket supermarket) {
+        ViewPerson viewPerson = new ViewPerson();
+        viewPerson.printOrderPeriodsSuperMarket(supermarket.getWorkHoursOpen(), supermarket.getWorkHoursClose());
+        return Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()) + supermarket.getWorkHoursOpen() - 1;
+    }
+
+    public int orderPeriodFruitMarketSelector(FruitMarket fruitMarket) {
+        ViewPerson viewPerson = new ViewPerson();
+        viewPerson.printOrderPeriodsFruitMarket(fruitMarket, fruitMarket.getWorkHoursOpen(), fruitMarket.getWorkHoursClose());
+        return 2 * Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim()) + fruitMarket.getWorkHoursOpen() - 2;
+    }
+
+
 }

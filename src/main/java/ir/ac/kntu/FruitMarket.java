@@ -1,36 +1,100 @@
 package ir.ac.kntu;
 
-import ir.ac.kntu.objects.Address;
-import ir.ac.kntu.objects.Fruit;
-import ir.ac.kntu.objects.Item;
-import ir.ac.kntu.objects.Product;
+import ir.ac.kntu.delivery.Delivery;
+import ir.ac.kntu.objects.*;
 import ir.ac.kntu.order.Order;
+import ir.ac.kntu.restaurant.Selector;
+import ir.ac.kntu.ui.ViewPerson;
+import ir.ac.kntu.user.Customer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FruitMarket extends Department {
-    private HashMap<Integer, Integer> ordersSchedule;
+public class FruitMarket extends Department implements Stackable {
+    private HashMap<Integer, ArrayList<Order>> ordersSchedule;
 
     public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose) {
         super(name, address, workHoursOpen, workHoursClose);
-        for (int i=workHoursOpen;i<workHoursClose;i+=2){
-            ordersSchedule.put(i,5);
+        for (int i = workHoursOpen; i < workHoursClose; i += 2) {
+            ordersSchedule.put(i, new ArrayList<>());
         }
     }
 
-    public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose,ArrayList<Item> items) {
+    public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose, ArrayList<Item> items) {
         super(name, address, workHoursOpen, workHoursClose);
         setItems(items);
-        for (int i=workHoursOpen;i<workHoursClose;i+=2){
-            ordersSchedule.put(i,5);
+        for (int i = workHoursOpen; i < workHoursClose; i += 2) {
+            ordersSchedule.put(i, new ArrayList<>());
         }
     }
 
-    public ArrayList<Fruit> getFruits(){
+    public HashMap<Integer, ArrayList<Order>> getOrdersSchedule() {
+        return ordersSchedule;
+    }
+
+    public boolean isFullPeriod(int period) {
+        return getTotalStock(period) >= 5;
+    }
+
+    public int getTotalStock(int period) {
+        int sum = 0;
+        for (Order order : ordersSchedule.get(period)) {
+            sum += order.getItems().size();
+        }
+        return sum;
+    }
+
+    @Override
+    public void getDepartmentItemMenu(ViewPerson viewPerson) {
+        viewPerson.printDepartmentInformation(this);
+    }
+
+    @Override
+    public Order checkOutCustomerOrder(Customer customer) {
+        int period = Selector.getInstance().orderPeriodFruitMarketSelector(this);
+        if (ordersSchedule.get(period).size() >= getDeliveries().size()) {
+            return null;
+        }
+        Delivery delivery = getFreedelivery(period);
+        if (delivery == null) {
+            return null;
+        }
+        Order order = new Order(customer, this, customer.getBasket(), delivery, LocalDateTime.now());
+        for (Item item : customer.getBasket()) {
+            ((Fruit) item).setStock(((Fruit) item).getStock() - 1);
+        }
+        ordersSchedule.get(period).add(order);
+        if (getTotalStock(period) >= 2.5) {
+            order.setShippingCost(7500);
+            customer.getWallet().useBalance(7500);
+        } else {
+            order.setShippingCost(5000);
+            customer.getWallet().useBalance(5000);
+        }
+        return order;
+    }
+
+    public Delivery getFreedelivery(int period) {
+        boolean status = false;
+        for (Delivery delivery : getDeliveries()) {
+            for (Order order : ordersSchedule.get(period)) {
+                if (order.getDelivery() == delivery) {
+                    status = true;
+                }
+            }
+            if (status == false) {
+                return delivery;
+            }
+        }
+        return null;
+    }
+
+
+    public ArrayList<Fruit> getFruits() {
         ArrayList<Fruit> fruits = new ArrayList<>();
-        for (Item item : getItems() ) {
-            if (item instanceof Fruit){
+        for (Item item : getItems()) {
+            if (item instanceof Fruit) {
                 fruits.add((Fruit) item);
             }
         }

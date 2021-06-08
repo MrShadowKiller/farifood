@@ -44,7 +44,7 @@ public abstract class Item {
         this.price = price;
     }
 
-    public void addFoodRate(UserRate itemRate) {
+    public void addItemRate(UserRate itemRate) {
         itemRates.add(itemRate);
     }
 

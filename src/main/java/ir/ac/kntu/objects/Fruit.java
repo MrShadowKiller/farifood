@@ -1,6 +1,6 @@
 package ir.ac.kntu.objects;
 
-public class Fruit extends Item implements Stackable {
+public class Fruit extends Item implements StackableItem {
     private int stock = 0;
 
     public Fruit(String name, double price) {
@@ -12,11 +12,11 @@ public class Fruit extends Item implements Stackable {
     }
 
     public Fruit(Fruit fruit) {
-        super(fruit.getName(),fruit.getPrice());
+        super(fruit.getName(), fruit.getPrice());
     }
 
-    public Fruit(Fruit fruit, double price,int stock) {
-        super(fruit.getName(),price);
+    public Fruit(Fruit fruit, double price, int stock) {
+        super(fruit.getName(), price);
         this.stock = stock;
     }
 

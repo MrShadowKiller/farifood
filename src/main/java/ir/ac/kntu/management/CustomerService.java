@@ -1,30 +1,35 @@
 package ir.ac.kntu.management;
 
 import ir.ac.kntu.Database;
+import ir.ac.kntu.Department;
+import ir.ac.kntu.Stackable;
 import ir.ac.kntu.enums.customermenu.*;
 import ir.ac.kntu.delivery.Delivery;
 import ir.ac.kntu.objects.Food;
+import ir.ac.kntu.objects.StackableItem;
 import ir.ac.kntu.order.Comment;
 import ir.ac.kntu.order.Order;
 import ir.ac.kntu.restaurant.*;
 import ir.ac.kntu.ui.ViewPerson;
 import ir.ac.kntu.user.Customer;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class CustomerService {
     private final ViewPerson viewPerson;
 
-    private Database database;
+    private final Database database;
 
     private final CustomerServiceMenuHandler customerServiceMenuHandler;
 
     public CustomerService(Database database) {
         this.database = database;
         viewPerson = new ViewPerson();
-        customerServiceMenuHandler = new CustomerServiceMenuHandler(this,database,viewPerson);
+        customerServiceMenuHandler = new CustomerServiceMenuHandler(this, database, viewPerson);
     }
 
-    public void customerMenuStart(Customer customer){
+    public void customerMenuStart(Customer customer) {
         customerServiceMenuHandler.customerMenuTabHandler(customer);
     }
 
@@ -77,7 +82,7 @@ public class CustomerService {
         viewPerson.printFoodsWithPrice(database.getFoods());
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         for (Order order : database.getOrders()) {
-            if (order.getItems().contains(database.getFoods().get(userInput - 1))){
+            if (order.getItems().contains(database.getFoods().get(userInput - 1))) {
                 System.out.println(order.getComment());
             }
         }
@@ -87,7 +92,7 @@ public class CustomerService {
         setRestaurantSort(customer);
         Restaurant selectedRestaurant = Selector.getInstance().selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
@@ -99,7 +104,7 @@ public class CustomerService {
         }
         Restaurant selectedRestaurant = Selector.getInstance().selectBestThreeRestaurant(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
@@ -107,91 +112,101 @@ public class CustomerService {
         database.sortRestaurantHighRating();
         Restaurant selectedRestaurant = Selector.getInstance().selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewPerson, customer);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantName(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().findRestaurantByName(database.getRestaurants(), customer);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantType(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantByType(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByNeighbor(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().selectNearRestaurant(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.departmentMenu(selectedRestaurant, customer);
         }
     }
 
-    public void showRestaurantInformationHandler(Restaurant restaurant) {
-        viewPerson.printRestaurantInformation(restaurant);
+    public void showDepartmentInformationHandler(Department department) {
+        viewPerson.printDepartmentInformation(department);
     }
 
-    public void buyFoodHandler(Restaurant restaurant, Customer customer) {
-        viewPerson.printRestaurantFoodMenu(restaurant);
+    public void buyItemHandler(Department department, Customer customer) {
+        department.getDepartmentItemMenu(viewPerson);
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        if (userInput != restaurant.getItems().size() + 1) {
-            processTheOrderCost(restaurant.getFoods().get(userInput - 1), customer, restaurant);
+        if (userInput != department.getItems().size() + 1) {
+            if (department.getItems().get(userInput - 1) instanceof StackableItem) {
+                if (((StackableItem) department.getItems().get(userInput - 1)).isOutOfStock()) {
+                    System.out.println("OUT OF STOCK!");
+                    return;
+                }
+            }
+            customer.addItemToBasket(department.getItems().get(userInput - 1));
         }
+
     }
 
-    public void processTheOrderCost(Food food, Customer customer, Restaurant restaurant) {
+    public void checkOutItemsHandler(Customer customer, Department department) {
+        processTheOrderCost(customer, department);
+    }
+
+    public void processTheOrderCost(Customer customer, Department department) {
         System.out.println("Buy With : ");
         System.out.println("[1].Wallet");
         System.out.println("[2].Credit Card");
         int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
         if (userInput == 1) {
-            checkCustomerWallet(food, customer, restaurant);
+            checkCustomerWallet(customer, department);
         } else if (userInput == 2) {
-            checkCustomerCreditCard(food, customer, restaurant);
+            checkCustomerCreditCard(customer, department);
         }
     }
 
-    public void checkCustomerWallet(Food food, Customer customer, Restaurant restaurant) {
-        if (customer.getWallet().getBalance() < food.getPrice()) {
+    public void checkCustomerWallet(Customer customer, Department department) {
+        if (customer.getWallet().getBalance() < customer.getBasketCost()) {
             System.out.println("Not Enough Money!");
-            buyFoodHandler(restaurant, customer);
+            customerServiceMenuHandler.customerMenuTabHandler(customer);
         } else {
-            customer.getWallet().useBalance(food.getPrice());
-            makeNewCustomerOrder(food, customer, restaurant);
+            customer.getWallet().useBalance(customer.getBasketCost());
+            makeNewCustomerOrder(customer, department);
         }
     }
 
-    public void checkCustomerCreditCard(Food food, Customer customer, Restaurant restaurant) {
-        if (customer.getCreditCard().getBalance() < food.getPrice()) {
+    public void checkCustomerCreditCard(Customer customer, Department department) {
+        if (customer.getCreditCard().getBalance() < customer.getBasketCost()) {
             System.out.println("Not Enough Money!");
-            buyFoodHandler(restaurant, customer);
+            customerServiceMenuHandler.customerMenuTabHandler(customer);
         } else {
-            customer.getCreditCard().useBalance(food.getPrice());
-            makeNewCustomerOrder(food, customer, restaurant);
+            customer.getCreditCard().useBalance(customer.getBasketCost());
+            makeNewCustomerOrder(customer, department);
         }
     }
 
-    public void makeNewCustomerOrder(Food food, Customer customer, Restaurant restaurant) {
-        Delivery delivery = restaurant.getFreeDelivery(customer.getUserSetting().getCurrentDay());
-        if (delivery == null) {
-            System.out.println("There is no Delivery available");
-            customer.getWallet().addBalance(food.getPrice());
+    public void makeNewCustomerOrder(Customer customer, Department department) {
+        Order order = department.checkOutCustomerOrder(customer);
+        if (order == null) {
+            customer.getWallet().addBalance(customer.getBasketCost());
         } else {
-            Comment comment = InputObjectHandler.getInstance().scanCommentFields(viewPerson, customer, food, restaurant, delivery);
-            Order order = new Order(customer, restaurant, food, delivery, LocalDateTime.now());
-            restaurant.addOrder(order);
-            restaurant.addComment(comment);
+            Comment comment = InputObjectHandler.getInstance().scanCommentFields(viewPerson, customer, customer.getBasket(), department, order.getDelivery());
+            department.addOrder(order);
+            department.addComment(comment);
             customer.addOrder(order);
             customer.addComment(comment);
-            delivery.addOrder(order);
             database.getOrders().add(order);
             order.setComment(comment);
+            customer.emptyBasket();
         }
+
     }
 
 
@@ -218,20 +233,20 @@ public class CustomerService {
         }
     }
 
-    public void setItemDepartmentSort(Restaurant restaurant, Customer customer) {
+    public void setItemDepartmentSort(Department department, Customer customer) {
         switch (customer.getUserSetting().getFoodSortOption()) {
             case LOW_PRICE:
-                restaurant.sortItemLowPrice();
+                department.sortItemLowPrice();
                 break;
             case HIGH_PRICE:
-                restaurant.sortItemHighPrice();
+                department.sortItemHighPrice();
             case HIGH_RATE:
-                restaurant.sortItemHighRating();
+                department.sortItemHighRating();
                 break;
             case LOW_RATE:
-                restaurant.sortItemLowRating();
+                department.sortItemLowRating();
             default:
-                setItemDepartmentSort(restaurant,customer);
+                setItemDepartmentSort(department, customer);
         }
     }
 
