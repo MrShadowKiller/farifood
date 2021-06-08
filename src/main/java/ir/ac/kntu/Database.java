@@ -1,20 +1,23 @@
 package ir.ac.kntu;
 
-import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.management.InputObjectHandler;
-import ir.ac.kntu.management.ScannerWrapper;
-import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.objects.Fruit;
-import ir.ac.kntu.objects.Item;
-import ir.ac.kntu.objects.Product;
-import ir.ac.kntu.order.Order;
-import ir.ac.kntu.restaurant.Restaurant;
-import ir.ac.kntu.restaurant.Selector;
+import ir.ac.kntu.models.delivery.Delivery;
+import ir.ac.kntu.util.InputObjectHandler;
+import ir.ac.kntu.util.ScannerWrapper;
+import ir.ac.kntu.models.departments.Department;
+import ir.ac.kntu.models.departments.FruitMarket;
+import ir.ac.kntu.models.departments.Supermarket;
+import ir.ac.kntu.models.objects.Food;
+import ir.ac.kntu.models.objects.Fruit;
+import ir.ac.kntu.models.objects.Item;
+import ir.ac.kntu.models.objects.Product;
+import ir.ac.kntu.models.order.Order;
+import ir.ac.kntu.models.departments.restaurant.Restaurant;
+import ir.ac.kntu.util.Selector;
 import ir.ac.kntu.ui.ViewAdmin;
 import ir.ac.kntu.ui.ViewPerson;
-import ir.ac.kntu.user.Admin;
-import ir.ac.kntu.user.Customer;
-import ir.ac.kntu.user.SellerMan;
+import ir.ac.kntu.models.user.Admin;
+import ir.ac.kntu.models.user.Customer;
+import ir.ac.kntu.models.user.SellerMan;
 
 import java.util.ArrayList;
 

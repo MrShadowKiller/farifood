@@ -1,21 +1,19 @@
 package ir.ac.kntu.ui;
 
-import ir.ac.kntu.Department;
-import ir.ac.kntu.FruitMarket;
-import ir.ac.kntu.Stackable;
-import ir.ac.kntu.Supermarket;
-import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.objects.Item;
-import ir.ac.kntu.objects.StackableItem;
-import ir.ac.kntu.order.Comment;
-import ir.ac.kntu.order.Order;
-import ir.ac.kntu.restaurant.Restaurant;
-import ir.ac.kntu.restaurant.RestaurantType;
-import ir.ac.kntu.setting.FoodSortOption;
-import ir.ac.kntu.setting.RestaurantSortOption;
-import ir.ac.kntu.user.UserRate;
-import ir.ac.kntu.user.WeekDays;
+import ir.ac.kntu.models.departments.Department;
+import ir.ac.kntu.models.departments.FruitMarket;
+import ir.ac.kntu.models.departments.Supermarket;
+import ir.ac.kntu.models.delivery.Delivery;
+import ir.ac.kntu.models.objects.Food;
+import ir.ac.kntu.models.objects.StackableItem;
+import ir.ac.kntu.models.order.Comment;
+import ir.ac.kntu.models.order.Order;
+import ir.ac.kntu.models.departments.restaurant.Restaurant;
+import ir.ac.kntu.models.departments.restaurant.RestaurantType;
+import ir.ac.kntu.models.user.setting.FoodSortOption;
+import ir.ac.kntu.models.user.setting.RestaurantSortOption;
+import ir.ac.kntu.models.user.UserRate;
+import ir.ac.kntu.models.user.WeekDays;
 
 import java.util.ArrayList;
 

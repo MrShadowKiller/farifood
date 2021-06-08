@@ -1,26 +1,26 @@
 package ir.ac.kntu.ui;
 
-import ir.ac.kntu.Department;
-import ir.ac.kntu.FruitMarket;
-import ir.ac.kntu.Supermarket;
-import ir.ac.kntu.objects.Food;
-import ir.ac.kntu.delivery.Delivery;
-import ir.ac.kntu.delivery.DeliverySchedule;
-import ir.ac.kntu.delivery.DeliveryVehicle;
-import ir.ac.kntu.delivery.SalaryType;
-import ir.ac.kntu.objects.Fruit;
-import ir.ac.kntu.objects.Item;
-import ir.ac.kntu.objects.Product;
-import ir.ac.kntu.order.Comment;
-import ir.ac.kntu.order.Order;
-import ir.ac.kntu.order.OrderStatus;
-import ir.ac.kntu.restaurant.Restaurant;
-import ir.ac.kntu.restaurant.RestaurantSchedule;
-import ir.ac.kntu.restaurant.RestaurantType;
-import ir.ac.kntu.user.Admin;
-import ir.ac.kntu.user.Customer;
-import ir.ac.kntu.user.SellerMan;
-import ir.ac.kntu.user.WeekDays;
+import ir.ac.kntu.models.departments.Department;
+import ir.ac.kntu.models.departments.FruitMarket;
+import ir.ac.kntu.models.departments.Supermarket;
+import ir.ac.kntu.models.objects.Food;
+import ir.ac.kntu.models.delivery.Delivery;
+import ir.ac.kntu.models.delivery.DeliverySchedule;
+import ir.ac.kntu.models.delivery.DeliveryVehicle;
+import ir.ac.kntu.models.delivery.SalaryType;
+import ir.ac.kntu.models.objects.Fruit;
+import ir.ac.kntu.models.objects.Item;
+import ir.ac.kntu.models.objects.Product;
+import ir.ac.kntu.models.order.Comment;
+import ir.ac.kntu.models.order.Order;
+import ir.ac.kntu.models.order.OrderStatus;
+import ir.ac.kntu.models.departments.restaurant.Restaurant;
+import ir.ac.kntu.models.departments.restaurant.RestaurantSchedule;
+import ir.ac.kntu.models.departments.restaurant.RestaurantType;
+import ir.ac.kntu.models.user.Admin;
+import ir.ac.kntu.models.user.Customer;
+import ir.ac.kntu.models.user.SellerMan;
+import ir.ac.kntu.models.user.WeekDays;
 
 import java.util.ArrayList;
 
