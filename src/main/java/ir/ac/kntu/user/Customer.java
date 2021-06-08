@@ -21,6 +21,8 @@ public class Customer extends User {
 
     private CreditCard creditCard;
 
+    private boolean hasSubsription = false;
+
     private UserSetting userSetting;
 
     private final ArrayList<Item> basket;
@@ -37,6 +39,15 @@ public class Customer extends User {
         if (this instanceof Admin) {
             wallet.setBalance(99999999);
         }
+    }
+
+    public boolean isHasSubsription() {
+        return hasSubsription;
+    }
+
+
+    public void setHasSubsription(boolean hasSubsription) {
+        this.hasSubsription = hasSubsription;
     }
 
     public ArrayList<Comment> getComments() {

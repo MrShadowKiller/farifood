@@ -69,12 +69,14 @@ public class FruitMarket extends Department implements Stackable {
             ((Fruit) item).setStock(((Fruit) item).getStock() - 1);
         }
         ordersSchedule.get(period).add(order);
-        if (getTotalStock(period) >= 2.5) {
-            order.setShippingCost(7500);
-            customer.getWallet().useBalance(7500);
-        } else {
-            order.setShippingCost(5000);
-            customer.getWallet().useBalance(5000);
+        if (!customer.isHasSubsription()) {
+            if (getTotalStock(period) >= 2.5) {
+                order.setShippingCost(7500);
+                customer.getWallet().useBalance(7500);
+            } else {
+                order.setShippingCost(5000);
+                customer.getWallet().useBalance(5000);
+            }
         }
         return order;
     }

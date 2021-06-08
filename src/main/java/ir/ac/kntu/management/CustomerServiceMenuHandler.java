@@ -95,6 +95,9 @@ public class CustomerServiceMenuHandler {
             case ADD_CREDIT_CARD_BALANCE:
                 customerService.addCreditCardBalanceHandler(customer);
                 break;
+            case ACTIVATE_SUBSCRIPTION:
+                 customerService.buySubscription(customer);
+                break;
             case EXIT:
                 return;
             default:
@@ -164,5 +167,7 @@ public class CustomerServiceMenuHandler {
         }
         departmentMenu(department, customer);
     }
+
+
 
 }

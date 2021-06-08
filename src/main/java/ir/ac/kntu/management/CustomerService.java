@@ -212,6 +212,13 @@ public class CustomerService {
         customer.emptyBasket();
     }
 
+    public void buySubscription(Customer customer){
+        System.out.print("Cost : 50$\n Press Enter to Confirm : ");
+        String temp = ScannerWrapper.getInstance().nextLine();
+        customer.getWallet().useBalance(50);
+        customer.setHasSubsription(true);
+    }
+
 
     public void setRestaurantSort(Customer customer) {
 

@@ -2,7 +2,7 @@ package ir.ac.kntu.enums.customermenu;
 
 public enum AddBalanceOptions {
     ADD_CREDIT_CARD(0), ADD_WALLET_BALANCE(1), ADD_CREDIT_CARD_BALANCE(2),
-    EXIT(3), DEFAULT(4);
+    ACTIVATE_SUBSCRIPTION(3), EXIT(4), DEFAULT(5);
 
     private int rate;
 

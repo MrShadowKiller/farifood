@@ -194,7 +194,8 @@ public class ViewPerson {
         System.out.println("[1].Add Credit Card");
         System.out.println("[2].Add Wallet Balance");
         System.out.println("[3].Add Credit Card Balance");
-        System.out.println("[4].Exit");
+        System.out.println("[4].Activate Subscription");
+        System.out.println("[5].Exit");
     }
 
     public void printFoodsWithPrice(ArrayList<Food> foods) {
