@@ -16,65 +16,20 @@ public class CustomerService {
 
     private Database database;
 
+    private final CustomerServiceMenuHandler customerServiceMenuHandler;
+
     public CustomerService(Database database) {
         this.database = database;
         viewPerson = new ViewPerson();
+        customerServiceMenuHandler = new CustomerServiceMenuHandler(this,database,viewPerson);
     }
 
-    public void customerMenuHandler(Customer customer) {
-        if (!customer.getUserSetting().isAlreadyCreated()) {
-            setUserSetting(customer);
-        }
-        viewPerson.printCustomerMenu();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (CustomerMenuOptions.findOption(userInput)) {
-            case RESTAURANTS_FOODS:
-                restaurantsFoodsTabHandler(customer);
-                break;
-            case EDIT_INFORMATION:
-                editCustomerInformation(customer);
-                break;
-            case SHOW_INFORMATION:
-                showCustomerInformationHandler(customer);
-                break;
-            case ADD_BALANCE:
-                addBalanceHandler(customer);
-                break;
-            case SETTING:
-                setUserSetting(customer);
-                break;
-            case EXIT:
-                return;
-            default:
-                customerMenuHandler(customer);
-        }
-        customerMenuHandler(customer);
+    public void customerMenuStart(Customer customer){
+        customerServiceMenuHandler.customerMenuTabHandler(customer);
     }
 
     public void editCustomerInformation(Customer customer) {
         InputObjectHandler.getInstance().changeCustomerInformation(customer);
-    }
-
-    public void showCustomerInformationHandler(Customer customer) {
-        viewPerson.printShowCustomerTab();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (ShowCustomerOptions.findOption(userInput)) {
-            case SHOW_INFO:
-                showCustomerInfo(customer);
-                break;
-            case SHOW_ORDERS:
-                showCustomerOrders(customer);
-                break;
-            case SHOW_COMMENTS:
-                showCustomerComments(customer);
-                break;
-            case EXIT:
-                return;
-            default:
-                showCustomerInformationHandler(customer);
-                break;
-        }
-        showCustomerInformationHandler(customer);
     }
 
     public void showCustomerInfo(Customer customer) {
@@ -89,26 +44,6 @@ public class CustomerService {
         viewPerson.printComments(customer.getComments());
     }
 
-    public void addBalanceHandler(Customer customer) {
-        viewPerson.printAddBalanceTab();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (AddBalanceOptions.findOption(userInput)) {
-            case ADD_CREDIT_CARD:
-                addCreditCardHandler(customer);
-                break;
-            case ADD_WALLET_BALANCE:
-                addWalletBalanceHandler(customer);
-                break;
-            case ADD_CREDIT_CARD_BALANCE:
-                addCreditCardBalanceHandler(customer);
-                break;
-            case EXIT:
-                return;
-            default:
-                addBalanceHandler(customer);
-        }
-        addBalanceHandler(customer);
-    }
 
     public void addCreditCardHandler(Customer customer) {
         customer.setCreditCard(InputObjectHandler.getInstance().scanCreditCard());
@@ -136,38 +71,6 @@ public class CustomerService {
         customer.setUserSetting(InputObjectHandler.getInstance().scanUserSetting(viewPerson));
     }
 
-    public void restaurantsFoodsTabHandler(Customer customer) {
-        viewPerson.printRestaurantFoodTab();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (BuyFoodTabOptions.findOption(userInput)) {
-            case SHOW_RESTAURANTS:
-                showDefaultRestaurants(customer);
-                break;
-            case SHOW_BEST_THREE:
-                showBestThreeRestaurants(customer);
-                break;
-            case SHOW_WITH_BEST_FOOD:
-                showBestRestaurantsForFood(customer);
-                break;
-            case SEARCH_BY_NAME:
-                searchByRestaurantName(customer);
-                break;
-            case SEARCH_BY_TYPE:
-                searchByRestaurantType(customer);
-                break;
-            case SEARCH_BY_NEIGHBOR:
-                searchByNeighbor(customer);
-                break;
-            case SHOW_FOOD_COMMENTS:
-                showFoodCommentsHandler();
-                break;
-            case EXIT:
-                return;
-            default:
-                restaurantsFoodsTabHandler(customer);
-        }
-        restaurantsFoodsTabHandler(customer);
-    }
 
     public void showFoodCommentsHandler() {
         System.out.println("Which Food ?");
@@ -184,7 +87,7 @@ public class CustomerService {
         setRestaurantSort(customer);
         Restaurant selectedRestaurant = Selector.getInstance().selectDefaultRestaurantCustomer(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
     }
 
@@ -192,11 +95,11 @@ public class CustomerService {
         database.sortRestaurantHighRating();
         if (database.getRestaurants().size() < 3) {
             System.out.println("Not enough Restaurants!");
-            restaurantsFoodsTabHandler(customer);
+            customerServiceMenuHandler.restaurantsFoodsTabHandler(customer);
         }
         Restaurant selectedRestaurant = Selector.getInstance().selectBestThreeRestaurant(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
     }
 
@@ -204,51 +107,29 @@ public class CustomerService {
         database.sortRestaurantHighRating();
         Restaurant selectedRestaurant = Selector.getInstance().selectBestRestaurantForFood(database.getRestaurants(), database.getFoods(), viewPerson, customer);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantName(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().findRestaurantByName(database.getRestaurants(), customer);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByRestaurantType(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().selectRestaurantByType(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
     }
 
     public void searchByNeighbor(Customer customer) {
         Restaurant selectedRestaurant = Selector.getInstance().selectNearRestaurant(database.getRestaurants(), customer, viewPerson);
         if (selectedRestaurant != null) {
-            restaurantMenu(selectedRestaurant, customer);
+            customerServiceMenuHandler.restaurantMenu(selectedRestaurant, customer);
         }
-    }
-
-    public void restaurantMenu(Restaurant restaurant, Customer customer) {
-        setItemDepartmentSort(restaurant, customer);
-        viewPerson.printRestaurantMenu();
-        int userInput = Integer.parseInt(ScannerWrapper.getInstance().nextLine().trim());
-        switch (RestaurantMenuOptions.findOption(userInput)) {
-            case SHOW_INFORMATION:
-                showRestaurantInformationHandler(restaurant);
-                break;
-            case BUY_FOOD:
-                buyFoodHandler(restaurant, customer);
-                break;
-            case SHOW_COMMENTS:
-                viewPerson.printComments(restaurant.getComments());
-                break;
-            case EXIT:
-                return;
-            default:
-                restaurantMenu(restaurant, customer);
-        }
-        restaurantMenu(restaurant, customer);
     }
 
     public void showRestaurantInformationHandler(Restaurant restaurant) {

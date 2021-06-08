@@ -66,7 +66,7 @@ public class Management {
                     customer.getPassword().equals(customerLoginDetails[1])) {
                 foundCustomer = true;
                 System.out.println("Welcome!");
-                customerService.customerMenuHandler(customer);
+                customerService.customerMenuStart(customer);
                 break;
             }
         }
