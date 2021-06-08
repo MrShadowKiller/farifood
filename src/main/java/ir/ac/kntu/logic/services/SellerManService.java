@@ -70,8 +70,8 @@ public class SellerManService {
     }
 
     public void removeItemHandler(SellerMan sellerMan) {
-        sellerMan.getDepartment().getItems().remove(Selector.getInstance().selectItem(new ViewAdmin()
-                , sellerMan.getDepartment().getItems()));
+        sellerMan.getDepartment().getItems().remove(Selector.getInstance().selectItem(new ViewAdmin(),
+                sellerMan.getDepartment().getItems()));
     }
 
     public void addDeliveryDepartment(SellerMan sellerMan) {

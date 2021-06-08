@@ -154,7 +154,7 @@ public class CustomerService {
     }
 
     public void checkOutItemsHandler(Customer customer, Department department) {
-        if (customer.getBasket().isEmpty()){
+        if (customer.getBasket().isEmpty()) {
             System.out.println("Basket is empty!");
             return;
         }
@@ -198,7 +198,7 @@ public class CustomerService {
         if (order == null) {
             customer.getWallet().addBalance(customer.getBasketCost());
         } else {
-            Comment comment = InputObjectHandler.getInstance().scanCommentFields(viewPerson, customer, customer.getBasket(), department, order.getDelivery());
+            Comment comment = InputObjectHandler.getInstance().scanCommentFields(customer, customer.getBasket(), department, order.getDelivery());
             department.addOrder(order);
             department.addComment(comment);
             customer.addOrder(order);
@@ -209,7 +209,7 @@ public class CustomerService {
         customer.emptyBasket();
     }
 
-    public void buySubscription(Customer customer){
+    public void buySubscription(Customer customer) {
         System.out.print("Cost : 50$\n Press Enter to Confirm : ");
         String temp = ScannerWrapper.getInstance().nextLine();
         customer.getWallet().useBalance(50);

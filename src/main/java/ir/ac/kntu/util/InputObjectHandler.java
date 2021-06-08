@@ -253,8 +253,9 @@ public class InputObjectHandler {
         return department.getDeliveries().get(userDeliveryChoice - 1);
     }
 
-    public Comment scanCommentFields(ViewPerson viewPerson, Customer customer, ArrayList<Item> items,
+    public Comment scanCommentFields(Customer customer, ArrayList<Item> items,
                                      Department department, Delivery delivery) {
+        ViewPerson viewPerson = new ViewPerson();
         System.out.print("Enter your message : ");
         String message = ScannerWrapper.getInstance().nextLine().trim();
         System.out.println("How was the items rate ?");

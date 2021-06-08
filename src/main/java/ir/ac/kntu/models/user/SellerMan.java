@@ -12,7 +12,7 @@ public class SellerMan extends User {
     }
 
     public SellerMan(String username, String password, String firstName, String lastName, String phoneNumber) {
-        super(firstName, lastName, phoneNumber,username, password);
+        super(firstName, lastName, phoneNumber, username, password);
     }
 
 

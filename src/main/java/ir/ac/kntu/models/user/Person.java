@@ -42,8 +42,12 @@ public abstract class Person {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Person person = (Person) o;
         return firstName.equals(person.firstName) && lastName.equals(person.lastName) && phoneNumber.equals(person.phoneNumber);
     }

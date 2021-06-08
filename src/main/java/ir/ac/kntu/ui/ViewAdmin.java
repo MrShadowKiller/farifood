@@ -262,13 +262,14 @@ public class ViewAdmin {
         int count = 1;
         for (Restaurant restaurant : restaurants) {
             for (Comment comment : restaurant.getComments()) {
-                for (Item item : comment.getItems() )
-                    if (item instanceof Food){
-                        if(item.equals(food)) {
+                for (Item item : comment.getItems()) {
+                    if (item instanceof Food) {
+                        if (item.equals(food)) {
                             System.out.println("[" + count + "]. " + comment);
                             count++;
                         }
                     }
+                }
             }
         }
         if (count == 1) {
@@ -386,7 +387,6 @@ public class ViewAdmin {
             System.out.println("[" + i + "]. " + fruitMarkets.get(i - 1).getName());
         }
     }
-
 
 
 }

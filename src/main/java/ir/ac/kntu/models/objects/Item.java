@@ -61,8 +61,12 @@ public abstract class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Item item = (Item) o;
         return Double.compare(item.price, price) == 0 && name.equals(item.name);
     }

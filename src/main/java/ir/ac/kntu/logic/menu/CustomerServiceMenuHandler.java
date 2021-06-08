@@ -34,10 +34,10 @@ public class CustomerServiceMenuHandler {
                 restaurantsFoodsTabHandler(customer);
                 break;
             case SUPERMARKETS:
-                departmentMenu(Selector.getInstance().selectSuperMarketHandler(viewPerson,database),customer);
+                departmentMenu(Selector.getInstance().selectSuperMarketHandler(viewPerson, database), customer);
                 break;
             case FRUITMARKETS:
-                departmentMenu(Selector.getInstance().selectFruitMarketHandler(viewPerson,database),customer);
+                departmentMenu(Selector.getInstance().selectFruitMarketHandler(viewPerson, database), customer);
                 break;
             case EDIT_INFORMATION:
                 customerService.editCustomerInformation(customer);
@@ -95,7 +95,7 @@ public class CustomerServiceMenuHandler {
                 customerService.addCreditCardBalanceHandler(customer);
                 break;
             case ACTIVATE_SUBSCRIPTION:
-                 customerService.buySubscription(customer);
+                customerService.buySubscription(customer);
                 break;
             case EXIT:
                 return;
@@ -140,7 +140,7 @@ public class CustomerServiceMenuHandler {
     }
 
     public void departmentMenu(Department department, Customer customer) {
-        if (department == null){
+        if (department == null) {
             return;
         }
         customerService.setItemDepartmentSort(department, customer);
@@ -166,7 +166,6 @@ public class CustomerServiceMenuHandler {
         }
         departmentMenu(department, customer);
     }
-
 
 
 }

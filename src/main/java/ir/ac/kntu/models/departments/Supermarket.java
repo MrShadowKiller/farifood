@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Supermarket extends Department implements Stackable {
-    private HashMap<Integer, ArrayList<Order>> ordersSchedule;
+    private final HashMap<Integer, ArrayList<Order>> ordersSchedule;
 
     public Supermarket(String name, Address address, int workHoursOpen, int workHoursClose) {
         super(name, address, workHoursOpen, workHoursClose);

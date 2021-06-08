@@ -20,7 +20,7 @@ public class Product extends Item implements StackableItem {
         this.stock = stock;
     }
 
-    public Product(Product product,int stock) {
+    public Product(Product product, int stock) {
         super(product.getName());
         this.stock = stock;
     }

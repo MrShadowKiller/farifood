@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FruitMarket extends Department implements Stackable {
-    private HashMap<Integer, ArrayList<Order>> ordersSchedule;
+    private final HashMap<Integer, ArrayList<Order>> ordersSchedule;
 
     public FruitMarket(String name, Address address, int workHoursOpen, int workHoursClose) {
         super(name, address, workHoursOpen, workHoursClose);
@@ -55,7 +55,7 @@ public class FruitMarket extends Department implements Stackable {
     @Override
     public Order checkOutCustomerOrder(Customer customer) {
         int period = Selector.getInstance().orderPeriodFruitMarketSelector(this);
-        if (ordersSchedule.get(period).size() >= getDeliveries().size() || customer.getBasket().size() >5) {
+        if (ordersSchedule.get(period).size() >= getDeliveries().size() || customer.getBasket().size() > 5) {
             System.out.println("Out of limit for orders in this period!");
             return null;
         }
