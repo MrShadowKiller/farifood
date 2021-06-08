@@ -74,7 +74,7 @@ public abstract class Department {
     }
 
     public ArrayList<Delivery> getDeliveries() {
-        return deliveries;
+        return new ArrayList<>(deliveries);
     }
 
     public void setDeliveries(ArrayList<Delivery> deliveries) {
@@ -82,7 +82,7 @@ public abstract class Department {
     }
 
     public ArrayList<Order> getOrders() {
-        return orders;
+        return new ArrayList<>(orders);
     }
 
     public void setOrders(ArrayList<Order> orders) {
@@ -90,7 +90,7 @@ public abstract class Department {
     }
 
     public ArrayList<Comment> getComments() {
-        return comments;
+        return new ArrayList<>(comments);
     }
 
     public void setComments(ArrayList<Comment> comments) {
@@ -98,7 +98,7 @@ public abstract class Department {
     }
 
     public ArrayList<Item> getItems() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     public void setItems(ArrayList<Item> items) {

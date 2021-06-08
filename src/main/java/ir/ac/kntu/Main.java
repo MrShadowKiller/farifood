@@ -68,7 +68,7 @@ public class Main {
 
 
         // GET TEST OBJECTS FROM TESTOBJECTS FOLDER!
-        
+
 
         return new Database(admins, departments, items, deliveries, customers, sellerMEN, orders,
                 new ViewAdmin(),new ViewPerson());

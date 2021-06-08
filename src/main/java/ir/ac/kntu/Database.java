@@ -69,7 +69,7 @@ public class Database {
                 restaurants.add((Restaurant) department);
             }
         }
-        return restaurants;
+        return new ArrayList<>(restaurants);
     }
 
     public ArrayList<SellerMan> getSellerMen() {
@@ -83,7 +83,7 @@ public class Database {
                 supermarkets.add((Supermarket) department);
             }
         }
-        return supermarkets;
+        return new ArrayList<>(supermarkets);
     }
 
     public ArrayList<FruitMarket> getFruitMarkets() {
@@ -93,7 +93,7 @@ public class Database {
                 fruitMarkets.add((FruitMarket) department);
             }
         }
-        return fruitMarkets;
+        return new ArrayList<>(fruitMarkets);
     }
 
     public ArrayList<Item> getItems() {
@@ -107,7 +107,7 @@ public class Database {
                 foods.add((Food) item);
             }
         }
-        return foods;
+        return new ArrayList<>(foods);
     }
 
     public ArrayList<Fruit> getFruits() {
@@ -117,7 +117,7 @@ public class Database {
                 fruits.add((Fruit) item);
             }
         }
-        return fruits;
+        return new ArrayList<>(fruits);
     }
 
     public ArrayList<Product> getProducts() {
@@ -127,7 +127,7 @@ public class Database {
                 products.add((Product) item);
             }
         }
-        return products;
+        return new ArrayList<>(products);
     }
 
     public ArrayList<Delivery> getDeliveries() {

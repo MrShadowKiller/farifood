@@ -52,7 +52,7 @@ public class Customer extends User {
     }
 
     public ArrayList<Comment> getComments() {
-        return comments;
+        return new ArrayList<>(comments);
     }
 
     public void setComments(ArrayList<Comment> comments) {
@@ -68,7 +68,7 @@ public class Customer extends User {
     }
 
     public ArrayList<Order> getOrders() {
-        return orders;
+        return new ArrayList<>(orders);
     }
 
     public void setOrders(ArrayList<Order> orders) {
